@@ -285,6 +285,7 @@ textarea:focus{border-color:var(--ink);outline:none}
     </div>
     <button type="button" class="btn primary" id="go-start">Simulan</button>
     <p class="small" style="text-align:center;margin-top:14px" id="welcome-count">Libre. Walang kailangang i-download.</p>
+    <p class="small disclaimer" style="text-align:center"></p>
   </div>
 </section>
 
@@ -331,6 +332,7 @@ textarea:focus{border-color:var(--ink);outline:none}
   <div class="cards" id="cards"><div class="skel">Sandali lang…</div></div>
   <button type="button" class="btn soft more" id="more" hidden>Magpakita pa</button>
   <button type="button" class="btn ghost" id="open-map" style="margin-top:8px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>Tingnan sa mapa</button>
+  <p class="small disclaimer" style="margin-top:18px"></p>
 </section>
 
 <!-- 5. Project -->
@@ -701,7 +703,7 @@ function updateFlagline(){
   el.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 21V4h11l-2 4 2 4H5"/></svg>${n === 1 ? "May 1 dahilan" : `May ${n} dahilan`} para silipin ito <span style="margin-left:auto">›</span>`;
 }
 function nearBrgyName(r){ if (r.demo) return null; const list = S.data.brgy[S.data.muns[r[14]]] || []; return nearestBrgy(list, r[7], r[8]); }
-const whyBox = lines => `<div class="why"><b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 21V4h11l-2 4 2 4H5"/></svg>Bakit dapat silipin</b><ul>${lines.map(w => `<li>${esc(w)}</li>`).join("")}</ul><small>Batay sa datos ng DPWH. Hindi ito paratang. Ang litrato mo ang sasagot.</small></div>`;
+const whyBox = lines => `<div class="why"><b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 21V4h11l-2 4 2 4H5"/></svg>Bakit dapat silipin</b><ul>${lines.map(w => `<li>${esc(w)}</li>`).join("")}</ul><small>Awtomatikong tsek ito ng Tanaw sa datos ng DPWH na kinopya noong ${ymd(SNAP)}, kaya maaaring luma na. Hindi ito paratang. Ang litrato mo ang sasagot.</small></div>`;
 function openProject(id){
   const r = getRow(id); if (!r) return;
   if (!r.demo && r.dist == null && S.home) r.dist = hav(S.home.lat, S.home.lon, r[7], r[8]);
@@ -794,6 +796,7 @@ const DOCNAME = { ca:["Ang kontrata","Contract Agreement, may pirma ng DPWH at k
 const SNAP = "2025-11-26";
 const dcache = new Map();
 function loadDetails(psgc){ if (!dcache.has(psgc)) dcache.set(psgc, fetch("d/" + psgc + ".json").then(x => x.ok ? x.json() : null).catch(() => null)); return dcache.get(psgc); }
+const disclaimer = () => `Ang datos ng proyekto ay kinopya mula sa DPWH Transparency Portal noong ${ymd(S.index.snapshot)} at maaaring luma na. Ang mga "Silipin" na marka at dahilan ay awtomatikong tsek ng Tanaw, hindi galing sa DPWH, at hindi paratang. Ang mga proyektong may markang "Halimbawa" ay gawa-gawa lamang. Hindi kaanib ng DPWH ang Tanaw.`;
 const cleanName = n => String(n || "").replace(/\s*\(\d+\)\s*$/, "").replace(/\s*\(\d+\)\s*\//g, " /");
 async function showMore(r){
   const box = $("#p-more"); if (!box) return;
@@ -1061,7 +1064,7 @@ function renderMe(){
   $("#me-count").textContent = mine ? `${mine} ulat mo sa ${S.prov.name}` : "Wala ka pang ulat";
   $("#me-count-sub").textContent = mine ? "Salamat sa pagbabantay." : "Pumili ng proyekto malapit sa iyo at pindutin ang \"I-ulat\".";
   const t = S.index.totals;
-  $("#about").textContent = `Datos mula sa DPWH Transparency Portal (kopya noong ${ymd(S.index.snapshot)}). ${t.placed.toLocaleString()} proyekto ang may lokasyon sa mapa; ${t.noCoords.toLocaleString()} ang walang lokasyon. Ang "kahina-hinala" ay awtomatikong tsek sa datos, hindi paratang. Prototype ito: hindi pa naipapadala ang mga tag sa mga opisina.`;
+  $("#about").textContent = `Datos mula sa DPWH Transparency Portal (kopya noong ${ymd(S.index.snapshot)}). ${t.placed.toLocaleString()} proyekto ang may lokasyon sa mapa; ${t.noCoords.toLocaleString()} ang walang lokasyon. ${disclaimer()} Prototype ito: hindi pa naipapadala ang mga tag sa mga opisina.`;
 }
 
 /* ---------- map overlay ---------- */
@@ -1109,6 +1112,7 @@ function openMap(){
   try { S.index = await (await fetch("index.json")).json(); }
   catch { document.body.insertAdjacentHTML("afterbegin", `<p class="notice bad">Hindi ma-load ang datos. I-refresh ang page.</p>`); return; }
   buildTowns();
+  document.querySelectorAll(".disclaimer").forEach(el => el.textContent = disclaimer());
   $("#welcome-count").textContent = `Libre. ${S.index.totals.projects.toLocaleString()} proyekto ng DPWH sa buong bansa.`;
   const h = ls.get("tanaw.home");
   if (h && S.index.provinces.some(p => p.psgc === h.psgc)) { S.home = h; go("home", false); showHome(); }
