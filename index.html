@@ -1,1119 +1,764 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>Tanaw</title>
-<meta name="claude:viewport-fit-sides" content="cover">
+<title>Tanaw Pitch</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap">
 <style>
-/* Layout: one task per screen, phone-first column (max 520px), bottom tabs on the three main screens */
+/* Layout: a 1920×1080 stage (1080×1920 on a phone held upright), story copy on the left, a studio-lit 3D scene on the right; cover and close in deep ink */
 :root{
-  --bg:#ffffff; --soft:#f4f4f0; --soft-2:#ebebe5; --ink:#151513; --muted:#6c6c66; --line:#e6e6e0;
-  --accent:#ff5a1f; --accent-ink:#ffffff; --accent-soft:#fff0e8;
-  --good:#11915a; --good-soft:#e5f6ee; --warn:#c77700; --warn-soft:#fff4dc; --bad:#d92d2d; --bad-soft:#fdeaea; --info:#2c62e0; --info-soft:#e9effd;
-  --map-sea:#eef1f0; --map-land:#ffffff; --map-sel:#fff5ef; --map-edge:#d5d9d6;
-  --font:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --paper:#121210; --ink:#f2f2ee; --ink-2:#d6d6cf; --muted:#a3a39b; --line:#2e2e2a;
+  --accent:#ff5a1f; --accent-soft:#3a1d10; --good:#11915a; --bad:#d92d2d; --info:#2c62e0; --sun:#f6b93b;
+  --sans:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --display:"Bricolage Grotesque","Be Vietnam Pro",system-ui,sans-serif;
+  color-scheme:dark;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#111110; --soft:#1c1c1a; --soft-2:#262623; --ink:#f2f2ee; --muted:#a3a39b; --line:#2b2b28;
-  --accent:#ff6d36; --accent-ink:#1a0a03; --accent-soft:#33190e;
-  --good:#3ccf8e; --good-soft:#12291f; --warn:#f2b13a; --warn-soft:#2e2410; --bad:#ff6b6b; --bad-soft:#331616; --info:#7ea4ff; --info-soft:#17213a;
-  --map-sea:#0b0b0a; --map-land:#1c1c1a; --map-sel:#33190e; --map-edge:#34342f; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#111110; --soft:#1c1c1a; --soft-2:#262623; --ink:#f2f2ee; --muted:#a3a39b; --line:#2b2b28;
-  --accent:#ff6d36; --accent-ink:#1a0a03; --accent-soft:#33190e;
-  --good:#3ccf8e; --good-soft:#12291f; --warn:#f2b13a; --warn-soft:#2e2410; --bad:#ff6b6b; --bad-soft:#331616; --info:#7ea4ff; --info-soft:#17213a;
-  --map-sea:#0b0b0a; --map-land:#1c1c1a; --map-sel:#33190e; --map-edge:#34342f; color-scheme:dark}
-*{box-sizing:border-box}
-html,body{height:100%}
-body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-button,input,textarea{font:inherit;color:inherit}
-button{cursor:pointer;-webkit-tap-highlight-color:transparent}
-:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:10px}
-h1,h2,h3{margin:0;text-wrap:balance;letter-spacing:-.01em}
-.num{font-variant-numeric:tabular-nums}
-.screen{max-width:520px;margin:0 auto;padding-block:20px 120px;min-height:100%}
-.screen[hidden]{display:none!important}
-.center{display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 40px)}
-
-/* basic parts */
-.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:56px;border:0;border-radius:16px;font-weight:700;font-size:17px;text-decoration:none;padding:0 20px}
-.btn.primary{background:var(--accent);color:var(--accent-ink)}
-.btn.soft{background:var(--soft);color:var(--ink)}
-.btn.ghost{background:none;color:var(--muted);font-weight:600;min-height:44px}
-.btn[disabled]{opacity:.45;cursor:not-allowed}
-.btn svg{width:22px;height:22px;flex:none}
-.back{display:inline-flex;align-items:center;gap:6px;border:0;background:none;font-weight:600;color:var(--muted);padding:8px 0;margin-bottom:12px}
-.back svg{width:20px;height:20px}
-.kicker{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.06em;text-transform:uppercase}
-.big{font-size:clamp(30px,8.5vw,40px);font-weight:800;line-height:1.08}
-.lead{font-size:18px;color:var(--muted);margin:12px 0 0}
-.small{font-size:13.5px;color:var(--muted)}
-.field{position:relative}
-.field input{width:100%;height:58px;border:2px solid var(--line);background:var(--bg);border-radius:16px;padding:0 18px 0 50px;font-size:17px}
-.field input:focus{border-color:var(--ink);outline:none}
-.field svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:22px;height:22px;color:var(--muted)}
-.or{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:14px;margin:18px 0}
-.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
-.choices{display:flex;flex-direction:column;margin-top:10px}
-.choice{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;text-align:left;border:0;background:none;padding:16px 4px;border-bottom:1px solid var(--line);font-size:17px}
-.choice small{color:var(--muted);font-size:14px}
-.choice:hover{background:var(--soft)}
-.notice{background:var(--warn-soft);color:var(--ink);border-radius:14px;padding:12px 14px;font-size:15px;margin-top:12px}
-.notice.bad{background:var(--bad-soft)}
-
-/* welcome */
-.mark{width:56px;height:56px;border-radius:18px;background:var(--accent);display:grid;place-items:center;margin-bottom:28px}
-.mark svg{width:30px;height:30px;color:var(--accent-ink)}
-.steps3{display:flex;flex-direction:column;gap:14px;margin:32px 0}
-.steps3 div{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:center;font-size:16.5px}
-.steps3 i{width:44px;height:44px;border-radius:14px;background:var(--soft);display:grid;place-items:center;font-style:normal}
-.steps3 i svg{width:22px;height:22px}
-
-/* home */
-.loc{display:inline-flex;align-items:center;gap:6px;border:0;background:var(--soft);border-radius:999px;padding:8px 14px;font-weight:600;font-size:14.5px;max-width:100%}
-.loc span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.loc svg{width:16px;height:16px;flex:none}
-.hello{margin:16px 0 4px;font-size:28px;font-weight:800;line-height:1.15}
-.summary{font-size:17px;color:var(--muted);margin:6px 0 0}
-.summary b{color:var(--ink)}
-.feature{margin-top:22px;background:var(--ink);color:var(--bg);border-radius:24px;padding:20px}
-.feature .kicker{color:var(--accent)}
-.feature h2{font-size:22px;margin:8px 0 6px}
-.feature p{margin:0 0 16px;opacity:.75;font-size:15px}
-.feature .meta{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14.5px;opacity:.85;margin-bottom:16px}
-.seg{display:flex;gap:6px;background:var(--soft);padding:5px;border-radius:14px;margin:26px 0 12px}
-.seg button{flex:1;border:0;background:none;border-radius:10px;padding:10px 6px;font-weight:700;font-size:14.5px;color:var(--muted)}
-.seg button[aria-pressed="true"]{background:var(--bg);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
-.cards{display:flex;flex-direction:column;gap:2px}
-.card{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:14px;align-items:center;width:100%;text-align:left;border:0;background:none;padding:14px 4px;border-radius:16px}
-.card:hover{background:var(--soft)}
-.ico{width:48px;height:48px;border-radius:14px;background:var(--soft);display:grid;place-items:center;color:var(--ink)}
-.ico svg{width:24px;height:24px}
-.card .t{font-weight:700;font-size:16px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.card .s{font-size:14px;color:var(--muted);margin-top:3px}
-.card .r{text-align:right;font-weight:700;font-size:15px;white-space:nowrap}
-.card .r small{display:block;font-weight:500;color:var(--muted);font-size:13px;margin-top:2px}
-.chip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px;font-size:13px;font-weight:700;white-space:nowrap}
-.chip.good{background:var(--good-soft);color:var(--good)} .chip.info{background:var(--info-soft);color:var(--info)}
-.chip.warn{background:var(--warn-soft);color:var(--warn)} .chip.bad{background:var(--bad-soft);color:var(--bad)} .chip.neutral{background:var(--soft);color:var(--muted)}
-.chip.flag{background:var(--accent-soft);color:var(--accent)}
-.more{margin-top:10px}
-.empty{text-align:center;color:var(--muted);padding:36px 12px}
-.linkbtn{border:0;background:none;color:var(--accent);font-weight:700;padding:6px 0}
-
-/* project */
-.cat{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14px;color:var(--muted)}
-.cat svg{width:18px;height:18px}
-.ptitle{font-size:28px;font-weight:800;line-height:1.15;margin:10px 0 6px}
-.money{margin-top:22px}
-.money b{display:block;font-size:40px;font-weight:800;letter-spacing:-.02em;line-height:1}
-.money span{color:var(--muted);font-size:15px}
-.vs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}
-.vs > div{background:var(--soft);border-radius:18px;padding:16px;min-width:0}
-.vs .lab{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
-.vs .val{font-size:19px;font-weight:800;margin:8px 0 6px;line-height:1.2}
-.vs .sub{font-size:13.5px;color:var(--muted)}
-.bar{height:8px;background:var(--soft-2);border-radius:99px;overflow:hidden;margin-top:10px}
-.bar i{display:block;height:100%;background:var(--info);border-radius:99px}
-.why{margin-top:14px;background:var(--accent-soft);border-radius:18px;padding:16px}
-.why b{display:flex;align-items:center;gap:8px;color:var(--accent);font-size:15px}
-.why b svg{width:18px;height:18px}
-.why ul{margin:8px 0 0;padding-left:20px}
-.why li{margin:4px 0}
-.why small{display:block;color:var(--muted);margin-top:8px}
-.actions{display:flex;flex-direction:column;gap:10px;margin-top:22px}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-details{margin-top:22px;border-top:1px solid var(--line);padding-top:6px}
-summary{cursor:pointer;font-weight:700;padding:12px 0;list-style:none;display:flex;justify-content:space-between}
-summary::-webkit-details-marker{display:none}
-summary::after{content:"+";font-size:22px;line-height:1;color:var(--muted)}
-details[open] summary::after{content:"−"}
-.kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px 16px;font-size:15px;margin:4px 0 8px}
-.kv dt{color:var(--muted)} .kv dd{margin:0;font-weight:600;overflow-wrap:anywhere}
-.reports{margin-top:26px}
-.reports h3{font-size:20px;margin-bottom:12px}
-.rep{padding:16px 0;border-top:1px solid var(--line)}
-.rep-top{display:flex;justify-content:space-between;gap:10px;font-size:14px;color:var(--muted)}
-.rep-v{font-size:18px;font-weight:800;margin:6px 0}
-.photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:6px;margin-top:8px}
-.photos img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;background:var(--soft)}
-.rep p{margin:8px 0 0;white-space:pre-wrap;overflow-wrap:anywhere}
-.rep .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-
-.hero{position:relative;border-radius:22px;overflow:hidden;margin:4px 0 18px;background:var(--soft)}
-.hero svg,.hero img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;max-width:100%}
-.hero-cap{position:absolute;left:12px;bottom:12px;background:var(--bg);color:var(--ink);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700}
-.look{display:flex;gap:18px;justify-content:center;margin-top:4px}
-.look a{color:var(--accent);font-weight:700;text-decoration:none;font-size:15px;padding:6px 0}
-.thumb{width:48px;height:48px;border-radius:14px;object-fit:cover;background:var(--soft)}
-.feature .hero{margin:-6px -6px 14px;border-radius:16px}
-.i-bg{fill:var(--soft)} .i-g{fill:var(--soft-2)} .i-m{fill:var(--muted)} .i-a{fill:var(--accent)} .i-k{fill:var(--bg)} .i-w{fill:var(--info);opacity:.32}
-.i-l{fill:none;stroke:var(--muted);stroke-linecap:round} .i-wl{fill:none;stroke:var(--bg);stroke-width:3;stroke-linecap:round;opacity:.85}
-.box{background:var(--soft);border-radius:20px;padding:18px;margin-top:14px}
-.box h3{font-size:18px;margin-bottom:12px}
-.who{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px 14px;font-size:15px;margin:0}
-.who dt{color:var(--muted)} .who dd{margin:0;font-weight:700;overflow-wrap:anywhere}
-.bids{margin:10px 0 0;padding-left:18px;font-size:14.5px;color:var(--muted)} .bids li{margin:4px 0} .bids b{color:var(--ink)}
-.doc{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--bg);border-radius:14px;padding:13px 14px;margin-top:8px;text-decoration:none;color:var(--ink)}
-.doc b{display:block;font-size:15.5px} .doc small{color:var(--muted);font-size:13px}
-.doc svg{width:20px;height:20px;flex:none;color:var(--muted)}
-.compare2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-.compare2 div{background:var(--bg);border-radius:14px;padding:12px}
-.compare2 b{display:block;font-size:18px} .compare2 span{font-size:13px;color:var(--muted)}
-#demo{margin-top:26px}
-.demo-head h2{font-size:20px;margin:4px 0 12px}
-.demo-row{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px;scrollbar-width:none}
-.dcard{flex:0 0 78%;max-width:300px;scroll-snap-align:start;border:0;background:var(--soft);border-radius:20px;padding:0;overflow:hidden;text-align:left;display:flex;flex-direction:column}
-.dimg{position:relative;display:block}
-.dimg img,.dimg svg{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
-.dimg .chip{position:absolute;top:10px;left:10px}
-.dtxt{display:flex;flex-direction:column;gap:4px;padding:12px 14px 14px}
-.dtxt b{font-size:16px;line-height:1.25}
-.dtxt span{font-size:13.5px;color:var(--muted)} .dtxt strong{color:var(--ink)}
-.dtxt small{font-size:12.5px;color:var(--muted)}
-.chip.demo{background:var(--ink);color:var(--bg);letter-spacing:.04em;text-transform:uppercase;font-size:11.5px}
-.demo-banner{background:var(--ink);color:var(--bg);border-radius:16px;padding:12px 14px;font-size:14.5px;margin-bottom:12px}
-.seen-too{display:inline-flex;align-items:center;gap:8px;margin-top:12px;border:2px solid var(--line);background:var(--bg);border-radius:999px;padding:7px 14px;font-weight:700;font-size:14px}
-.seen-too svg{width:18px;height:18px}
-.seen-too[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--bg)}
-.who-line{display:inline-flex;align-items:center;gap:8px;font-weight:600;color:var(--ink)}
-.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:800;font-size:13px;flex:none}
-.msg-item{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;padding:10px 0}
-.msg-item.reply{margin-left:40px;padding-top:2px}
-.msg-item p{margin:2px 0 0;overflow-wrap:anywhere}
-.msg-meta{font-size:13.5px;color:var(--muted)} .msg-meta b{color:var(--ink)}
-.composer{margin-top:8px}
-.composer textarea{min-height:80px;margin-top:6px}
-.composer .btn{margin-top:8px}
-.replying{font-size:14px;color:var(--muted);margin-top:6px}
-.photos video.vid{grid-column:1/-1;width:100%;aspect-ratio:16/9;border-radius:12px;background:#000;max-width:100%;display:block}
-.chip.vchip{background:var(--accent);color:var(--accent-ink);font-size:11.5px}
-.dimg .vchip{left:auto;right:10px}
-.shot video{width:100%;aspect-ratio:1;object-fit:cover;border-radius:16px;display:block;background:#000}
-.vbadge{position:absolute;left:8px;top:8px;background:rgba(0,0,0,.65);color:#fff;border-radius:8px;padding:2px 8px;font-size:12px;font-weight:700}
-.ptabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;margin:26px 0 14px;border-bottom:1px solid var(--line)}
-.ptabs button{flex:1;border:0;background:none;padding:14px 4px 12px;font-weight:700;font-size:15px;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-1px;display:flex;align-items:center;justify-content:center;gap:6px}
-.ptabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
-.ptabs .cnt{min-width:22px;padding:1px 7px;border-radius:99px;background:var(--soft);color:var(--ink);font-size:12px}
-.ppanel{min-height:40vh}
-.ppanel .why{margin-top:0;margin-bottom:6px}
-.ppanel .box:first-child{margin-top:0}
-.flagline{display:flex;align-items:center;gap:8px;width:100%;margin-top:12px;border:0;background:var(--accent-soft);color:var(--accent);border-radius:14px;padding:12px 14px;font-weight:700;font-size:15px;text-align:left}
-.flagline svg{width:18px;height:18px;flex:none}
-/* wizard */
-.wiz-top{display:flex;align-items:center;gap:14px;margin-bottom:22px}
-.wiz-top .back{margin:0}
-.prog{flex:1;display:flex;gap:6px}
-.prog i{flex:1;height:5px;border-radius:9px;background:var(--soft-2)}
-.prog i.on{background:var(--accent)}
-.q{font-size:28px;font-weight:800;line-height:1.15}
-.qsub{color:var(--muted);margin:8px 0 22px;font-size:16px}
-.camera{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;width:100%;aspect-ratio:4/3;max-width:100%;border:2px dashed var(--line);border-radius:22px;background:var(--soft);font-weight:700;font-size:17px;cursor:pointer}
-.camera svg{width:44px;height:44px;color:var(--accent)}
-.shots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.shot{position:relative}
-.shot img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:16px;display:block}
-.shot button{position:absolute;top:8px;right:8px;width:32px;height:32px;border:0;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;font-size:16px}
-.shot small{display:block;margin-top:6px;font-size:13px;font-weight:600}
-.addshot{display:grid;place-items:center;aspect-ratio:1;border:2px dashed var(--line);border-radius:16px;color:var(--muted);font-weight:700;cursor:pointer;background:var(--soft)}
-.opts{display:flex;flex-direction:column;gap:10px}
-.opt{display:grid;grid-template-columns:48px minmax(0,1fr);gap:14px;align-items:center;width:100%;text-align:left;border:2px solid transparent;background:var(--soft);border-radius:18px;padding:14px}
-.opt[aria-pressed="true"]{border-color:var(--ink);background:var(--bg)}
-.opt .ico{background:var(--bg)}
-.opt b{display:block;font-size:17px}
-.opt span{font-size:14px;color:var(--muted)}
-.tagchips{display:flex;flex-wrap:wrap;gap:8px}
-.tc{border:2px solid var(--line);background:var(--bg);border-radius:999px;padding:10px 14px;font-weight:600;font-size:15px}
-.tc[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--bg)}
-textarea{width:100%;min-height:110px;margin-top:16px;border:2px solid var(--line);border-radius:16px;padding:14px;background:var(--bg);resize:vertical;font-size:16px}
-textarea:focus{border-color:var(--ink);outline:none}
-.review{background:var(--soft);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:8px;font-size:15.5px}
-.review b{font-size:18px}
-.consent{display:flex;gap:12px;align-items:flex-start;margin:18px 0;font-size:15.5px}
-.consent input{width:22px;height:22px;accent-color:var(--accent);flex:none;margin-top:1px}
-.wiz-foot{position:sticky;bottom:0;padding-top:16px;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px));background:linear-gradient(to bottom,transparent,var(--bg) 30%)}
-.done{text-align:center}
-.done .ok{width:84px;height:84px;border-radius:50%;background:var(--good-soft);color:var(--good);display:grid;place-items:center;margin:0 auto 22px}
-.done .ok svg{width:44px;height:44px}
-
-/* feed */
-.post{padding:16px 0;border-bottom:1px solid var(--line);width:100%;text-align:left;border-left:0;border-right:0;border-top:0;background:none}
-.post img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:18px;background:var(--soft);display:block;margin-bottom:12px}
-.post .v{font-weight:800;font-size:18px}
-.post .t{font-size:15.5px;margin:2px 0}
-.post .m{font-size:13.5px;color:var(--muted)}
-
-/* me */
-.panel{background:var(--soft);border-radius:20px;padding:18px;margin-top:16px}
-.panel h3{font-size:18px;margin-bottom:10px}
-.rules{display:flex;flex-direction:column;gap:12px;margin:0;padding:0;list-style:none}
-.rules li{display:grid;grid-template-columns:28px 1fr;gap:10px;font-size:15.5px}
-.rules li b{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--bg);font-size:14px}
-
-/* map overlay */
-.mapov{position:fixed;inset:0;z-index:60;background:var(--map-sea)}
-.mapov canvas{width:100%;height:100%;display:block;touch-action:none}
-.mapbar{position:absolute;left:0;right:0;top:0;display:flex;justify-content:space-between;gap:10px;padding:calc(12px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 12px max(16px,env(safe-area-inset-left,0px))}
-.mapbar button{border:0;background:var(--bg);border-radius:999px;padding:10px 16px;font-weight:700;box-shadow:0 2px 10px rgba(0,0,0,.12)}
-.maplegend{position:absolute;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));display:flex;gap:12px;flex-wrap:wrap;background:var(--bg);border-radius:14px;padding:10px 14px;font-size:13px;font-weight:600;box-shadow:0 2px 10px rgba(0,0,0,.12);margin-right:16px}
-.maplegend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}
-
-/* tabs */
-.tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--bg);border-top:1px solid var(--line);
-  padding-top:6px;padding-bottom:calc(6px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.tabs[hidden]{display:none}
-.tabs-in{display:flex;max-width:520px;margin:0 auto}
-.tabs button{flex:1;border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px;font-size:12.5px;font-weight:700;color:var(--muted)}
-.tabs button svg{width:24px;height:24px}
-.tabs button[aria-current="page"]{color:var(--ink)}
-.toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:14px;font-weight:700;z-index:90;max-width:calc(100% - 32px);text-align:center}
-.skel{color:var(--muted);padding:30px 0;text-align:center}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+body.dark{ --paper:#121210; --ink:#f2f2ee; --ink-2:#d6d6cf; --muted:#a3a39b; --line:#2e2e2a; --accent-soft:#3a1d10; color-scheme:dark }
+html,body{margin:0;height:100%;overflow:hidden}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);transition:background .6s ease,color .6s ease;-webkit-font-smoothing:antialiased}
+#world{position:fixed;z-index:1;display:block;cursor:grab;touch-action:none}
+#world.drag{cursor:grabbing}
+#stage{position:fixed;inset:0;z-index:2;pointer-events:none}
+.slide{position:absolute;left:50%;top:50%;width:var(--SW,1920px);height:var(--SH,1080px);transform:translate(-50%,-50%) scale(var(--k,1));transform-origin:center;opacity:0;visibility:hidden;transition:opacity .5s ease,visibility .5s}
+.slide.on{opacity:1;visibility:visible}
+.slide *{box-sizing:border-box;margin:0}
+.copy{position:absolute;left:120px;top:150px;bottom:150px;width:820px;display:flex;flex-direction:column;justify-content:center;gap:30px;pointer-events:auto}
+.portrait .copy{left:90px;right:90px;width:auto;top:980px;bottom:200px;justify-content:flex-start;gap:34px}
+.label{font:700 20px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.title{font:800 78px/1.04 var(--display);letter-spacing:-.012em;text-wrap:balance}
+.title em,.big em{font-style:normal;color:var(--accent)}
+.big{font:800 116px/1 var(--display);letter-spacing:-.018em;text-wrap:balance}
+.lead{font:400 30px/1.5 var(--sans);color:var(--ink-2);max-width:30em}
+.portrait .title{font-size:82px}.portrait .big{font-size:112px}.portrait .lead{font-size:38px}
+.pts{list-style:none;padding:0;display:flex;flex-direction:column;gap:18px}
+.pts li{display:grid;grid-template-columns:44px 1fr;gap:16px;align-items:start;font:500 27px/1.35 var(--sans)}
+.pts li b.n{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--paper);font:800 20px var(--sans)}
+.portrait .pts li{font-size:34px;grid-template-columns:52px 1fr}.portrait .pts li b.n{width:52px;height:52px;font-size:24px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:34px 40px}
+.stat b{display:block;font:800 76px/1 var(--display);letter-spacing:-.03em;color:var(--ink)}
+.stat b.hot{color:var(--accent)}
+.stat span{display:block;margin-top:10px;font:400 22px/1.4 var(--sans);color:var(--muted)}
+.portrait .stat b{font-size:80px}.portrait .stat span{font-size:28px}
+.phases{display:flex;flex-direction:column;gap:22px}
+.phase{display:grid;grid-template-columns:200px 1fr;gap:24px;align-items:baseline;padding-bottom:20px;border-bottom:1px solid var(--line)}
+.phase .when{font:700 20px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.phase b{display:block;font:700 32px/1.2 var(--display)}
+.phase span{display:block;font:400 23px/1.45 var(--sans);color:var(--muted);margin-top:6px}
+.portrait .phase{grid-template-columns:230px 1fr}.portrait .phase b{font-size:38px}.portrait .phase span{font-size:28px}
+.ask-main{border-left:8px solid var(--accent);padding:6px 0 6px 30px}
+.ask-main b{display:block;font:800 68px/1.02 var(--display);letter-spacing:-.02em;color:var(--accent)}
+.ask-main span{display:block;margin-top:12px;font:500 30px/1.45 var(--sans);color:var(--ink)}
+.portrait .ask-main b{font-size:76px}.portrait .ask-main span{font-size:36px}
+.note{font:500 23px/1.45 var(--sans);color:var(--muted)}
+.portrait .note{font-size:28px}
+.quote{font:700 46px/1.2 var(--display);color:var(--accent);letter-spacing:-.02em}
+.portrait .quote{font-size:56px}
+.cta{align-self:flex-start;display:inline-flex;align-items:center;gap:14px;padding:22px 38px;border-radius:999px;background:var(--accent);color:#fff;font:800 30px var(--display);text-decoration:none;pointer-events:auto}
+.cta:hover{filter:brightness(1.08)}
+.cta:focus-visible{outline:4px solid var(--ink);outline-offset:4px}
+.portrait .cta{font-size:38px;padding:28px 46px}
+.portrait .copy:has(.cta){top:auto;bottom:220px}
+.hdr,.ft{position:absolute;left:120px;right:120px;display:flex;justify-content:space-between;align-items:center;font:500 19px var(--sans);color:var(--muted)}
+.hdr{top:52px}.ft{bottom:46px;right:760px}
+.portrait .ft{right:90px;bottom:150px}
+.portrait .hdr,.portrait .ft{left:90px;right:90px;font-size:26px}
+.hdr b{color:var(--ink);font-family:var(--display);font-weight:800;font-size:24px;letter-spacing:.01em}
+.hdr b i{font-style:normal;color:var(--accent)}
+/* navigation */
+#nav{position:fixed;z-index:5;right:0;bottom:0;display:flex;justify-content:flex-end;align-items:center;gap:14px;padding:12px max(16px,env(safe-area-inset-right,0px)) calc(14px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));pointer-events:none}
+#nav > *{pointer-events:auto}
+#nav button{border:0;background:var(--ink);color:var(--paper);width:46px;height:46px;border-radius:50%;font:700 20px var(--sans);cursor:pointer;display:grid;place-items:center}
+#nav button:disabled{opacity:.3;cursor:default}
+#nav button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+#dots{display:flex;gap:6px;align-items:center;background:color-mix(in srgb,var(--paper) 80%,transparent);padding:8px 12px;border-radius:999px}
+#dots i{width:7px;height:7px;border-radius:50%;background:var(--line);cursor:pointer;transition:width .3s,background .3s}
+#dots i.on{width:22px;border-radius:9px;background:var(--accent)}
+#count{font:600 14px var(--sans);color:var(--muted);min-width:46px;text-align:center}
+#hint{position:fixed;z-index:5;top:calc(14px + env(safe-area-inset-top,0px));right:max(16px,env(safe-area-inset-right,0px));font:500 13px var(--sans);color:var(--muted);pointer-events:none;transition:opacity 1s}
+@media (max-width:700px){#dots{display:none}#hint{display:none}}
+@media (prefers-reduced-motion:reduce){.slide{transition:none}}
 </style>
 
-<!-- 1. Welcome -->
-<section class="screen" id="s-welcome" hidden>
-  <div class="center">
-    <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></div>
-    <div class="kicker">Tanaw</div>
-    <h1 class="big" style="margin-top:8px">Saan napunta ang buwis mo?</h1>
-    <p class="lead">Tingnan ang mga proyekto ng gobyerno malapit sa bahay mo, at bantayan natin nang sama-sama.</p>
-    <div class="steps3">
-      <div><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></i><span>Hanapin ang proyekto malapit sa iyo</span></div>
-      <div><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="3"/><circle cx="12" cy="13" r="3.5"/><path d="M8.5 6 10 4h4l1.5 2"/></svg></i><span>Kunan ng litrato kung ano talaga ang nandoon</span></div>
-      <div><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 12a8 8 0 1 0 16 0 8 8 0 0 0-16 0z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg></i><span>Makikita ito ng lahat, pati ng DPWH at ng LGU</span></div>
+<canvas id="world" aria-hidden="true"></canvas>
+<div id="stage" aria-live="polite">
+
+<section class="slide" data-scene="cover" data-dark="1">
+  <div class="hdr"><b>TAN<i>A</i>W</b><span>Pitch deck · Oktubre 2026</span></div>
+  <div class="copy">
+    <div class="label">Tanaw</div>
+    <h1 class="big">Natapos ba talaga ang proyekto <em>sa lugar mo?</em></h1>
+    <p class="lead">Ang Tanaw ay libreng app. Makikita mo rito ang lahat ng proyekto ng DPWH malapit sa iyo. Kung may mali, puwede mo itong kunan ng litrato at i-ulat.</p>
+  </div>
+  <div class="ft"><span>Pindutin ang → para magsimula</span></div>
+</section>
+
+<section class="slide" data-scene="flood">
+  <div class="hdr"><b>TAN<i>A</i>W</b><span>Ang problema</span></div>
+  <div class="copy">
+    <div class="label">Si Aling Nena</div>
+    <h2 class="title">Taon-taon, <em>binabaha</em> ang tindahan ni Aling Nena.</h2>
+    <p class="lead">May sari-sari store siya sa tabi ng sapa sa Bulacan. Tuwing tag-ulan, pumapasok ang tubig at nasisira ang paninda niya. Ang sabi sa kanila, may flood control project na raw sa lugar nila.</p>
+  </div>
+  <div class="ft"><span>Sina Aling Nena, Mang Jun at Bea ay halimbawang tao, batay sa mga totoong ulat.</span></div>
+</section>
+
+<section class="slide" data-scene="claim">
+  <div class="hdr"><b>TAN<i>A</i>W</b><span>Ang problema</span></div>
+  <div class="copy">
+    <div class="label">Ang nakita niya</div>
+    <h2 class="title">Ayon sa DPWH, tapos na ang pader. <em>Pero wala ito sa inaasahang lokasyon.</em></h2>
+    <p class="lead">Nakalista ito bilang ₱96.5 milyong proyekto na 100% tapos. Nang puntahan ni Aling Nena ang lokasyong nakalista, lupa at ilang bakal lang ang nakita niya. Walang pader.</p>
+    <p class="note">Ito ang tinatawag na ghost project: binayaran pero hindi ginawa.</p>
+  </div>
+  <div class="ft"><span>Tanaw</span></div>
+</section>
+
+<section class="slide" data-scene="numbers">
+  <div class="hdr"><b>TAN<i>A</i>W</b><span>Ang problema</span></div>
+  <div class="copy">
+    <div class="label">Hindi lang siya</div>
+    <h2 class="title">Hindi lang ito nangyayari <em>kay Aling Nena.</em></h2>
+    <div class="stats">
+      <div class="stat"><b class="hot">421</b><span>flood control projects ang nasa listahan ng posibleng ghost project</span></div>
+      <div class="stat"><b class="hot">₱180B</b><span>ang tinatayang nawala sa ghost projects mula 2016, ayon kay Sen. Lacson</span></div>
+      <div class="stat"><b>5,643</b><span>proyekto ang "ginagawa" pa rin kahit lampas 2 taon na</span></div>
+      <div class="stat"><b>1 sa 5</b><span>kontrata ng DPWH ang iisa lang ang nag-bid</span></div>
     </div>
-    <button type="button" class="btn primary" id="go-start">Simulan</button>
-    <p class="small" style="text-align:center;margin-top:14px" id="welcome-count">Libre. Walang kailangang i-download.</p>
   </div>
+  <div class="ft"><span>Pinagkunan: VERA Files, Manila Bulletin, at datos ng DPWH Transparency Portal (Nob 2025)</span></div>
 </section>
 
-<!-- 2. Where are you from -->
-<section class="screen" id="s-where" hidden>
-  <button type="button" class="back" data-go="welcome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Bumalik</button>
-  <h1 class="q">Taga-saan ka?</h1>
-  <p class="qsub">Ipapakita namin ang mga proyekto na pinakamalapit sa iyo.</p>
-  <button type="button" class="btn soft" id="use-gps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M3 11 21 3l-8 18-2-8-8-2z"/></svg>Gamitin ang lokasyon ko</button>
-  <div id="gps-msg"></div>
-  <div class="or">o kaya</div>
-  <div class="field">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-    <input id="town-q" type="search" autocomplete="off" placeholder="I-type ang bayan o lungsod mo" aria-label="Bayan o lungsod">
-  </div>
-  <div class="choices" id="town-list"></div>
-</section>
-
-<!-- 3. Barangay -->
-<section class="screen" id="s-brgy" hidden>
-  <button type="button" class="back" data-go="where"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Bumalik</button>
-  <h1 class="q" id="brgy-q">Saang barangay?</h1>
-  <p class="qsub">Para mas malapit ang ipakita namin. Puwede mong laktawan.</p>
-  <div class="field">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-    <input id="brgy-filter" type="search" autocomplete="off" placeholder="Hanapin ang barangay" aria-label="Barangay">
-  </div>
-  <div class="choices" id="brgy-list"></div>
-  <div class="wiz-foot"><button type="button" class="btn ghost" id="skip-brgy">Laktawan, gamitin ang buong bayan</button></div>
-</section>
-
-<!-- 4. Home -->
-<section class="screen" id="s-home" hidden>
-  <button type="button" class="loc" id="loc-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/></svg><span id="loc-text">…</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
-  <h1 class="hello" id="home-hello">Kinukuha ang mga proyekto…</h1>
-  <p class="summary" id="home-sum"></p>
-  <div id="feature"></div>
-  <div id="demo"></div>
-  <div class="seg" role="group" aria-label="Ipakita">
-    <button type="button" data-mode="near" aria-pressed="true">Pinakamalapit</button>
-    <button type="button" data-mode="flag" aria-pressed="false">Kahina-hinala</button>
-    <button type="button" data-mode="big" aria-pressed="false">Pinakamahal</button>
-  </div>
-  <div class="cards" id="cards"><div class="skel">Sandali lang…</div></div>
-  <button type="button" class="btn soft more" id="more" hidden>Magpakita pa</button>
-  <button type="button" class="btn ghost" id="open-map" style="margin-top:8px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>Tingnan sa mapa</button>
-</section>
-
-<!-- 5. Project -->
-<section class="screen" id="s-project" hidden></section>
-
-<!-- 6. Report wizard -->
-<section class="screen" id="s-report" hidden></section>
-
-<!-- 7. Feed -->
-<section class="screen" id="s-feed" hidden>
-  <div class="kicker" id="feed-kicker">Ulat ng bayan</div>
-  <h1 class="hello" style="margin-top:6px">Nakita ng mga kababayan mo</h1>
-  <div id="feed"></div>
-</section>
-
-<!-- 8. Me -->
-<section class="screen" id="s-me" hidden>
-  <h1 class="hello" style="margin-top:0">Ikaw, bantay</h1>
-  <div class="panel">
-    <h3>Lugar mo</h3>
-    <p style="margin:0 0 12px" id="me-loc"></p>
-    <button type="button" class="btn soft" data-go="where">Palitan ang lugar</button>
-  </div>
-  <div class="panel">
-    <h3 id="me-count">Mga ulat mo</h3>
-    <p class="small" style="margin:0" id="me-count-sub">Bawat ulat ay tumutulong.</p>
-  </div>
-  <div class="panel">
-    <h3>3 tuntunin ng mabuting bantay</h3>
-    <ul class="rules">
-      <li><b>1</b><span><strong>Isulat ang nakita, hindi ang hinala.</strong> "Walang pader dito" ay mas malakas kaysa "Ninakaw ito."</span></li>
-      <li><b>2</b><span><strong>Mag-ingat.</strong> Pumunta sa araw, may kasama. Kunan mula sa kalsada, huwag pumasok sa bakod.</span></li>
-      <li><b>3</b><span><strong>Walang mukha.</strong> Iwasang makunan ang mukha ng tao at plaka ng sasakyan.</span></li>
+<section class="slide" data-scene="silent">
+  <div class="hdr"><b>TAN<i>A</i>W</b><span>Ang problema</span></div>
+  <div class="copy">
+    <div class="label">Bakit walang nagsasalita</div>
+    <h2 class="title">Marami ang nakakakita, <em>pero walang nag-uulat.</em></h2>
+    <p class="lead">Hindi dahil wala tayong pakialam. Mahirap lang talagang mag-ulat ngayon:</p>
+    <ul class="pts">
+      <li><b class="n">1</b><span>Hindi mo alam kung saan o kanino mag-uulat</span></li>
+      <li><b class="n">2</b><span>Kapag nag-ulat ka, hindi mo alam kung may nakabasa</span></li>
+      <li><b class="n">3</b><span>Mag-isa ka lang, kaya nag-aalangan ka</span></li>
     </ul>
   </div>
-  <p class="small" style="margin-top:18px" id="about"></p>
+  <div class="ft"><span>Sa buong DPWH portal, 243 lang ang ulat ng publiko para sa 246,176 na proyekto.</span></div>
 </section>
 
-<nav class="tabs" id="tabs" hidden aria-label="Menu">
-  <div class="tabs-in">
-    <button type="button" data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Malapit</button>
-    <button type="button" data-tab="feed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="3"/><circle cx="12" cy="13" r="3.5"/><path d="M8.5 6 10 4h4l1.5 2"/></svg>Mga ulat</button>
-    <button type="button" data-tab="me"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>Ako</button>
+<section class="slide" data-scene="app">
+  <div class="hdr"><b>TAN<i>A</i>W</b><span>Ang solusyon</span></div>
+  <div class="copy">
+    <div class="label">Ito ang Tanaw</div>
+    <h2 class="title">Isang app para makita at <em>i-ulat</em> ang mga proyekto sa lugar mo.</h2>
+    <p class="lead">Libre ito. Nasa app ang lahat ng proyekto ng DPWH mula 2016: magkano, sino ang gumawa, at ano ang status. Kahit sino ay puwedeng kumuha ng litrato at mag-ulat.</p>
+    <div class="stats">
+      <div class="stat"><b>246,176</b><span>proyekto ng DPWH</span></div>
+      <div class="stat"><b>1,642</b><span>bayan at lungsod</span></div>
+    </div>
+    <a class="cta" href="concept-app.html">Buksan ang app →</a>
   </div>
-</nav>
-<div id="mapov-root"></div>
-<div class="toast" id="toast" role="status" hidden></div>
+  <div class="ft"><span>Datos mula sa DPWH Transparency Portal</span></div>
+</section>
 
-<script src="https://cdn.jsdelivr.net/npm/exifr@7.1.3/dist/lite.umd.js"></script>
+<section class="slide" data-scene="find">
+  <div class="hdr"><b>TAN<i>A</i>W</b><span>Paano gamitin</span></div>
+  <div class="copy">
+    <div class="label">Hakbang 1</div>
+    <h2 class="title">Ilagay lang kung <em>saan ka nakatira.</em></h2>
+    <p class="lead">Pinili ni Aling Nena ang bayan at barangay niya. Lumabas agad ang mga proyektong malapit sa kanya, kasama ang pader sa sapa na 450 metro lang ang layo.</p>
+    <ul class="pts">
+      <li><b class="n">1</b><span>Piliin ang bayan at barangay</span></li>
+      <li><b class="n">2</b><span>Tingnan ang pinakamalapit na proyekto</span></li>
+      <li><b class="n">3</b><span>Basahin kung magkano, sino ang gumawa, at ano ang sabi ng mga tao</span></li>
+    </ul>
+  </div>
+  <div class="ft"><span>Tanaw</span></div>
+</section>
+
+<section class="slide" data-scene="jun">
+  <div class="hdr"><b>TAN<i>A</i>W</b><span>Paano gamitin</span></div>
+  <div class="copy">
+    <div class="label">Hakbang 2 · Si Mang Jun</div>
+    <h2 class="title">Si Mang Jun, <em>dumadaan dito araw-araw.</em></h2>
+    <p class="lead">Tricycle driver si Mang Jun. Pagdaan niya, kinukunan niya ng litrato o video ang lugar. Apat na pindot lang, naka-post na ang ulat. Makikita sa litrato kung saan at kailan ito kinunan.</p>
+    <ul class="pts">
+      <li><b class="n">1</b><span>Kumuha ng litrato o video</span></li>
+      <li><b class="n">2</b><span>Piliin kung ano ang nakita</span></li>
+      <li><b class="n">3</b><span>Magdagdag ng detalye kung gusto</span></li>
+      <li><b class="n">4</b><span>I-post</span></li>
+    </ul>
+  </div>
+  <div class="ft"><span>Tanaw</span></div>
+</section>
+
+<section class="slide" data-scene="scale">
+  <div class="hdr"><b>TAN<i>A</i>W</b><span>Paano gamitin</span></div>
+  <div class="copy">
+    <div class="label">Hakbang 3</div>
+    <h2 class="title">Makikita ng lahat kung <em>tugma</em> ang sinasabi ng DPWH sa totoong nandoon.</h2>
+    <p class="lead">Sa bawat proyekto, magkatabi ang status mula sa DPWH at ang nakita ng mga tao. Halimbawa: "Tapos na, 100%" ayon sa DPWH, pero "Walang proyekto" ayon sa mga ulat.</p>
+  </div>
+  <div class="ft"><span>Tanaw</span></div>
+</section>
+
+<section class="slide" data-scene="social">
+  <div class="hdr"><b>TAN<i>A</i>W</b><span>Paano gamitin</span></div>
+  <div class="copy">
+    <div class="label">Hakbang 4</div>
+    <h2 class="title">Kapag maraming nakakita, <em>mahirap nang balewalain.</em></h2>
+    <p class="lead">Puwedeng pindutin ng iba ang "Nakita ko rin" para kumpirmahin ang ulat. May usapan din sa bawat proyekto, para makapagtanong ang mga kapitbahay at makapag-ayos ng sabayang pagpunta.</p>
+  </div>
+  <div class="ft"><span>Tanaw</span></div>
+</section>
+
+<section class="slide" data-scene="creator">
+  <div class="hdr"><b>TAN<i>A</i>W</b><span>Paano ito kakalat</span></div>
+  <div class="copy">
+    <div class="label">Si Bea</div>
+    <h2 class="title">Kapag nag-post si Bea, <em>libu-libo ang makakaalam.</em></h2>
+    <p class="lead">Content creator si Bea na may 200,000 followers. Sa Tanaw, makokopya niya ang detalye ng proyekto (budget, kontraktor, status at contract ID) para ma-check ng followers niya. Ang ilan sa kanila, sila na mismo ang pupunta at mag-uulat.</p>
+  </div>
+  <div class="ft"><span>Tanaw</span></div>
+</section>
+
+<section class="slide" data-scene="accountable">
+  <div class="hdr"><b>TAN<i>A</i>W</b><span>Ano ang nasa app</span></div>
+  <div class="copy">
+    <div class="label">Pananagutan</div>
+    <h2 class="title">Makikita kung <em>sino ang may hawak</em> ng proyekto.</h2>
+    <p class="lead">Nasa app ang kontraktor, ang opisina ng DPWH, ang mga nag-bid, ang presyo, ang deadline, at ang kopya ng kontratang may pirma. Kapag na-tag ang opisina sa isang ulat, binibilang ang mga araw hanggang sumagot sila.</p>
+  </div>
+  <div class="ft"><span>Mula sa datos ng DPWH: mga nag-bid, kontrata, Notice of Award at Notice to Proceed</span></div>
+</section>
+
+<section class="slide" data-scene="trust">
+  <div class="hdr"><b>TAN<i>A</i>W</b><span>Ano ang nasa app</span></div>
+  <div class="copy">
+    <div class="label">Kaligtasan</div>
+    <h2 class="title">Ligtas ang nag-uulat, <em>at patas sa lahat.</em></h2>
+    <ul class="pts">
+      <li><b class="n">✓</b><span>Makikita sa bawat litrato kung saan at kailan ito kinunan</span></li>
+      <li><b class="n">✓</b><span>Bawal ang mukha ng tao at plaka ng sasakyan sa litrato</span></li>
+      <li><b class="n">✓</b><span>Isusulat lang ang nakita, hindi ang hinala, para hindi makasuhan ang nag-uulat</span></li>
+      <li><b class="n">✓</b><span>Puwedeng sumagot ang kontraktor at ang opisina</span></li>
+      <li><b class="n">✓</b><span>Walang kinikilingang politiko o partido</span></li>
+    </ul>
+  </div>
+  <div class="ft"><span>Tanaw</span></div>
+</section>
+
+
+
+<section class="slide" data-scene="bridge">
+  <div class="hdr"><b>TAN<i>A</i>W</b><span>Ang kailangan namin</span></div>
+  <div class="copy">
+    <div class="label">Ang kailangan namin</div>
+    <h2 class="title">Higit sa lahat, <em>kailangan namin kayo.</em></h2>
+    <div class="ask-main">
+      <b>Mulat na Pilipino</b>
+      <span>Mga kababayang pagod nang lokohin. Handang tumingin, kumuha ng litrato, at mag-ulat ng totoo sa lugar nila.</span>
+    </div>
+    <ul class="pts">
+      <li><b class="n">+</b><span><b>Mga katuwang:</b> Bisto Proyekto, BetterGov.ph, mga parokya at civil society</span></li>
+      <li><b class="n">+</b><span><b>Datos:</b> opisyal na data feed mula sa DPWH</span></li>
+    </ul>
+  </div>
+  <div class="ft"><span>Tanaw</span></div>
+</section>
+
+<section class="slide" data-scene="close" data-dark="1">
+  <div class="hdr"><b>TAN<i>A</i>W</b><span>Salamat</span></div>
+  <div class="copy">
+    <div class="label">Ngayon, may paraan na</div>
+    <h2 class="big">Hindi na natin kailangang <em>manahimik.</em></h2>
+    <p class="lead">Hindi mo kailangang maging eksperto o matapang nang mag-isa. Cellphone at ilang minuto lang ang kailangan. Kapag sabay-sabay tayong nag-ulat, mas mahirap na tayong lokohin.</p>
+    <p class="quote">Tara, bantayan natin ang mga proyekto sa lugar natin.</p>
+    <a class="cta" href="concept-app.html">Subukan ang Tanaw →</a>
+  </div>
+  <div class="ft"><span>Tanaw · Bantay ng Bayan</span></div>
+</section>
+
+</div>
+
+<div id="hint">← → para lumipat · i-drag ang 3D</div>
+<nav id="nav" aria-label="Lumipat ng slide">
+  <button type="button" id="prev" aria-label="Nakaraang slide">←</button>
+  <div id="dots" role="tablist"></div>
+  <span id="count" class="num">1 / 15</span>
+  <button type="button" id="next" aria-label="Susunod na slide">→</button>
+</nav>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 (() => {
 "use strict";
-const $ = (s, el = document) => el.querySelector(s);
-const $$ = (s, el = document) => [...el.querySelectorAll(s)];
-const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-const ls = { get(k){ try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } }, set(k,v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch {} } };
-const toast = m => { const t = $("#toast"); t.textContent = m; t.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => t.hidden = true, 2600); };
+const slides = [...document.querySelectorAll(".slide")];
+const N = slides.length;
+const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let idx = 0, SW = 1920, SH = 1080, portrait = false;
 
-/* ---------- words and icons ---------- */
-const ICON = {
-  "Road":'<path d="M8 3 5 21M16 3l3 18M12 4v3M12 10.5v3M12 17v3"/>',
-  "Building":'<path d="M4 21V8l8-5 8 5v13"/><path d="M9 21v-6h6v6M4 21h16"/>',
-  "Flood control":'<path d="M3 14c2 0 2-1.5 4.5-1.5S10 14 12 14s2-1.5 4.5-1.5S19 14 21 14M3 19c2 0 2-1.5 4.5-1.5S10 19 12 19s2-1.5 4.5-1.5S19 19 21 19"/><path d="M6 10V5h12v5"/>',
-  "Bridge":'<path d="M2 16h20M4 16V11M20 16V11M2 11c5-5 15-5 20 0M8 16v-3.5M12 16v-4.5M16 16v-3.5"/>',
-  "Water supply":'<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>',
-  "Other":'<circle cx="12" cy="12" r="4"/>'
-};
-const ILLUS = {
-  "Road":'<path class="i-g" d="M0 128Q90 96 180 122T360 112V200H0z"/><path class="i-m" opacity=".5" d="M158 118h44l96 82H62z"/><path class="i-k" d="M178 128h4l2 14h-8zM176 156h8l3 24h-14z"/><path class="i-a" d="M262 182l9-30 9 30z"/><rect class="i-a" x="257" y="180" width="28" height="6" rx="2"/><path class="i-a" d="M86 182l9-30 9 30z"/><rect class="i-a" x="81" y="180" width="28" height="6" rx="2"/>',
-  "Bridge":'<rect class="i-w" y="148" width="360" height="52"/><path class="i-wl" d="M30 176q10-7 20 0t20 0M210 188q10-7 20 0t20 0M120 192q10-7 20 0t20 0"/><rect class="i-m" x="56" y="100" width="12" height="56" rx="2"/><rect class="i-m" x="292" y="100" width="12" height="56" rx="2"/><path class="i-l" stroke-width="7" d="M62 104Q180 6 298 104"/><path class="i-l" stroke-width="3" d="M110 98V66M145 98V44M180 98V38M215 98V44M250 98V66"/><rect class="i-m" x="16" y="94" width="328" height="12" rx="4"/><rect class="i-a" x="160" y="86" width="40" height="8" rx="3"/>',
-  "Flood control":'<path class="i-g" d="M0 104H146L168 200H0z"/><path class="i-w" d="M168 136H360V200H186z"/><path class="i-wl" d="M220 160q10-7 20 0t20 0M280 182q10-7 20 0t20 0"/><path class="i-m" opacity=".75" d="M140 104h20l24 96h-20z"/><path class="i-k" opacity=".5" d="M146 122h14M151 142h14M156 162h14M161 182h14" stroke="var(--bg)" stroke-width="3"/><rect class="i-a" x="318" y="84" width="6" height="78" rx="2"/><path class="i-a" d="M324 96h12M324 114h8M324 132h12"/><path d="M324 96h12M324 114h8M324 132h12" stroke="var(--accent)" stroke-width="3"/>',
-  "Building":'<rect class="i-g" y="166" width="360" height="34"/><rect class="i-m" opacity=".5" x="108" y="74" width="144" height="92" rx="4"/><path class="i-m" d="M96 78 180 38l84 40z"/><rect class="i-k" x="124" y="90" width="26" height="22" rx="3"/><rect class="i-k" x="167" y="90" width="26" height="22" rx="3"/><rect class="i-k" x="210" y="90" width="26" height="22" rx="3"/><rect class="i-k" x="124" y="126" width="26" height="22" rx="3"/><rect class="i-k" x="210" y="126" width="26" height="22" rx="3"/><rect class="i-a" x="167" y="124" width="26" height="42" rx="3"/>',
-  "Water supply":'<rect class="i-g" y="166" width="360" height="34"/><path class="i-l" stroke-width="5" d="M156 100l-14 66M214 100l14 66M150 136h60"/><rect x="138" y="44" width="84" height="60" rx="10" fill="var(--info)"/><rect class="i-k" opacity=".35" x="150" y="56" width="14" height="36" rx="5"/><path class="i-l" stroke-width="7" d="M222 150h60v16"/><path class="i-a" d="M282 174c0 6-5 10-9 10s-9-4-9-10 9-16 9-16 9 10 9 16z"/>',
-  "Other":'<path class="i-g" d="M0 140Q80 100 170 132T360 120V200H0z"/><path class="i-a" d="M180 54a24 24 0 0 0-24 24c0 18 24 42 24 42s24-24 24-42a24 24 0 0 0-24-24z"/><circle class="i-k" cx="180" cy="78" r="9"/>'
-};
-const illus = cat => `<svg viewBox="0 0 360 200" aria-hidden="true"><rect class="i-bg" width="360" height="200"/>${ILLUS[cat] || ILLUS.Other}</svg>`;
-const CAT_TL = {"Road":"Kalsada","Building":"Gusali","Flood control":"Flood control","Bridge":"Tulay","Water supply":"Patubig","Other":"Iba pa"};
-const icon = (cat) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[cat] || ICON.Other}</svg>`;
-const STATUS = ["Completed","On-Going","Not Yet Started","For Procurement","Terminated"];
-const ST = [ {t:"Tapos na", c:"good"}, {t:"Ginagawa pa", c:"info"}, {t:"Hindi pa nasisimulan", c:"warn"}, {t:"Bidding pa lang", c:"neutral"}, {t:"Itinigil", c:"bad"} ];
-const STV = ["--good","--info","--warn","--muted","--bad"];
-const SEEN = {
-  none:    {t:"Walang proyekto dito", d:"Wala akong nakitang ginawa sa lugar", c:"bad", i:'<circle cx="12" cy="12" r="9"/><path d="M5.5 5.5l13 13"/>'},
-  idle:    {t:"Sinimulan pero tigil", d:"May bahagi o materyales, walang nagtatrabaho", c:"warn", i:'<rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/>'},
-  working: {t:"May ginagawa ngayon", d:"May trabahador o makina", c:"info", i:'<path d="M14 6l4 4-9 9H5v-4l9-9z"/><path d="m12 8 4 4"/>'},
-  done_ok: {t:"Tapos at maayos", d:"Buo at mukhang gumagana", c:"good", i:'<circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/>'},
-  done_bad:{t:"Tapos pero may sira", d:"May bitak, gumuho, o kulang", c:"bad", i:'<path d="M12 3 2 20h20L12 3z"/><path d="M12 10v4M12 17v.5"/>'}
-};
-const NOTICED = ["Walang transparency billboard","Walang trabahador","May bitak o sira","Mas maliit o maikli kaysa dapat","Bumabaha pa rin","Barado o puno ng basura"];
-const peso = n => n >= 1e9 ? "₱" + (n/1e9).toFixed(1) + "B" : n >= 1e6 ? "₱" + (n/1e6).toFixed(n >= 1e8 ? 0 : 1) + "M" : n >= 1e3 ? "₱" + Math.round(n/1e3) + "K" : "₱" + Math.round(n);
-const pesoWords = n => n >= 1e9 ? "₱" + (n/1e9).toFixed(1) + " bilyon" : n >= 1e6 ? "₱" + (n/1e6).toFixed(1) + " milyon" : "₱" + Math.round(n).toLocaleString("en-PH");
-const pesoFull = n => "₱" + Math.round(n).toLocaleString("en-PH");
-const km = m => m < 950 ? Math.round(m/10)*10 + " m" : (m/1000).toFixed(m < 9500 ? 1 : 0) + " km";
-const hav = (a,b,c,d) => { const r=Math.PI/180, x=Math.sin((c-a)*r/2)**2+Math.cos(a*r)*Math.cos(c*r)*Math.sin((d-b)*r/2)**2; return 12742000*Math.asin(Math.sqrt(x)); };
-const ymd = s => { if (!s) return "—"; const d = new Date(s + "T00:00:00"); return isNaN(d) ? s : d.toLocaleDateString("fil-PH",{year:"numeric",month:"long",day:"numeric"}); };
-const ago = t => { const s = (Date.now()-t)/1000; return s < 60 ? "ngayon lang" : s < 3600 ? Math.floor(s/60) + " minuto" : s < 86400 ? Math.floor(s/3600) + " oras" : Math.floor(s/86400) + " araw"; };
+/* ===================== 3D world ===================== */
+const T = window.THREE;
+let R = null, scene, cam, groups = {}, cur = null, clock = 0, last = 0, enter = 1, spin = 0, drag = null, rect = {x:0,y:0,w:1,h:1}, shadowGround;
+const motion = !REDUCED;
 
-/* ---------- state ---------- */
-const photo = id => "/_blob/" + encodeURIComponent(id);
-const S = { index:null, data:null, prov:null, home:null, mode:"near", shown:12, feed:[], reported:new Set(), photoOf:new Map() };
-const cache = new Map();
-let DB = null, ASSETS = null, USER = null, myId = null;
-const caps = (async () => {
-  if (!window.claude?.use) return;
-  try { [DB, USER] = await Promise.all([claude.use("db"), claude.use("user")]); } catch {}
-  try { ASSETS = await claude.use("assets"); } catch {}
-  try { myId = USER ? await USER.id() : null; } catch {}
-  subscribeFeed();
-})();
+const mat = (hex, o = {}) => new T.MeshPhysicalMaterial(Object.assign({ color:new T.Color(hex).convertSRGBToLinear(), metalness:0.08, roughness:0.38, clearcoat:0.25, clearcoatRoughness:0.3, envMapIntensity:0.45 }, o));
+const mesh = (g, m) => { const x = new T.Mesh(g, m); x.castShadow = true; x.receiveShadow = true; return x; };
+function rrect(w, h, r){ const s = new T.Shape(), x = -w/2, y = -h/2; s.moveTo(x+r,y); s.lineTo(x+w-r,y); s.quadraticCurveTo(x+w,y,x+w,y+r); s.lineTo(x+w,y+h-r); s.quadraticCurveTo(x+w,y+h,x+w-r,y+h); s.lineTo(x+r,y+h); s.quadraticCurveTo(x,y+h,x,y+h-r); s.lineTo(x,y+r); s.quadraticCurveTo(x,y,x+r,y); return s; }
+function block(w, h, d, r, m){
+  const bev = Math.min(r*0.7, d*0.3);
+  const g = new T.ExtrudeGeometry(rrect(w-2*bev, h-2*bev, Math.max(0.001, r-bev)), { depth:Math.max(0.001, d-2*bev), bevelEnabled:true, bevelThickness:bev, bevelSize:bev, bevelSegments:4, curveSegments:10 });
+  g.translate(0, 0, -(d-2*bev)/2); g.computeVertexNormals(); return mesh(g, m);
+}
+const extrude = (shape, depth, m, bev = 0.03) => { const g = new T.ExtrudeGeometry(shape, { depth, bevelEnabled:true, bevelThickness:bev, bevelSize:bev, bevelSegments:3, curveSegments:24 }); g.translate(0,0,-depth/2); g.computeVertexNormals(); return mesh(g, m); };
+const cyl = (rt, rb, h, m, seg = 40) => mesh(new T.CylinderGeometry(rt, rb, h, seg), m);
+const sph = (r, m) => mesh(new T.SphereGeometry(r, 40, 28), m);
+const tor = (R2, r, m, arc = Math.PI*2) => mesh(new T.TorusGeometry(R2, r, 20, 80, arc), m);
+const at = (o, x, y, z, rx = 0, ry = 0, rz = 0) => { o.position.set(x, y, z); o.rotation.set(rx, ry, rz); return o; };
+const floaty = (o, amp = 0.08, ph = 0) => { o.userData.float = { amp, ph, y:o.position.y }; return o; };
+function rod(a, b, r, m){ const A = new T.Vector3(...a), B = new T.Vector3(...b), d = B.clone().sub(A); const c = cyl(r, r, d.length(), m, 16); c.position.copy(A.clone().add(B).multiplyScalar(0.5)); c.quaternion.setFromUnitVectors(new T.Vector3(0,1,0), d.normalize()); return c; }
 
-async function loadProvince(psgc){
-  if (!cache.has(psgc)) cache.set(psgc, fetch("p/" + psgc + ".json").then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(d => {
-    d.byId = new Map(); d.pin = new Map();
-    for (const r of d.rows) { d.byId.set(r[0], r); const k = r[7] + "," + r[8]; d.pin.set(k, (d.pin.get(k) || 0) + 1); }
-    const b = [180,90,-180,-90];
-    d.shapeBox = d.shapes.map(s => { const bb=[180,90,-180,-90]; for (const ring of s.r) for (let i=0;i<ring.length;i+=2){ const x=ring[i],y=ring[i+1]; if(x<bb[0])bb[0]=x; if(y<bb[1])bb[1]=y; if(x>bb[2])bb[2]=x; if(y>bb[3])bb[3]=y; } for (let j=0;j<2;j++){ if(bb[j]<b[j])b[j]=bb[j]; if(bb[j+2]>b[j+2])b[j+2]=bb[j+2]; } return bb; });
-    d.box = b; return d;
-  }));
-  return cache.get(psgc);
+/* canvas text and picture textures */
+function canvasTex(w, h, draw){
+  const c = document.createElement("canvas"); c.width = w; c.height = h;
+  const x = c.getContext("2d"); draw(x, w, h);
+  const t = new T.CanvasTexture(c); t.encoding = T.sRGBEncoding; t.anisotropy = 8; return t;
 }
+function rr(x, X, Y, W, H, r){ x.beginPath(); x.moveTo(X+r,Y); x.arcTo(X+W,Y,X+W,Y+H,r); x.arcTo(X+W,Y+H,X,Y+H,r); x.arcTo(X,Y+H,X,Y,r); x.arcTo(X,Y,X+W,Y,r); x.closePath(); }
+const F = (w, s) => `${w} ${s}px "Be Vietnam Pro", system-ui, sans-serif`;
+const flat = (tex, w, h) => new T.Mesh(new T.PlaneGeometry(w, h), new T.MeshBasicMaterial({ map:tex, toneMapped:false, transparent:true }));
 
-/* ---------- navigation ---------- */
-const MAIN = ["home","feed","me"];
-let current = null, history = [];
-function go(name, push = true){
-  if (push && current && current !== name) history.push(current);
-  current = name;
-  $$(".screen").forEach(s => s.hidden = s.id !== "s-" + name);
-  $("#tabs").hidden = !MAIN.includes(name);
-  $$(".tabs button").forEach(b => b.setAttribute("aria-current", b.dataset.tab === name ? "page" : "false"));
-  window.scrollTo(0, 0);
-  if (name === "where") setTimeout(() => $("#town-q").focus({preventScroll:true}), 50);
-  if (name === "feed") renderFeed();
-  if (name === "me") renderMe();
+/* people */
+const SKIN = ["#e8b98f","#d6a074","#c08457","#9c6741","#7a4c2c"], HAIR = ["#1b1513","#2b1d14","#3a2a1e","#141418"], PANTS = ["#2f3a52","#3b3b40","#5b4a3a","#44505e"];
+function walker(o, M){
+  const g = new T.Group(), skin = mat(SKIN[o.skin % SKIN.length], { roughness:0.6, clearcoat:0.1 }), hair = mat(HAIR[o.hair % HAIR.length], { roughness:0.7, clearcoat:0.05 });
+  const top = o.top, low = o.woman && !o.pants ? o.top : mat(PANTS[(o.bottom||0) % PANTS.length], { roughness:0.7 }), shoe = mat("#26262a", { roughness:0.5 });
+  const st = o.step == null ? 0.3 : o.step;
+  [-1, 1].forEach(sg => { const leg = new T.Group(); leg.add(at(cyl(0.055, 0.05, 0.5, o.woman && !o.pants ? skin : low, 16), 0, -0.25, 0)); leg.add(at(block(0.1, 0.06, 0.17, 0.03, shoe), 0, -0.52, 0.03)); leg.position.set(sg*0.075, 0.55, 0); leg.rotation.x = sg*st; g.add(leg); if (!g.userData.legs) g.userData.legs = []; g.userData.legs.push(leg); });
+  if (o.woman && !o.pants) { g.add(at(mesh(new T.CylinderGeometry(0.11, 0.24, 0.42, 24), top), 0, 0.62, 0)); g.add(at(cyl(0.12, 0.11, 0.26, top, 20), 0, 0.92, 0)); }
+  else { g.add(at(cyl(0.11, 0.1, 0.12, low, 20), 0, 0.56, 0)); g.add(at(cyl(0.14, 0.12, 0.34, top, 20), 0, 0.8, 0)); }
+  g.add(at(sph(o.woman ? 0.12 : 0.14, top), 0, 1.0, 0));
+  g.add(at(cyl(0.045, 0.05, 0.06, skin, 12), 0, 1.08, 0));
+  g.userData.arms = [];
+  [-1, 1].forEach(sg => {
+    const arm = new T.Group();
+    arm.add(at(cyl(0.04, 0.035, 0.36, top, 12), 0, -0.18, 0));
+    arm.add(at(sph(0.045, skin), 0, -0.38, 0));
+    arm.position.set(sg*(o.woman ? 0.15 : 0.18), 1.02, 0);
+    const raise = o.phone && sg === 1;
+    arm.rotation.set(raise ? -1.25 : -sg*st*0.9, 0, raise ? -0.25 : sg*0.08);
+    if (raise) { const ph = block(0.1, 0.17, 0.02, 0.02, M.c); ph.add(at(new T.Mesh(new T.PlaneGeometry(0.085, 0.15), new T.MeshBasicMaterial({ color:o.glow ? 0xffe9a8 : 0x9fc3ff, toneMapped:false })), 0, 0, 0.012)); arm.add(at(ph, 0, -0.42, 0.04, Math.PI/2 - 0.2, 0, 0)); }
+    g.add(arm); g.userData.arms.push(arm);
+  });
+  const head = new T.Group(); head.add(sph(0.12, skin));
+  if (o.woman) { const cap = mesh(new T.SphereGeometry(0.135, 24, 14, 0, Math.PI*2, 0, Math.PI*0.58), hair); cap.rotation.x = -0.25; head.add(cap); const fall = cyl(0.11, 0.09, 0.26, hair, 16); fall.scale.z = 0.55; head.add(at(fall, 0, -0.1, -0.07)); }
+  else { const cap = mesh(new T.SphereGeometry(0.128, 24, 14, 0, Math.PI*2, 0, Math.PI*0.42), hair); cap.rotation.x = -0.3; head.add(cap); }
+  if (o.cap) { head.add(at(cyl(0.13, 0.13, 0.06, o.cap, 24), 0, 0.09, 0)); head.add(at(block(0.18, 0.02, 0.14, 0.01, o.cap), 0, 0.07, 0.1)); }
+  g.add(at(head, 0, 1.24, 0)); g.userData.head = head;
+  return g;
 }
-function back(){ go(history.pop() || "home", false); }
-document.addEventListener("click", e => { const g = e.target.closest("[data-go]"); if (g) go(g.dataset.go); });
-$$(".tabs button").forEach(b => b.addEventListener("click", () => { history = []; go(b.dataset.tab, false); }));
-
-/* ---------- 1. welcome ---------- */
-$("#go-start").onclick = () => go("where");
-
-/* ---------- 2. where ---------- */
-let towns = [];
-function buildTowns(){
-  for (const p of S.index.provinces) for (const m of p.muns) towns.push({p, m, key:(m.name + " " + p.name).toLowerCase()});
-}
-function renderTowns(){
-  const q = $("#town-q").value.trim().toLowerCase();
-  const el = $("#town-list");
-  if (!q) { el.innerHTML = ""; return; }
-  const terms = q.split(/\s+/);
-  const hits = towns.filter(t => terms.every(w => t.key.includes(w))).sort((a,b) => (a.key.startsWith(q)?0:1) - (b.key.startsWith(q)?0:1) || b.m.count - a.m.count).slice(0, 8);
-  el.innerHTML = hits.length ? hits.map((t,i) => `<button type="button" class="choice" data-i="${i}"><span><b>${esc(t.m.name)}</b><br><small>${esc(t.p.name)}</small></span><small class="num">${t.m.count.toLocaleString()} proyekto</small></button>`).join("")
-    : `<p class="empty">Walang nahanap. Subukan ang ibang baybay, hal. "Malolos" o "Cebu City".</p>`;
-  el.onclick = e => { const b = e.target.closest("[data-i]"); if (b) pickTown(hits[+b.dataset.i]); };
-}
-$("#town-q").addEventListener("input", renderTowns);
-async function pickTown(t, brgyName = null, gps = null){
-  S.pending = { psgc:t.p.psgc, mun:t.m.name, lat:t.m.lat, lon:t.m.lon };
-  const d = await loadProvince(t.p.psgc);
-  const list = d.brgy[t.m.name] || [];
-  if (gps) { finishHome({ ...S.pending, brgy:nearestBrgy(list, gps.lat, gps.lon), lat:gps.lat, lon:gps.lon, gps:true }); return; }
-  if (!list.length) { finishHome(S.pending); return; }
-  $("#brgy-q").textContent = `Saang barangay sa ${t.m.name}?`;
-  $("#brgy-filter").value = "";
-  renderBrgy(list);
-  go("brgy");
-}
-function nearestBrgy(list, lat, lon){ let best = null, bd = Infinity; for (const b of list) { const d = hav(lat, lon, b[1], b[2]); if (d < bd) { bd = d; best = b[0]; } } return best; }
-function renderBrgy(list){
-  const q = $("#brgy-filter").value.trim().toLowerCase();
-  const hits = list.filter(b => b[0].toLowerCase().includes(q));
-  $("#brgy-list").innerHTML = hits.slice(0, 80).map(b => `<button type="button" class="choice" data-b="${esc(b[0])}"><span>${esc(b[0])}</span></button>`).join("") + (hits.length > 80 ? `<p class="small" style="padding:12px 4px">I-type para makita ang iba pa (${hits.length - 80}).</p>` : "");
-  $("#brgy-list").onclick = e => { const b = e.target.closest("[data-b]"); if (!b) return; const x = list.find(v => v[0] === b.dataset.b); finishHome({ ...S.pending, brgy:x[0], lat:x[1], lon:x[2] }); };
-  $("#brgy-filter").oninput = () => renderBrgy(list);
-}
-$("#skip-brgy").onclick = () => finishHome(S.pending);
-$("#use-gps").onclick = () => {
-  const msg = $("#gps-msg");
-  const fail = () => { msg.innerHTML = `<div class="notice">Hindi makuha ang lokasyon mo dito. I-type na lang ang bayan mo sa ibaba.</div>`; $("#town-q").focus(); };
-  if (!navigator.geolocation) return fail();
-  msg.innerHTML = `<p class="small" style="margin:10px 2px 0">Hinahanap ka…</p>`;
-  try {
-    navigator.geolocation.getCurrentPosition(pos => {
-      const {latitude:lat, longitude:lon} = pos.coords;
-      let best = null, bd = Infinity; for (const t of towns) { const d = hav(lat, lon, t.m.lat, t.m.lon); if (d < bd) { bd = d; best = t; } }
-      msg.innerHTML = ""; if (best) pickTown(best, null, {lat, lon}); else fail();
-    }, fail, {timeout:8000, maximumAge:60000});
-  } catch { fail(); }
-};
-
-/* ---------- 3. home ---------- */
-async function finishHome(h){
-  S.home = h; ls.set("tanaw.home", h);
-  history = []; go("home", false);
-  await showHome();
-}
-async function showHome(){
-  const h = S.home;
-  S.prov = S.index.provinces.find(p => p.psgc === h.psgc);
-  $("#loc-text").textContent = h.brgy ? `${h.brgy}, ${h.mun}` : `${h.mun}, ${S.prov.name}`;
-  $("#home-hello").textContent = "Kinukuha ang mga proyekto…";
-  try { S.data = await loadProvince(h.psgc); } catch { $("#home-hello").textContent = "Hindi ma-load. Subukang i-refresh."; return; }
-  const d = S.data, mi = d.muns.indexOf(h.mun);
-  for (const r of d.rows) r.dist = hav(h.lat, h.lon, r[7], r[8]);
-  const town = d.rows.filter(r => r[14] === mi);
-  let budget = 0, flagged = 0; for (const r of town) { budget += r[4]; if (r[15]) flagged++; }
-  $("#home-hello").textContent = h.brgy ? `Mga proyekto malapit sa ${h.brgy}` : `Mga proyekto sa ${h.mun}`;
-  $("#home-sum").innerHTML = `May <b>${town.length.toLocaleString()} proyekto</b> ang DPWH sa ${esc(h.mun)} mula 2016, nagkakahalaga ng <b>${pesoWords(budget)}</b>.${flagged ? ` <b>${flagged}</b> dito ang may kahina-hinalang datos.` : ""}`;
-  // one clear task: the nearest project that needs eyes
-  const pick = d.rows.filter(r => r.dist < 15000 && (r[15] || r[3] === 1)).sort((a,b) => a.dist - b.dist)[0] || d.rows.slice().sort((a,b) => a.dist - b.dist)[0];
-  $("#feature").innerHTML = pick ? `<div class="feature">
-      <div class="hero">${S.photoOf.has(pick[0]) ? `<img src="${esc(photo(S.photoOf.get(pick[0])))}" alt="Litrato mula sa bantay">` : illus(S.index.cats[pick[2]])}</div>
-      <div class="kicker">Kailangan ng mata mo</div>
-      <h2>${esc(pick[16])}</h2>
-      <div class="meta"><span>${km(pick.dist)} mula sa iyo</span><span>${peso(pick[4])}</span><span>Sabi ng DPWH: ${ST[pick[3]].t.toLowerCase()}${pick[3]===1?` (${pick[5]}%)`:""}</span></div>
-      <button type="button" class="btn primary" data-open="${esc(pick[0])}">Silipin</button>
-    </div>` : "";
-  renderDemoRow();
-  S.shown = 12; renderCards();
-  subscribeFeed();
-}
-function listFor(mode){
-  const d = S.data, mi = d.muns.indexOf(S.home.mun);
-  if (mode === "near") return d.rows.slice().sort((a,b) => a.dist - b.dist);
-  if (mode === "flag") return d.rows.filter(r => r[15] && r[14] === mi).sort((a,b) => a.dist - b.dist);
-  return d.rows.filter(r => r[14] === mi).sort((a,b) => b[4] - a[4]);
-}
-function cardHTML(r){
-  const st = ST[r[3]], cat = S.index.cats[r[2]];
-  return `<button type="button" class="card" data-open="${esc(r[0])}">
-    ${S.photoOf.has(r[0]) ? `<img class="thumb" src="${esc(photo(S.photoOf.get(r[0])))}" alt="" loading="lazy">` : `<span class="ico">${icon(cat)}</span>`}
-    <span style="min-width:0"><span class="t">${esc(r[16])}</span>
-      <span class="s">${km(r.dist)} · <span class="chip ${st.c}" style="padding:1px 8px">${st.t}</span>${r[15] ? ` <span class="chip flag" style="padding:1px 8px">Silipin</span>` : ""}${S.reported.has(r[0]) ? ` <span class="chip neutral" style="padding:1px 8px">May ulat</span>` : ""}</span></span>
-    <span class="r">${peso(r[4])}<small>${esc(r[11])}</small></span>
-  </button>`;
-}
-function renderCards(){
-  if (!S.data) return;
-  const list = listFor(S.mode);
-  $("#cards").innerHTML = list.length ? list.slice(0, S.shown).map(cardHTML).join("")
-    : `<p class="empty">${S.mode === "flag" ? "Walang kahina-hinalang datos sa bayan na ito. Magandang balita, pero silipin pa rin ang mga malapit." : "Walang proyekto rito."}</p>`;
-  $("#more").hidden = list.length <= S.shown;
-}
-$$(".seg button").forEach(b => b.addEventListener("click", () => { S.mode = b.dataset.mode; S.shown = 12; $$(".seg button").forEach(x => x.setAttribute("aria-pressed", x === b)); renderCards(); }));
-$("#more").onclick = () => { S.shown += 20; renderCards(); };
-$("#loc-chip").onclick = () => go("where");
-document.addEventListener("click", e => { const b = e.target.closest("[data-open]"); if (b) openProject(b.dataset.open); });
-
-/* ---------- samples (HALIMBAWA): fictional projects showing what people's input looks like ---------- */
-const DAY = 86400000;
-const DEMO = (() => {
-  const now = Date.now(), t = d => now - d * DAY;
-  const base = { deo:"Halimbawang District Office", mun:"Halimbawang Bayan", fund:"Halimbawa: GAA" };
-  const mk = (id, title, cat, status, pct, budget, year, start, done, flags, extra) => {
-    const r = [id, title.toUpperCase(), cat, status, budget, pct, 0, null, null, start, done, year, 0, 0, 0, flags, title];
-    r.demo = { ...base, ...extra };
-    r.demo.reports = (extra.reports || []).map((x, i) => ({ id:id + "-r" + i, demo:true, ...x, t:t(x.days) }));
-    r.demo.talk = (extra.talk || []).map(x => ({ demo:true, ...x, t:t(x.days) }));
-    return r;
-  };
-  return [
-    mk("HALIMBAWA-5", "Flood Control na Pader sa Sapa", 2, 0, 100, 96500000, "2023", "2023-01-10", "2023-11-30", 1, {
-      contractor:"Bayan Infra Corp.",
-      why:["Iisang pin sa mapa ang gamit ng 6 na proyekto. Baka mali ang lokasyon."],
-      detail:{ a:97000000, w:96500000, ex:"2023-12-15", bidders:[["Bayan Infra Corp.",1],["Sample Construction Corp.",0]], im:0 },
-      reports:[
-        { seen:"none", photos:["demo/bakal-lang.jpg"], videos:[{src:"demo/video-bakal-lang.mp4", poster:"demo/video-bakal-lang-poster.jpg"}], distM:30, byName:"Carlo D.", days:1, ok:18, chips:["Bumabaha pa rin"], note:"Ito ang nasa pin: lupa, basura at mga bakal na nakatusok. Walang pader. Binaha pa rin kami noong bagyo." },
-        { seen:"none", photos:["demo/lumang-pader.jpg"], distM:220, byName:"Ana R.", days:4, ok:11, note:"Ang tanging pader dito ay luma na, matagal na bago pa ang kontrata. May grupong nag-inspeksyon dito noong isang linggo." },
-        { seen:"none", byName:"Jun M.", days:6, ok:5, note:"Tinanong ko ang 3 residente. Wala raw bagong ginawa rito kahit kailan." } ],
-      talk:[
-        { id:"a", byName:"Jun M.", days:1.2, text:"Baka mali lang ang pin? May nakakita ba ng bagong pader sa ibang bahagi ng sapa?" },
-        { id:"b", re:"a", byName:"Carlo D.", days:1, text:"Nilakad ko ang isang kilometro pababa ng sapa. Wala talaga. Nasa video ko." },
-        { id:"c", byName:"Bea S.", days:0.5, text:"Naka-tag na ang DPWH at ang LGU. Ipasa rin natin sa Bisto Proyekto para ma-inspeksyon." } ] }),
-    mk("HALIMBAWA-6", "Riverbank Protection Structure", 2, 0, 100, 148000000, "2024", "2024-03-04", "2024-12-20", 0, {
-      contractor:"Sample Construction Corp.",
-      detail:{ a:150000000, w:148000000, ex:"2024-12-31", bidders:[["Sample Construction Corp.",1]], im:2, il:"2024-12-18" },
-      reports:[
-        { seen:"idle", photos:["demo/pader-tigil.jpg"], videos:[{src:"demo/video-pader-tigil.mp4", poster:"demo/video-pader-tigil-poster.jpg"}], distM:50, byName:"Liza T.", days:2, ok:14, chips:["Walang trabahador","Mas maliit o maikli kaysa dapat"], note:"Kalahati lang ang pader. Nakalabas pa ang mga bakal at ang kahoy na hulmahan. Matagal nang walang nagtatrabaho." },
-        { seen:"idle", byName:"Bea S.", days:9, ok:6, note:"Pareho pa rin ngayong linggo. Tinutubuan na ng damo ang mga bakal." } ],
-      talk:[
-        { id:"a", byName:"Ana R.", days:2, text:"100% tapos daw sabi ng DPWH? Tingnan n'yo ang video ni Liza." },
-        { id:"b", re:"a", byName:"Liza T.", days:1.8, text:"Oo. Babalik ako sa Sabado para sukatin kung gaano kahaba ang natapos." } ] }),
-    mk("HALIMBAWA-7", "Flood Control Structure (Sheet Pile Wall)", 2, 0, 100, 212000000, "2023", "2023-05-15", "2024-04-30", 0, {
-      contractor:"Demo Engineering Co.",
-      detail:{ a:215000000, w:212000000, ex:"2024-05-10", bidders:[["Demo Engineering Co.",1],["Bayan Infra Corp.",0],["Halimbawang Builders Inc.",0]], im:5, il:"2024-04-25" },
-      reports:[
-        { seen:"done_bad", photos:["demo/gumuho.jpg"], videos:[{src:"demo/video-gumuho.mp4", poster:"demo/video-gumuho-poster.jpg"}], distM:80, byName:"Jun M.", days:1, ok:21, chips:["May bitak o sira"], note:"Gumuho at nabitak ang lupa sa likod ng pader. May mga sako ng buhangin na pantapal. Ilang hakbang lang mula sa mga bahay." },
-        { seen:"done_bad", byName:"Carlo D.", days:2, ok:9, note:"Lumala pagkatapos ng ulan kagabi. Lumapad ang bitak." } ],
-      talk:[
-        { id:"a", byName:"Bea S.", days:1, text:"Delikado ito sa mga bahay sa tabi. Sino ang dapat tawagan sa barangay?" },
-        { id:"b", re:"a", byName:"Jun M.", days:0.9, text:"Naka-tag na ang LGU. Sinabihan ko rin ang kapitan, pupunta raw bukas." } ] }),
-    mk("HALIMBAWA-1", "Rehabilitasyon ng Tulay sa Ilog", 3, 0, 100, 185400000, "2024", "2024-02-12", "2025-01-30", 0, {
-      contractor:"Halimbawang Builders Inc.",
-      detail:{ a:189000000, w:185400000, ex:"2025-02-15", bidders:[["Halimbawang Builders Inc.",1],["Sample Construction Corp.",0],["Demo Engineering Co.",0]], im:4, il:"2025-01-28" },
-      reports:[
-        { seen:"done_ok", photos:["demo/tulay.jpg"], distM:40, byName:"Ana R.", days:3, ok:12, note:"Bagong pintura at maayos ang daanan. Walang bitak na nakita sa gilid ng tulay." },
-        { seen:"done_ok", byName:"Jun M.", days:6, ok:4, note:"Nadaanan ko kaninang umaga. Maayos, may ilaw na sa gabi." },
-        { seen:"working", byName:"Liza T.", days:140, ok:2, note:"May mga trabahador na nagpipintura. Isang linya lang ang bukas." } ],
-      talk:[
-        { id:"a", byName:"Carlo D.", days:2.2, text:"May nakakaalam ba kung kailan babalik ang ruta ng jeep dito?" },
-        { id:"b", re:"a", byName:"Ana R.", days:2, text:"Bumalik na noong Lunes. Dumadaan na ulit." },
-        { id:"c", byName:"Bea S.", days:1, text:"Salamat sa mga nag-ulat. Ito pala ang ₱185 milyon. Maayos naman ang kinalabasan." } ] }),
-    mk("HALIMBAWA-2", "Pagpapalapad ng Kalsada", 0, 0, 100, 92700000, "2023", "2023-03-01", "2024-02-20", 0, {
-      contractor:"Sample Construction Corp.",
-      detail:{ a:95000000, w:92700000, ex:"2024-03-10", bidders:[["Sample Construction Corp.",1],["Halimbawang Builders Inc.",0]], im:2, il:"2024-02-18" },
-      reports:[
-        { seen:"done_ok", photos:["demo/kalsada.jpg"], distM:120, byName:"Bea S.", days:9, ok:7, chips:["Walang transparency billboard"], note:"Maayos ang kalsada pero walang billboard kung magkano at sino ang gumawa. Dapat may nakapaskil." } ],
-      talk:[
-        { id:"a", byName:"Jun M.", days:8, text:"Kailangan ng billboard sa bawat proyekto. Na-tag na ang district office." },
-        { id:"b", byName:"Liza T.", days:7.5, text:"Sumagot na ba sila?" },
-        { id:"c", re:"b", byName:"Jun M.", days:7, text:"Wala pa. Pitong araw na." } ] }),
-    mk("HALIMBAWA-3", "Pagpapagawa ng Dalawang Palapag na Paaralan", 1, 1, 95, 38500000, "2023", "2023-06-01", "", 4, {
-      contractor:"Demo Engineering Co.",
-      why:["Lampas na sa deadline ng kontrata (Marso 15, 2025) pero hindi pa tapos.", "Mahigit 2 taon nang \"ginagawa\" mula Hunyo 1, 2023."],
-      detail:{ a:39000000, w:38500000, ex:"2025-03-15", overdue:true, bidders:[["Demo Engineering Co.",1]], im:1, il:"2024-08-02" },
-      reports:[
-        { seen:"idle", photos:["demo/paaralan.jpg"], distM:60, byName:"Liza T.", days:2, ok:9, chips:["Walang trabahador","Walang transparency billboard"], note:"Mukhang tapos na ang labas pero sarado at walang tao. Sabi ng guwardiya, matagal nang walang trabahador." },
-        { seen:"idle", byName:"Carlo D.", days:16, ok:3, note:"Ganoon pa rin. Walang gumagalaw." } ],
-      talk:[
-        { id:"a", byName:"Ana R.", days:3, text:"Dapat dito mag-aaral ang anak ko ngayong taon. May balita ba?" },
-        { id:"b", re:"a", byName:"Liza T.", days:2, text:"Wala pa. Sabay-sabay nating i-tag ang LGU para may sumagot." } ] }),
-    mk("HALIMBAWA-4", "Bagong Tulay at Approach Road", 3, 1, 60, 410000000, "2025", "2025-01-20", "", 0, {
-      contractor:"Halimbawang Builders Inc.",
-      detail:{ a:415000000, w:410000000, ex:"2026-06-30", bidders:[["Halimbawang Builders Inc.",1],["Sample Construction Corp.",0],["Demo Engineering Co.",0],["Bayan Infra Corp.",0]], im:6, il:"2025-10-01" },
-      reports:[
-        { seen:"done_ok", photos:["demo/bagong-tulay.jpg"], distM:180, byName:"Jun M.", days:5, ok:5, note:"Mukhang tapos na at dinadaanan na ng sasakyan, pero 60% pa lang daw ayon sa DPWH. Baka hindi lang na-update ang portal." } ],
-      talk:[
-        { id:"a", byName:"Bea S.", days:4, text:"Magandang tanong. Kung tapos na, bakit 60% pa rin? Baka may kulang pa sa approach road sa kabilang dulo." } ] })
-  ];
-})();
-const DEMO_BY_ID = new Map(DEMO.map(r => [r[0], r]));
-const lastSeen = r => r.demo.reports[0] ? SEEN[r.demo.reports[0].seen] : null;
-function demoCard(r){
-  const p = r.demo.reports.find(x => x.photos?.length), s = lastSeen(r), cat = S.index.cats[r[2]];
-  return `<button type="button" class="dcard" data-open="${r[0]}">
-    <span class="dimg">${p ? `<img src="${p.photos[0]}" alt="" loading="lazy">` : illus(cat)}<span class="chip demo">Halimbawa</span>${r.demo.reports.some(x => x.videos?.length) ? `<span class="chip vchip">▶ May video</span>` : ""}</span>
-    <span class="dtxt"><b>${esc(r[16])}</b><span>DPWH: <strong>${ST[r[3]].t}</strong> · Bayan: <strong style="color:var(--${s?.c || "ink"})">${esc(s?.t || "—")}</strong></span>
-    <small>${r.demo.reports.length} ulat · ${r.demo.talk.length} komento</small></span></button>`;
-}
-function renderDemoRow(){
-  $("#demo").innerHTML = `<div class="demo-head"><div class="kicker">Halimbawa</div><h2>Ganito ang itsura kapag may ulat na ang bayan</h2></div><div class="demo-row">${DEMO.map(demoCard).join("")}</div>`;
+function crowd(n, M, seed = 0, extra = {}){
+  const tops = [M.p, M.coral, M.lav, M.mint, M.a, M.peach, M.blue];
+  return Array.from({ length:n }, (_, i) => { const k = i + seed; return walker(Object.assign({ woman:(k*7+3) % 2 === 0, skin:(k*3) % 5, hair:(k*2+1) % 4, top:tops[(k*5) % tops.length], bottom:k % 4, step:0.15 + ((k*13) % 5)*0.05 }, extra), M); });
 }
 
-/* ---------- 5. project ---------- */
-let repUnsub = null, talkUnsub = null, okUnsub = null;
-const deoOf = r => r.demo ? r.demo.deo : S.data.deos[r[6]];
-const munOf = r => r.demo ? r.demo.mun : S.data.muns[r[14]];
-const conOf = r => r.demo ? r.demo.contractor : S.data.contractors[r[12]];
-const fundOf = r => r.demo ? r.demo.fund : S.data.funds[r[13]];
-const getRow = id => DEMO_BY_ID.get(id) || S.data?.byId.get(id);
-const imgSrc = (x, p) => x.demo ? p : photo(p);
-const EYE = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>`;
-function flagReasons(r){
-  if (r.demo) return r.demo.why || [];
-  const out = [], d = S.data;
-  if (r[15] & 4) out.push(`Mahigit 2 taon nang "ginagawa" mula ${ymd(r[9])}.`);
-  if (r[15] & 2) out.push(`Malayo ang pin nito sa lugar na hawak ng opisina ng DPWH na nagpapatupad.`);
-  if (r[15] & 1) out.push(`${d.pin.get(r[7]+","+r[8]) || "Maraming"} proyekto ang iisa ang pin sa mapa. Baka mali ang lokasyon.`);
-  return out;
+/* things */
+function house(w, h, d, wall, roof){ const g = new T.Group(); g.add(at(block(w, h, d, 0.04, wall), 0, h/2, 0)); const s = new T.Shape(); s.moveTo(-w/2-0.1, 0); s.lineTo(w/2+0.1, 0); s.lineTo(0, h*0.55); s.closePath(); g.add(at(extrude(s, d+0.16, roof, 0.02), 0, h, 0)); return g; }
+function tree(M, s = 1){ const g = new T.Group(); g.add(at(cyl(0.05*s, 0.07*s, 0.5*s, M.wood, 12), 0, 0.25*s, 0)); g.add(at(sph(0.32*s, M.leaf), 0, 0.68*s, 0)); g.add(at(sph(0.22*s, M.leaf), 0.18*s, 0.82*s, 0.05)); return g; }
+function banana(M, s = 1){ const g = new T.Group(); g.add(at(cyl(0.05*s, 0.08*s, 0.9*s, M.leaf2, 12), 0, 0.45*s, 0)); for (let i = 0; i < 6; i++){ const l = sph(0.2*s, M.leaf); l.scale.set(0.35, 0.18, 1.6); const a = i/6*Math.PI*2; l.position.set(Math.sin(a)*0.22*s, 0.95*s, Math.cos(a)*0.22*s); l.rotation.set(0.5, a, 0); g.add(l); } return g; }
+function pin(m, s = 1, inner){ const g = new T.Group(); g.add(at(sph(0.42*s, m), 0, 1.05*s, 0)); g.add(at(cyl(0.375*s, 0.02, 0.85*s, m), 0, 0.6*s, 0)); if (inner) g.add(at(sph(0.17*s, inner), 0, 1.07*s, 0.31*s)); return g; }
+function coin(M, s = 1){ const g = new T.Group(); g.add(cyl(0.42*s, 0.42*s, 0.08*s, M.gold, 48)); const t = canvasTex(256, 256, (x, w, h) => { x.fillStyle = "#e9b53f"; x.fillRect(0, 0, w, h); x.fillStyle = "#b8821c"; x.font = F(800, 170); x.textAlign = "center"; x.textBaseline = "middle"; x.fillText("₱", w/2, h/2 + 8); }); const face = new T.Mesh(new T.CircleGeometry(0.34*s, 40), new T.MeshStandardMaterial({ map:t, roughness:0.4, metalness:0.3 })); face.rotation.x = -Math.PI/2; face.position.y = 0.041*s; g.add(face); return g; }
+function sun(r = 1){ const g = new T.Group(); const core = new T.MeshBasicMaterial({ color:new T.Color("#f6b93b").convertSRGBToLinear(), toneMapped:false }); g.add(new T.Mesh(new T.CircleGeometry(r, 64), core)); const rays = new T.Group(); for (let i = 0; i < 8; i++){ const s = new T.Shape(); s.moveTo(-0.16*r, 0); s.lineTo(0.16*r, 0); s.lineTo(0, 0.75*r); s.closePath(); const m = new T.Mesh(new T.ShapeGeometry(s), core); const a = i/8*Math.PI*2; m.position.set(Math.sin(a)*1.12*r, Math.cos(a)*1.12*r, -0.01); m.rotation.z = -a; rays.add(m); } g.add(rays); rays.userData.spin2 = 0.08; g.userData.rays = rays; return g; }
+function phone(M, tex, w = 1.1, h = 2.25){ const g = new T.Group(); g.add(block(w, h, 0.12, 0.16, M.c)); const scr = flat(tex, w*0.9, h*0.92); scr.material.transparent = false; g.add(at(scr, 0, 0, 0.064)); return g; }
+function bubble(M, text, w = 1.5){
+  const g = new T.Group(); const h = 0.5;
+  g.add(block(w, h, 0.1, 0.2, M.w));
+  const tail = mesh(new T.ConeGeometry(0.09, 0.2, 16), M.w); tail.rotation.z = Math.PI; g.add(at(tail, -w*0.25, -h/2 - 0.07, 0));
+  const t = canvasTex(512, Math.round(512*h/w), (x, W, H) => { x.fillStyle = "#151513"; x.font = F(700, Math.round(H*0.38)); x.textAlign = "center"; x.textBaseline = "middle"; x.fillText(text, W/2, H/2 + 2); });
+  g.add(at(flat(t, w*0.92, h*0.9), 0, 0, 0.055)); return g;
 }
-function updateFlagline(){
-  const el = $("#flagline"); if (!el) return;
-  const n = document.querySelectorAll("#why-slot li").length;
-  el.hidden = !n;
-  el.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 21V4h11l-2 4 2 4H5"/></svg>${n === 1 ? "May 1 dahilan" : `May ${n} dahilan`} para silipin ito <span style="margin-left:auto">›</span>`;
+function sign(lines, w, h, opts = {}){
+  const t = canvasTex(1024, Math.round(1024*h/w), (x, W, H) => {
+    x.fillStyle = opts.bg || "#ffffff"; x.fillRect(0, 0, W, H);
+    if (opts.band) { x.fillStyle = opts.band; x.fillRect(0, 0, W, (opts.pad || H*0.08) + lines[0].s*1.25 + 6); }
+    let y = opts.pad || H*0.08;
+    for (const L of lines) { x.fillStyle = L.c || "#151513"; x.font = F(L.w || 700, L.s); x.textAlign = L.a || "center"; x.textBaseline = "top"; x.fillText(L.t, L.a === "left" ? W*0.07 : W/2, y); y += L.s * (L.gap || 1.25); }
+  });
+  return flat(t, w, h);
 }
-function nearBrgyName(r){ if (r.demo) return null; const list = S.data.brgy[S.data.muns[r[14]]] || []; return nearestBrgy(list, r[7], r[8]); }
-const whyBox = lines => `<div class="why"><b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 21V4h11l-2 4 2 4H5"/></svg>Bakit dapat silipin</b><ul>${lines.map(w => `<li>${esc(w)}</li>`).join("")}</ul><small>Batay sa datos ng DPWH. Hindi ito paratang. Ang litrato mo ang sasagot.</small></div>`;
-function openProject(id){
-  const r = getRow(id); if (!r) return;
-  if (!r.demo && r.dist == null && S.home) r.dist = hav(S.home.lat, S.home.lon, r[7], r[8]);
-  S.cur = r; repUnsub?.(); talkUnsub?.(); okUnsub?.(); repUnsub = talkUnsub = okUnsub = null;
-  S.ok = new Map(); S.okMine = new Set(); S.curDocs = []; S.talk = []; S.replyTo = null;
-  const st = ST[r[3]], cat = S.index.cats[r[2]], mun = munOf(r), bg = nearBrgyName(r), why = flagReasons(r);
-  const demoPhoto = r.demo?.reports.find(x => x.photos?.length);
-  const hero = r.demo ? (demoPhoto ? `<img src="${demoPhoto.photos[0]}" alt="Halimbawang litrato mula sa bantay"><span class="hero-cap">Kuha ni ${esc(demoPhoto.byName)} · ${ago(demoPhoto.t)} na</span>` : `${illus(cat)}<span class="hero-cap">Walang makunan: walang nakitang proyekto</span>`)
-    : S.photoOf.has(r[0]) ? `<img src="${esc(photo(S.photoOf.get(r[0])))}" alt="Litrato ng proyekto mula sa bantay"><span class="hero-cap">Kuha ng isang bantay</span>` : `${illus(cat)}<span class="hero-cap">Wala pang litrato mula sa bayan</span>`;
-  const maps = `https://www.google.com/maps/dir/?api=1&destination=${r[7]},${r[8]}`;
-  $("#s-project").innerHTML = `
-    <button type="button" class="back" id="p-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Bumalik</button>
-    ${r.demo ? `<div class="demo-banner"><b>Halimbawa lang ito.</b> Hindi ito totoong proyekto. Ganito ang makikita mo kapag may ulat na ang bayan.</div>` : ""}
-    <div class="hero" id="p-hero">${hero}</div>
-    <div class="cat">${icon(cat)}${CAT_TL[cat] || cat}</div>
-    <h1 class="ptitle">${esc(r[16])}</h1>
-    <p class="small" style="margin:0">${r.demo ? "Halimbawang lugar" : `${bg ? "Malapit sa " + esc(bg) + ", " : ""}${esc(mun)}${r.dist != null ? " · " + km(r.dist) + " mula sa iyo" : ""}`}</p>
-    <div class="money"><b class="num">${pesoFull(r[4])}</b><span>pera ng bayan para rito (${esc(r[11])})</span></div>
-    <div class="vs">
-      <div><div class="lab">Sabi ng DPWH</div><div class="val" style="color:var(${STV[r[3]]})">${st.t}</div><div class="sub num">${r[5]}% tapos</div><div class="bar"><i style="width:${Math.min(100, r[5])}%;background:var(${STV[r[3]]})"></i></div></div>
-      <div id="p-people"><div class="lab">Sabi ng bayan</div><div class="val" style="color:var(--muted)">Wala pang nakasilip</div><div class="sub">Ikaw ang maging una</div></div>
-    </div>
-    <button type="button" class="flagline" id="flagline" data-ptab="ulat" hidden></button>
-    <div class="actions">
-      <button type="button" class="btn primary" id="p-report"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="3"/><circle cx="12" cy="13" r="3.5"/><path d="M8.5 6 10 4h4l1.5 2"/></svg>I-ulat</button>
-      ${r.demo ? `<p class="small" style="text-align:center;margin:0">Subukan ang I-ulat. Sa halimbawa, hindi ito ipapadala.</p>` : `<div class="row2">
-        <a class="btn soft" href="${maps}" target="_blank" rel="noopener">Puntahan</a>
-        <button type="button" class="btn soft" id="p-share">Ibahagi</button>
-      </div>`}
-    </div>
-    <div class="ptabs" role="tablist" aria-label="Tungkol sa proyekto">
-      <button type="button" role="tab" data-ptab="ulat" aria-selected="true">Mga ulat<span class="cnt" id="pt-rep" hidden></span></button>
-      <button type="button" role="tab" data-ptab="usapan" aria-selected="false">Usapan<span class="cnt" id="pt-talk" hidden></span></button>
-      <button type="button" role="tab" data-ptab="detalye" aria-selected="false">Detalye</button>
-    </div>
-    <section class="ppanel" id="pp-ulat" role="tabpanel">
-      <div id="why-slot">${why.length ? whyBox(why) : ""}</div>
-      <div id="p-reps"><p class="small">${DB || r.demo ? "Kinukuha…" : "Wala pang ulat."}</p></div>
-    </section>
-    <section class="ppanel" id="pp-usapan" role="tabpanel" hidden>
-      <p class="small" style="margin:0 0 8px">Magtanong, magbalita, makipag-ugnayan sa kapwa bantay.</p>
-      <div id="p-talk"></div>
-      <div class="composer">
-        <div id="reply-to" class="replying" hidden></div>
-        <textarea id="talk-in" maxlength="400" placeholder="Magsulat ng komento. Magalang at batay sa nakita."></textarea>
-        <button type="button" class="btn primary" id="talk-send">Ipadala</button>
-      </div>
-    </section>
-    <section class="ppanel" id="pp-detalye" role="tabpanel" hidden>
-      ${r.demo ? "" : `<div class="look" style="justify-content:flex-start;margin:0 0 4px"><a href="https://www.google.com/maps/@?api=1&map_action=map&center=${r[7]},${r[8]}&zoom=19&basemap=satellite" target="_blank" rel="noopener">Tingnan sa satellite</a><a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${r[7]},${r[8]}" target="_blank" rel="noopener">Street View</a></div>`}
-      <div id="p-more"></div>
-      <div class="box"><h3>Iba pang detalye</h3>
-        <dl class="kv">
-          <dt>Buong pangalan</dt><dd>${esc(r[1])}</dd>
-          <dt>Pondo</dt><dd>${esc(fundOf(r) || "—")}</dd>
-          <dt>Sinimulan</dt><dd>${ymd(r[9])}</dd>
-          <dt>Natapos</dt><dd>${r[10] ? ymd(r[10]) : "—"}</dd>
-          <dt>Contract ID</dt><dd>${esc(r[0])}</dd>
-        </dl>
-        ${r.demo ? "" : `<p class="small" style="margin:8px 0 0">Hanapin ang contract ID sa <a href="https://transparency.dpwh.gov.ph" target="_blank" rel="noopener" style="color:var(--accent)">transparency.dpwh.gov.ph</a> para sa kontrata.</p>`}
-      </div>
-    </section>`;
-  const showTab = name => {
-    $$("#s-project .ptabs [data-ptab]").forEach(b => b.setAttribute("aria-selected", b.dataset.ptab === name));
-    for (const n of ["ulat","usapan","detalye"]) $("#pp-" + n).hidden = n !== name;
-  };
-  $$("#s-project [data-ptab]").forEach(b => b.onclick = () => { showTab(b.dataset.ptab); if (b.id === "flagline") $(".ptabs").scrollIntoView({behavior:"smooth", block:"start"}); });
-  updateFlagline();
-  $("#p-back").onclick = back;
-  $("#p-report").onclick = () => startReport(r);
-  $("#p-share")?.addEventListener("click", () => share(r));
-  $("#talk-send").onclick = () => sendTalk(r);
-  go("project");
-  showMore(r);
-  if (r.demo) {
-    S.ok = new Map(r.demo.reports.map(x => [x.id, x.ok || 0]));
-    renderReports(r, r.demo.reports); renderTalk(r, r.demo.talk); return;
-  }
-  renderTalk(r, []);
-  if (!DB) return;
-  try { repUnsub = DB.collection("p/" + r[0] + "/r").orderBy("t","desc").limit(50).onSnapshot(s => renderReports(r, s.docs.map(x => ({id:x.id, ...x.data()}))), () => {}); } catch {}
-  try { okUnsub = DB.collection("p/" + r[0] + "/ok").limit(1000).onSnapshot(s => {
-    S.ok = new Map(); S.okMine = new Set();
-    for (const x of s.docs) { const v = x.data(); S.ok.set(v.rid, (S.ok.get(v.rid) || 0) + 1); if (myId && v.by === myId) S.okMine.add(v.rid); }
-    if (S.cur === r) renderReports(r, S.curDocs);
-  }, () => {}); } catch {}
-  try { talkUnsub = DB.collection("p/" + r[0] + "/c").orderBy("t","asc").limit(300).onSnapshot(s => renderTalk(r, s.docs.map(x => ({id:x.id, ...x.data()}))), () => {}); } catch {}
+function heart(m){ const s = new T.Shape(); s.moveTo(0, -0.3); s.bezierCurveTo(-0.5, 0.05, -0.32, 0.42, 0, 0.2); s.bezierCurveTo(0.32, 0.42, 0.5, 0.05, 0, -0.3); return extrude(s, 0.12, m, 0.03); }
+function playBtn(m, ink){ const g = new T.Group(); g.add(block(0.62, 0.44, 0.1, 0.12, m)); const s = new T.Shape(); s.moveTo(-0.08, -0.11); s.lineTo(0.13, 0); s.lineTo(-0.08, 0.11); s.closePath(); g.add(at(extrude(s, 0.04, ink, 0.01), 0.01, 0, 0.06)); return g; }
+function rain(n, box){
+  const pos = new Float32Array(n*6); const speed = new Float32Array(n);
+  for (let i = 0; i < n; i++){ const x = (Math.random()-0.5)*box[0], y = Math.random()*box[1], z = (Math.random()-0.5)*box[2]; pos.set([x, y, z, x - 0.03, y - 0.22, z], i*6); speed[i] = 4 + Math.random()*2; }
+  const geo = new T.BufferGeometry(); geo.setAttribute("position", new T.BufferAttribute(pos, 3));
+  const lines = new T.LineSegments(geo, new T.LineBasicMaterial({ color:0x8fb4cc, transparent:true, opacity:0.55 }));
+  lines.userData.tick = (t, dt) => { const p = geo.attributes.position.array; for (let i = 0; i < n; i++){ let y = p[i*6+1] - speed[i]*dt; if (y < 0) y += box[1]; p[i*6+1] = y; p[i*6+4] = y - 0.22; } geo.attributes.position.needsUpdate = true; };
+  return lines;
 }
-const DOCNAME = { ca:["Ang kontrata","Contract Agreement, may pirma ng DPWH at kontraktor"], noa:["Abiso ng pagkapanalo","Notice of Award"], ntp:["Utos na simulan ang trabaho","Notice to Proceed"], pow:["Plano ng trabaho","Program of Work"], ed:["Disenyo ng inhinyero","Engineering Design"] };
-const SNAP = "2025-11-26";
-const dcache = new Map();
-function loadDetails(psgc){ if (!dcache.has(psgc)) dcache.set(psgc, fetch("d/" + psgc + ".json").then(x => x.ok ? x.json() : null).catch(() => null)); return dcache.get(psgc); }
-const cleanName = n => String(n || "").replace(/\s*\(\d+\)\s*$/, "").replace(/\s*\(\d+\)\s*\//g, " /");
-async function showMore(r){
-  const box = $("#p-more"); if (!box) return;
-  let m;
-  if (r.demo) {
-    const e = r.demo.detail;
-    m = { winner:r.demo.contractor, office:r.demo.deo, ex:e.ex, overdue:!!e.overdue, a:e.a, w:e.w, bidders:e.bidders.map(([n, win]) => ({n, win})), docs:[], im:e.im, il:e.il };
-  } else {
-    const D = await loadDetails(S.prov.psgc); if (S.cur !== r) return;
-    const e = D?.x?.[r[0]] || {};
-    const url = c => { const x = /^(\d)\|(.*)$/.exec(c); return x ? D.pre[+x[1]] + x[2] : c; };
-    m = { winner: e.wi != null ? cleanName(D.names[e.wi]) : cleanName(conOf(r)), office:deoOf(r), ex:e.ex, overdue: r[3] === 1 && !!e.ex && e.ex < SNAP, a:e.a, w:e.w,
-          bidders:(e.b || []).map(i => ({n:cleanName(D.names[i]), win:i === e.wi})),
-          docs:Object.entries(e.docs || {}).sort((a,b) => Object.keys(DOCNAME).indexOf(a[0]) - Object.keys(DOCNAME).indexOf(b[0])).map(([k,c]) => [k, url(c)]),
-          plans: !!(e.docs?.pow || e.docs?.ed), im:e.im, il:e.il };
-    if (m.overdue) { const line = `Lampas na sa deadline ng kontrata (${ymd(m.ex)}) pero hindi pa tapos.`; const ul = $("#why-slot .why ul");
-      if (ul) ul.insertAdjacentHTML("beforeend", `<li>${esc(line)}</li>`); else $("#why-slot").innerHTML = whyBox([line]);
-      updateFlagline(); }
-  }
-  const pct = m.a && m.w ? Math.round(m.w / m.a * 1000) / 10 : null, nb = m.bidders.length;
-  const ext = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>`;
-  box.innerHTML = `
-    <div class="box"><h3>Sino ang may pananagutan</h3>
-      <dl class="who"><dt>Gumagawa</dt><dd>${esc(m.winner)}</dd><dt>Opisina ng DPWH</dt><dd>${esc(m.office)}</dd>${m.ex ? `<dt>Dapat tapos</dt><dd>${ymd(m.ex)}${m.overdue ? ` <span class="chip bad">lampas na</span>` : ""}</dd>` : ""}</dl>
-      ${m.a || m.w ? `<div class="compare2"><div><b class="num">${peso(m.a || r[4])}</b><span>budget na inaprubahan</span></div><div><b class="num">${peso(m.w || r[4])}</b><span>presyo ng nanalo${pct ? ` (${pct}%)` : ""}</span></div></div>` : ""}
-      ${nb ? `<p style="margin:14px 0 0;font-weight:700">${nb === 1 ? `Iisa lang ang nag-bid <span class="chip warn">walang kakumpitensya</span>` : `${nb} kumpanya ang nag-bid`}</p>
-        <ul class="bids">${m.bidders.map(b => `<li>${b.win ? `<b>${esc(b.n)}</b> · nanalo` : esc(b.n)}</li>`).join("")}</ul>` : ""}
-    </div>
-    ${r.demo ? `<div class="box"><h3>Mga pinirmahang dokumento</h3><p class="small" style="margin:0">Sa totoong proyekto, dito lalabas ang kontrata, Notice of Award at Notice to Proceed na may pirma ng DPWH at ng kontraktor.</p></div>`
-    : m.docs.length ? `<div class="box"><h3>Mga pinirmahang dokumento</h3><p class="small" style="margin:-4px 0 4px">Nakasulat dito kung sino ang pumirma para sa DPWH at sa kontraktor.</p>
-      ${m.docs.map(([k,u]) => `<a class="doc" href="${esc(u)}" target="_blank" rel="noopener"><span><b>${DOCNAME[k][0]}</b><small>${DOCNAME[k][1]} · PDF</small></span>${ext}</a>`).join("")}
-      ${!m.plans ? `<p class="small" style="margin:12px 0 0">Wala pang plano o disenyo ng inhinyero na naka-post para sa proyektong ito.</p>` : ""}</div>` : ""}
-    ${m.im ? `<div class="box"><h3>May ${m.im} litrato ang DPWH</h3><p class="small" style="margin:0">Huling kuha: ${ymd(m.il)}.${r.demo ? " Sa totoong proyekto, makikita ito sa DPWH Transparency Portal." : ` Makikita sa <a href="https://transparency.dpwh.gov.ph" target="_blank" rel="noopener" style="color:var(--accent);font-weight:700">DPWH Transparency Portal</a>; hanapin ang ${esc(r[0])}.`} Ihambing sa kuha ng bayan.</p></div>`
-      : `<div class="box"><h3>Walang litrato ang DPWH</h3><p class="small" style="margin:0">Walang naka-post na litrato ang DPWH para sa proyektong ito. Kaya mahalaga ang kuha mo.</p></div>`}`;
-}
-async function share(r){
-  if (r.demo) { toast("Halimbawa lang ito. Subukan sa totoong proyekto malapit sa iyo."); return; }
-  const txt = `📍 ${r[16]} (${munOf(r)}, ${S.prov.name})\n\nAyon sa DPWH:\n• ${pesoFull(r[4])}\n• Kontraktor: ${cleanName(conOf(r))}\n• Status: ${STATUS[r[3]]}, ${r[5]}%\n• Contract ID: ${r[0]}\n\nTotoo ba? Silipin natin. #Tanaw #BantayProyekto`;
-  try { await navigator.clipboard.writeText(txt); toast("Nakopya! I-paste sa post mo."); }
-  catch { toast("Hindi makopya dito. Pindutin nang matagal ang text para kopyahin."); }
-}
-async function nameMap(list){
-  const names = {};
-  try { const ids = [...new Set(list.map(x => x.by).filter(Boolean))]; if (USER && ids.length) { const ps = await USER.profiles(ids); for (const k in ps) names[k] = ps[k]?.name || ""; } } catch {}
-  return x => x.byName || names[x.by] || (x.by && x.by === myId ? "Ikaw" : "Isang bantay");
-}
-async function renderReports(r, docs){
-  if (S.cur !== r) return;
-  S.curDocs = docs;
-  const box = $("#p-reps"); if (!box) return;
-  { const c = $("#pt-rep"); if (c) { c.hidden = !docs.length; c.textContent = docs.length; } }
-  if (!docs.length) { box.innerHTML = `<p class="small">Wala pang ulat. Ang unang litrato ang pinakamahalaga.</p>`; return; }
-  const withPhoto = docs.find(x => x.photos?.length);
-  if (withPhoto && !r.demo) $("#p-hero").innerHTML = `<img src="${esc(photo(withPhoto.photos[0]))}" alt="Litrato ng proyekto mula sa bantay"><span class="hero-cap">Kuha ng bantay · ${ago(withPhoto.t)} na</span>`;
-  const last = SEEN[docs[0].seen] || {};
-  const confirms = docs.reduce((n, x) => n + (S.ok.get(x.id) || 0), 0);
-  $("#p-people").innerHTML = `<div class="lab">Sabi ng bayan</div><div class="val" style="color:var(--${last.c||"ink"})">${esc(last.t||"—")}</div><div class="sub">${docs.length} ulat${confirms ? ` · ${confirms} kumpirmasyon` : ""} · huli ${ago(docs[0].t)} na</div>`;
-  const who = await nameMap(docs);
-  box.innerHTML = docs.map(x => { const s = SEEN[x.seen] || {}; const chips = [...(x.chips || [])];
-    if (x.videos?.length) chips.unshift("May video");
-    if (x.photos?.length) chips.unshift(x.distM == null ? "Walang lokasyon sa litrato" : x.distM <= 300 ? `Kinunan sa mismong lugar` : `Kinunan ${km(x.distM)} mula sa pin`);
-    const n = S.ok.get(x.id) || 0, mine = S.okMine.has(x.id);
-    return `<article class="rep"><div class="rep-top"><span class="who-line"><span class="avatar">${esc(who(x).slice(0,1).toUpperCase())}</span>${esc(who(x))}</span><span>${ago(x.t)} na</span></div>
-      <div class="rep-v" style="color:var(--${s.c||"ink"})">${esc(s.t || "Ulat")}</div>
-      ${mediaHTML(x)}
-      ${x.note ? `<p>${esc(x.note)}</p>` : ""}
-      ${chips.length ? `<div class="chips">${chips.map(c => `<span class="chip neutral">${esc(c)}</span>`).join("")}</div>` : ""}
-      <button type="button" class="seen-too" data-rid="${esc(x.id)}" aria-pressed="${mine}">${EYE}Nakita ko rin${n ? ` · ${n}` : ""}</button></article>`; }).join("");
-  box.querySelectorAll(".seen-too").forEach(b => b.onclick = () => confirmSeen(r, b.dataset.rid));
-}
-function mediaHTML(x){
-  const items = [
-    ...(x.videos || []).map(v => { const src = x.demo ? v.src : photo(v), poster = x.demo ? v.poster : ""; return `<video class="vid" src="${esc(src)}"${poster ? ` poster="${esc(poster)}"` : ""} controls playsinline preload="metadata"></video>`; }),
-    ...(x.photos || []).map(p => `<img src="${esc(imgSrc(x, p))}" alt="Litrato mula sa bantay" loading="lazy">`) ];
-  return items.length ? `<div class="photos">${items.join("")}</div>` : "";
-}
-async function confirmSeen(r, rid){
-  if (r.demo) {
-    const mine = S.okMine.has(rid); S.okMine[mine ? "delete" : "add"](rid); S.ok.set(rid, (S.ok.get(rid) || 0) + (mine ? -1 : 1));
-    renderReports(r, S.curDocs); if (!mine) toast("Halimbawa lang: hindi ito naitala."); return;
-  }
-  if (!DB || !myId) { toast("Mag-sign in para makapag-kumpirma."); return; }
-  const ref = DB.doc("p/" + r[0] + "/ok/" + rid + "_" + myId);
-  try { if (S.okMine.has(rid)) await ref.delete(); else { await ref.set({ rid, by:myId, t:Date.now() }); toast("Salamat! Naitala na nakita mo rin ito."); } }
-  catch { toast("Hindi naitala. Subukang muli."); }
-}
-async function renderTalk(r, list){
-  if (S.cur !== r) return;
-  S.talk = list;
-  const el = $("#p-talk"); if (!el) return;
-  { const c = $("#pt-talk"); if (c) { c.hidden = !list.length; c.textContent = list.length; } }
-  if (!list.length) { el.innerHTML = `<p class="small" style="margin:0 0 10px">Wala pang usapan. Ikaw ang magsimula.</p>`; return; }
-  const who = await nameMap(list);
-  const top = list.filter(x => !x.re), kids = id => list.filter(x => x.re === id);
-  const one = (x, reply) => `<div class="msg-item${reply ? " reply" : ""}"><span class="avatar">${esc(who(x).slice(0,1).toUpperCase())}</span><div><div class="msg-meta"><b>${esc(who(x))}</b> · ${ago(x.t)}${x.t > Date.now() - 60000 ? "" : " na"}</div><p>${esc(x.text)}</p>${reply ? "" : `<button type="button" class="linkbtn" data-reply="${esc(x.id)}">Sumagot</button>`}</div></div>`;
-  el.innerHTML = top.map(x => one(x, false) + kids(x.id).map(k => one(k, true)).join("")).join("");
-  el.querySelectorAll("[data-reply]").forEach(b => b.onclick = () => {
-    const x = list.find(v => v.id === b.dataset.reply); S.replyTo = x.id;
-    const rt = $("#reply-to"); rt.hidden = false; rt.innerHTML = `Sumasagot kay <b>${esc(who(x))}</b> <button type="button" class="linkbtn" id="cancel-reply">Kanselahin</button>`;
-    $("#cancel-reply").onclick = () => { S.replyTo = null; rt.hidden = true; };
-    $("#talk-in").focus();
+
+/* phone screens */
+function appScreen(){
+  return canvasTex(540, 1104, (x, W, H) => {
+    x.fillStyle = "#ffffff"; x.fillRect(0, 0, W, H);
+    x.fillStyle = "#151513"; x.font = F(700, 20); x.fillText("9:41", 34, 46);
+    rr(x, 30, 76, 250, 44, 22); x.fillStyle = "#f4f4f0"; x.fill(); x.fillStyle = "#151513"; x.font = F(600, 19); x.fillText("📍 Anilao, Malolos", 48, 105);
+    x.font = F(800, 38); x.fillText("Mga proyekto", 30, 178); x.fillText("malapit sa iyo", 30, 222);
+    x.fillStyle = "#6c6c66"; x.font = F(400, 19); x.fillText("396 proyekto · ₱12.4 bilyon", 30, 260);
+    rr(x, 30, 290, W - 60, 330, 30); x.fillStyle = "#151513"; x.fill();
+    x.fillStyle = "#2c2c29"; rr(x, 46, 306, W - 92, 120, 18); x.fill();
+    x.fillStyle = "#ff5a1f"; x.font = F(800, 16); x.fillText("KAILANGAN NG MATA MO", 52, 456);
+    x.fillStyle = "#ffffff"; x.font = F(800, 28); x.fillText("Flood Control na Pader", 52, 494); x.fillText("sa Sapa", 52, 528);
+    x.fillStyle = "#b9b9b2"; x.font = F(500, 18); x.fillText("450 m · ₱96.5M · Sabi ng DPWH: tapos na", 52, 562);
+    rr(x, 52, 578, W - 104, 30, 10); x.fillStyle = "#ff5a1f"; x.fill(); x.fillStyle = "#fff"; x.font = F(800, 17); x.textAlign = "center"; x.fillText("Silipin", W/2, 599); x.textAlign = "left";
+    const rows = [["Riverbank Protection", "620 m · Ginagawa pa", "#2c62e0"], ["Pagpapalapad ng Kalsada", "1.1 km · Tapos na", "#11915a"], ["Multi-Purpose Building", "1.4 km · Tapos na", "#11915a"], ["Drainage Canal", "1.9 km · Itinigil", "#d92d2d"]];
+    rows.forEach((r, i) => { const y = 660 + i*104; rr(x, 30, y, 70, 70, 18); x.fillStyle = "#f4f4f0"; x.fill(); x.fillStyle = r[2]; x.beginPath(); x.arc(65, y + 35, 12, 0, 7); x.fill();
+      x.fillStyle = "#151513"; x.font = F(700, 21); x.fillText(r[0], 118, y + 30); x.fillStyle = "#6c6c66"; x.font = F(500, 18); x.fillText(r[1], 118, y + 58); });
+    x.fillStyle = "#ebebe5"; x.fillRect(0, H - 96, W, 2);
+    ["Malapit", "Mga ulat", "Ako"].forEach((t, i) => { x.fillStyle = i ? "#6c6c66" : "#151513"; x.font = F(700, 18); x.textAlign = "center"; x.fillText(t, W*(i*2+1)/6, H - 42); }); x.textAlign = "left";
   });
 }
-async function sendTalk(r){
-  const inp = $("#talk-in"), text = inp.value.trim();
-  if (!text) { inp.focus(); return; }
-  const item = { text, re:S.replyTo || null, t:Date.now() };
-  if (r.demo) {
-    r.demo.talk.push({ ...item, id:"local" + Date.now(), demo:true, byName:"Ikaw" });
-    inp.value = ""; S.replyTo = null; $("#reply-to").hidden = true; renderTalk(r, r.demo.talk); toast("Halimbawa lang: hindi ito naipadala."); return;
-  }
-  if (!DB || !myId) { toast("Mag-sign in para makasali sa usapan."); return; }
-  const btn = $("#talk-send"); btn.disabled = true;
-  try {
-    const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-    await DB.doc("p/" + r[0] + "/c/" + id).set({ ...item, by:myId });
-    inp.value = ""; S.replyTo = null; $("#reply-to").hidden = true;
-  } catch (ex) { toast(ex?.code === "invalid_argument" ? "Wala kang access na mag-komento dito." : "Hindi naipadala. Subukang muli."); }
-  btn.disabled = false;
+function cameraScreen(){
+  return canvasTex(540, 1104, (x, W, H) => {
+    const g = x.createLinearGradient(0, 0, 0, H); g.addColorStop(0, "#c9dbe6"); g.addColorStop(0.55, "#cbbf9f"); g.addColorStop(1, "#8c7b5b"); x.fillStyle = g; x.fillRect(0, 0, W, H);
+    x.fillStyle = "#6fa1c0"; x.fillRect(0, 560, W, 120);
+    x.strokeStyle = "#4b4b48"; x.lineWidth = 5; for (let i = 0; i < 12; i++){ const X = 40 + i*42; x.beginPath(); x.moveTo(X, 760); x.lineTo(X + (i%2 ? 10 : -6), 600); x.stroke(); }
+    x.strokeStyle = "rgba(255,255,255,.7)"; x.lineWidth = 3; x.strokeRect(70, 300, W - 140, 520);
+    x.fillStyle = "rgba(0,0,0,.45)"; rr(x, 30, 40, W - 60, 60, 30); x.fill(); x.fillStyle = "#fff"; x.font = F(700, 20); x.textAlign = "center"; x.fillText("📍 30 m mula sa pin · Kinunan sa lugar", W/2, 78);
+    x.fillStyle = "rgba(0,0,0,.55)"; x.fillRect(0, H - 220, W, 220);
+    x.beginPath(); x.arc(W/2, H - 110, 54, 0, 7); x.fillStyle = "#fff"; x.fill(); x.beginPath(); x.arc(W/2, H - 110, 44, 0, 7); x.fillStyle = "#ff5a1f"; x.fill();
+    x.fillStyle = "#fff"; x.font = F(700, 18); x.fillText("LITRATO      VIDEO", W/2, H - 196);
+  });
 }
 
-/* ---------- 6. report wizard ---------- */
-let W = null;
-async function startReport(r){
-  await caps;
-  W = { r, step:0, photos:[], seen:null, chips:new Set(), note:"", agree:false, demo:false };
-  renderWiz(); go("report");
-}
-function wizTop(){ return `<div class="wiz-top"><button type="button" class="back" id="w-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button><div class="prog">${[0,1,2,3].map(i => `<i class="${i <= W.step ? "on" : ""}"></i>`).join("")}</div><span class="small num">${W.step+1}/4</span></div>`; }
-function renderWiz(){
-  const el = $("#s-report"), r = W.r, d = S.data;
-  if (W.step === 0) {
-    el.innerHTML = wizTop() + `<h1 class="q">Kunan ng litrato o video</h1><p class="qsub">Kunan mula sa kalsada. Puwedeng litrato o maikling video (hanggang 30 segundo). Mas mabuti kung naka-on ang location ng camera.</p>
-      ${ASSETS ? `<input id="w-file" type="file" accept="image/*,video/*" multiple hidden>
-      ${W.photos.length ? `<div class="shots">${W.photos.map((p,i) => `<div class="shot">${p.kind === "video" ? `<video src="${p.url}" muted playsinline preload="metadata"></video><span class="vbadge">▶ Video</span>` : `<img src="${p.url}" alt="Litrato ${i+1}">`}<button type="button" data-rm="${i}" aria-label="Alisin">✕</button><small style="color:var(--${p.dist == null ? "muted" : p.dist <= 300 ? "good" : "warn"})">${p.kind === "video" ? "Video" : p.dist == null ? "Walang lokasyon" : p.dist <= 300 ? "✓ Nasa lugar mismo" : km(p.dist) + " mula sa pin"}</small></div>`).join("")}${W.photos.length < 4 ? `<label class="addshot" for="w-file">+ Dagdag</label>` : ""}</div>`
-        : `<label class="camera" for="w-file"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="3"/><circle cx="12" cy="13" r="3.5"/><path d="M8.5 6 10 4h4l1.5 2"/></svg>Kumuha ng litrato o video</label>`}`
-      : `<div class="notice">Sa preview na ito, ang mga may access lang ang makakapag-upload ng litrato. Puwede ka pa ring mag-ulat nang walang litrato.</div>`}
-      <div class="wiz-foot"><button type="button" class="btn primary" id="w-next" ${W.photos.length ? "" : "hidden"}>Susunod</button><button type="button" class="btn ghost" id="w-skip" ${W.photos.length ? "hidden" : ""}>Wala akong litrato ngayon</button></div>`;
-    $("#w-file")?.addEventListener("change", addPhotos);
-    el.querySelectorAll("[data-rm]").forEach(b => b.onclick = () => { URL.revokeObjectURL(W.photos[+b.dataset.rm].url); W.photos.splice(+b.dataset.rm, 1); renderWiz(); });
-    $("#w-next")?.addEventListener("click", () => { W.step = 1; renderWiz(); });
-    $("#w-skip")?.addEventListener("click", () => { W.step = 1; renderWiz(); });
-  } else if (W.step === 1) {
-    el.innerHTML = wizTop() + `<h1 class="q">Ano ang nakita mo?</h1><p class="qsub">Pumili ng isa.</p>
-      <div class="opts">${Object.entries(SEEN).map(([k,v]) => `<button type="button" class="opt" data-seen="${k}" aria-pressed="${W.seen === k}"><span class="ico" style="color:var(--${v.c})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${v.i}</svg></span><span><b>${v.t}</b><span>${v.d}</span></span></button>`).join("")}</div>`;
-    el.querySelectorAll("[data-seen]").forEach(b => b.onclick = () => { W.seen = b.dataset.seen; renderWiz(); setTimeout(() => { W.step = 2; renderWiz(); }, 180); });
-  } else if (W.step === 2) {
-    el.innerHTML = wizTop() + `<h1 class="q">May napansin ka pa?</h1><p class="qsub">Pindutin lahat ng totoo. Puwedeng wala.</p>
-      <div class="tagchips">${NOTICED.map(t => `<button type="button" class="tc" data-c="${esc(t)}" aria-pressed="${W.chips.has(t)}">${esc(t)}</button>`).join("")}</div>
-      <textarea id="w-note" maxlength="500" placeholder="Iba pang nakita mo (hindi kailangan). Hal.: 'Mga 20 metro lang ang pader, sabi ng mga taga-rito tumigil ito noong Hunyo.'">${esc(W.note)}</textarea>
-      <div class="wiz-foot"><button type="button" class="btn primary" id="w-next">Susunod</button></div>`;
-    el.querySelectorAll("[data-c]").forEach(b => b.onclick = () => { const c = b.dataset.c; W.chips.has(c) ? W.chips.delete(c) : W.chips.add(c); b.setAttribute("aria-pressed", W.chips.has(c)); });
-    $("#w-note").oninput = e => W.note = e.target.value;
-    $("#w-next").onclick = () => { W.step = 3; renderWiz(); };
-  } else if (W.step === 3) {
-    const s = SEEN[W.seen];
-    el.innerHTML = wizTop() + `<h1 class="q">I-post na?</h1><p class="qsub">Makikita ito ng lahat, at naka-tag ang DPWH ${esc(deoOf(r))} at ang LGU ng ${esc(munOf(r))}.</p>
-      <div class="review"><span class="small">${esc(r[16])}</span><b style="color:var(--${s.c})">${s.t}</b>
-        <span>${(() => { const v = W.photos.filter(p => p.kind === "video").length, ph = W.photos.length - v; return [ph ? ph + " litrato" : "", v ? v + " video" : ""].filter(Boolean).join(" at ") || "Walang litrato o video"; })()}${W.chips.size ? " · " + [...W.chips].map(esc).join(", ") : ""}</span>
-        ${W.note ? `<span>"${esc(W.note)}"</span>` : ""}</div>
-      <label class="consent"><input type="checkbox" id="w-agree" ${W.agree ? "checked" : ""}><span>Totoo ang ulat ko, at walang malinaw na mukha ng tao o plaka sa litrato.</span></label>
-      <div id="w-err"></div>
-      <div class="wiz-foot"><button type="button" class="btn primary" id="w-post" ${W.agree ? "" : "disabled"}>I-post ang ulat</button></div>`;
-    $("#w-agree").onchange = e => { W.agree = e.target.checked; $("#w-post").disabled = !W.agree; };
-    $("#w-post").onclick = submit;
-  } else {
-    el.innerHTML = `<div class="center done"><div class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg></div>
-      <h1 class="big">Salamat, bantay!</h1><p class="lead">${W.nth === 1 ? "Ikaw ang kauna-unahang sumilip sa proyektong ito." : `Ikaw ang ika-${W.nth} na sumilip dito.`} ${W.demo ? "Halimbawa lang ito, kaya hindi naipadala. Sa totoong proyekto, makikita na ito ng lahat." : "Makikita na ito ng lahat."}</p>
-      <div class="actions"><button type="button" class="btn primary" id="w-share">Ibahagi sa Facebook o TikTok</button><button type="button" class="btn soft" id="w-done">Bumalik sa proyekto</button></div></div>`;
-    $("#w-share").onclick = () => share(r);
-    $("#w-done").onclick = () => { history = ["home"]; openProject(r[0]); history = ["home"]; };
-    return;
-  }
-  $("#w-back").onclick = () => { if (W.step === 0) back(); else { W.step--; renderWiz(); } };
-}
-async function addPhotos(e){
-  const r = W.r;
-  for (const f of [...e.target.files].slice(0, 4 - W.photos.length)) {
-    if (f.type.startsWith("video/")) {
-      if (f.size > 20 * 1024 * 1024) { toast("Masyadong malaki ang video. Hanggang 20 MB, mga 30 segundo."); continue; }
-      W.photos.push({ kind:"video", blob:f, type:f.type || "video/mp4", url:URL.createObjectURL(f), dist:null }); continue;
+/* ===================== scenes ===================== */
+const SCENES = {
+  cover(M){
+    const g = new T.Group();
+    const hill = sph(2.6, M.grass); hill.scale.set(1.3, 0.35, 1); g.add(at(hill, 0, -0.55, 0));
+    const s = sun(1.15); g.add(at(s, 0.3, 2.35, -3.2)); g.userData.sun = s;
+    const p = walker({ woman:true, skin:2, hair:0, top:M.p, pants:true, bottom:0, step:0.05, phone:true, glow:true }, M); p.rotation.y = Math.PI*0.86; g.add(at(p, -0.2, 0.32, 0.5, 0, Math.PI*0.86));
+    const kid = walker({ skin:3, hair:1, top:M.a, bottom:1, step:0.1 }, M); kid.scale.setScalar(0.72); g.add(at(kid, 0.35, 0.3, 0.75, 0, Math.PI*1.1));
+    g.add(at(house(0.7, 0.45, 0.6, M.w, M.p), -1.9, 0.12, -0.6, 0, 0.3)); g.add(at(house(0.55, 0.38, 0.5, M.peach, M.c), 1.8, 0.1, -0.4, 0, -0.4));
+    g.add(at(banana(M, 0.9), -2.6, 0.05, 0.2)); g.add(at(tree(M, 1.1), 2.5, 0.0, 0.3));
+    const mark = pin(M.p, 0.75, M.w); g.add(floaty(at(mark, 1.25, 1.1, 0.4), 0.12)); mark.userData.spin = 0.6;
+    g.userData.tick = (t) => { s.position.y = 2.35 + Math.sin(t*0.4)*0.05; s.userData.rays.rotation.z += 0.002; };
+    return g;
+  },
+  flood(M){
+    const g = new T.Group();
+    g.add(at(block(5.4, 0.25, 3.2, 0.06, M.mud), 0, -0.12, 0));
+    const store = new T.Group(); store.add(at(block(1.7, 1.1, 1.1, 0.04, M.peach), 0, 0.55, 0));
+    const awn = new T.Group(); for (let i = 0; i < 6; i++) awn.add(at(block(0.3, 0.05, 0.55, 0.01, i % 2 ? M.w : M.p), -0.75 + i*0.3, 0, 0)); awn.rotation.x = 0.35; store.add(at(awn, 0, 1.05, 0.7));
+    store.add(at(sign([{ t:"SARI-SARI STORE", s:120, w:800, c:"#ffffff" }], 1.5, 0.22, { bg:"#d92d2d", pad:20 }), 0, 1.25, 0.56));
+    store.add(at(block(1.2, 0.5, 0.05, 0.02, M.wood), 0, 0.5, 0.56));
+    for (let i = 0; i < 5; i++) store.add(at(cyl(0.05, 0.05, 0.12, [M.a, M.p, M.blue, M.mint, M.coral][i], 12), -0.45 + i*0.22, 0.81, 0.62));
+    g.add(at(store, -0.55, 0, -0.3));
+    const nena = walker({ woman:true, skin:1, hair:3, top:M.lav, step:0.05 }, M); g.add(at(nena, 0.75, 0, 0.55, 0, -0.35));
+    g.add(at(banana(M), 1.9, 0, -0.6));
+    const water = mesh(new T.BoxGeometry(5.6, 0.4, 3.4), M.water); water.receiveShadow = true; g.add(at(water, 0, -0.1, 0));
+    const debris = [cyl(0.06, 0.06, 0.3, M.wood, 10), block(0.2, 0.06, 0.14, 0.02, M.coral), cyl(0.05, 0.05, 0.16, M.blue, 10)];
+    debris.forEach((d, i) => { d.rotation.z = Math.PI/2; g.add(at(d, -1.6 + i*1.4, 0.15, 1.1 - i*0.2, 0, i, Math.PI/2)); });
+    const r = rain(260, [4.2, 3.6, 2.6]); g.add(r);
+    g.userData.tick = (t, dt) => { const lvl = 0.08 + (Math.sin(t*0.5)*0.5 + 0.5)*0.22; water.position.y = -0.1 + lvl; debris.forEach((d, i) => { d.position.y = water.position.y + 0.22; d.position.x += Math.sin(t + i)*0.0015; }); r.userData.tick(t, dt); };
+    return g;
+  },
+  claim(M){
+    const g = new T.Group();
+    g.add(at(block(5.2, 0.22, 3, 0.05, M.mud), 0, -0.11, 0));
+    g.add(at(block(5.2, 0.06, 1.1, 0.02, M.water), 0, 0.02, 1.1));
+    for (let i = 0; i < 9; i++) g.add(at(cyl(0.018, 0.018, 0.55 + (i%3)*0.12, M.steel, 8), -1.9 + i*0.48, 0.28, 0.45, 0.12*(i%2 ? 1 : -1), 0, 0.1*(i%3-1)));
+    const ghost = block(4.2, 1.0, 0.25, 0.04, M.ghost); ghost.castShadow = false; g.add(floaty(at(ghost, 0, 0.75, 0.45), 0.06));
+    const edge = new T.LineSegments(new T.EdgesGeometry(new T.BoxGeometry(4.2, 1.0, 0.25)), new T.LineDashedMaterial({ color:0x9a9a92, dashSize:0.08, gapSize:0.06 })); edge.computeLineDistances(); ghost.add(edge);
+    const board = new T.Group();
+    board.add(at(cyl(0.05, 0.05, 2.2, M.steel, 12), -0.9, 1.1, 0)); board.add(at(cyl(0.05, 0.05, 2.2, M.steel, 12), 0.9, 1.1, 0));
+    board.add(at(block(2.3, 1.25, 0.06, 0.03, M.w), 0, 1.75, 0.03));
+    board.add(at(sign([{ t:"PROYEKTO NG BAYAN", s:56, w:800, c:"#ffffff", gap:1.7 }, { t:"FLOOD CONTROL WALL", s:70, w:800, gap:1.35 }, { t:"₱96,500,000", s:110, w:800, c:"#151513" }, { t:"STATUS: 100% TAPOS", s:74, w:800, c:"#11915a" }], 2.2, 1.17, { band:"#151513", pad:20 }), 0, 1.75, 0.065));
+    g.add(at(board, 1.15, 0, -0.75, 0, -0.25));
+    const nena = walker({ woman:true, skin:1, hair:3, top:M.lav, step:0.05 }, M); g.add(at(nena, -1.4, 0, -0.5, 0, 0.5));
+    return g;
+  },
+  numbers(M){
+    const g = new T.Group();
+    g.add(at(block(5, 0.18, 3.4, 0.08, M.l), 0, -0.09, 0));
+    const pins = [];
+    for (let i = 0; i < 7; i++) for (let j = 0; j < 4; j++){
+      const flagged = (i*3 + j*5) % 7 === 0 || (i === 3 && j === 1);
+      const p = pin(flagged ? M.p : M.s, flagged ? 0.36 : 0.26); g.add(at(p, -1.95 + i*0.65, 0, -1.1 + j*0.72));
+      if (flagged) { floaty(p, 0.1, i + j); pins.push(p); }
     }
-    try {
-      let gps = null, taken = null;
-      try { if (window.exifr) { const g = await exifr.gps(f); if (g && isFinite(g.latitude)) gps = g; const m = await exifr.parse(f, ["DateTimeOriginal"]); taken = m?.DateTimeOriginal ? new Date(m.DateTimeOriginal).getTime() : null; } } catch {}
-      const blob = await shrink(f);
-      W.photos.push({ blob, url:URL.createObjectURL(blob), taken, dist: gps && r[7] != null ? Math.round(hav(gps.latitude, gps.longitude, r[7], r[8])) : null });
-    } catch { toast("Hindi mabasa ang litrato. Subukan ulit."); }
+    const stack = new T.Group(); for (let i = 0; i < 5; i++) stack.add(at(coin(M, 0.75), 0, 0.06 + i*0.07, 0)); g.add(at(stack, 2.05, 0, 1.25));
+    const flying = []; for (let i = 0; i < 4; i++){ const c = coin(M, 0.55); c.traverse(o => { if (o.material) { o.material = o.material.clone(); o.material.transparent = true; } }); g.add(c); flying.push(c); }
+    g.userData.tick = (t) => flying.forEach((c, i) => { const k = (t*0.25 + i/4) % 1; c.position.set(2.05 + Math.sin(k*6 + i)*0.25, 0.5 + k*2.6, 1.25 - k*0.6); c.rotation.set(k*4, k*6, 0); c.traverse(o => { if (o.material) o.material.opacity = 1 - k; }); });
+    return g;
+  },
+  silent(M){
+    const g = new T.Group();
+    g.add(at(block(5.6, 0.16, 2.6, 0.06, M.road), 0, -0.08, 0));
+    for (let i = 0; i < 6; i++) g.add(at(block(0.45, 0.01, 0.08, 0.01, M.w), -2.3 + i*0.92, 0.005, 0));
+    const ped = new T.Group(); ped.add(at(cyl(0.45, 0.5, 0.25, M.l), 0, 0.12, 0)); ped.add(at(pin(M.p, 0.55, M.w), 0, 0.25, 0)); g.add(at(ped, 0.3, 0, -1.0));
+    const people = crowd(6, M, 3);
+    people.forEach((p, i) => { p.userData.lane = i % 2 ? 0.45 : -0.35; p.userData.off = i/6; p.rotation.y = i % 2 ? -Math.PI/2 : Math.PI/2; p.userData.dir = i % 2 ? -1 : 1; g.add(p); });
+    const stopper = walker({ woman:true, skin:2, hair:0, top:M.a, step:0.02 }, M); g.add(at(stopper, -0.5, 0, -0.55, 0, Math.PI*0.95)); stopper.userData.head.rotation.y = 0.5;
+    g.userData.tick = (t) => people.forEach(p => { const k = ((t*0.07 + p.userData.off) % 1); const x = p.userData.dir > 0 ? -2.8 + k*5.6 : 2.8 - k*5.6; p.position.set(x, Math.abs(Math.sin(t*6 + p.userData.off*9))*0.03, p.userData.lane); p.userData.legs.forEach((l, j) => l.rotation.x = Math.sin(t*6 + p.userData.off*9 + j*Math.PI)*0.35); p.userData.arms.forEach((a, j) => a.rotation.x = -Math.sin(t*6 + p.userData.off*9 + j*Math.PI)*0.3); });
+    return g;
+  },
+  app(M){
+    const g = new T.Group();
+    g.add(at(cyl(1.6, 1.7, 0.16, M.l, 64), 0, 0.08, 0));
+    const ph = phone(M, appScreen(), 1.25, 2.55); g.add(floaty(at(ph, 0, 1.6, 0.1, -0.08, -0.18, 0.02), 0.06));
+    const c1 = new T.Group(); c1.add(block(1.5, 0.62, 0.08, 0.14, M.w)); c1.add(at(sign([{ t:"SABI NG DPWH", s:60, w:800, c:"#6c6c66" }, { t:"Tapos na · 100%", s:110, w:800, c:"#11915a" }], 1.4, 0.56, { pad:30 }), 0, 0, 0.045)); g.add(floaty(at(c1, -1.75, 2.05, 0.35, 0, 0.3, 0), 0.08, 1));
+    const c2 = new T.Group(); c2.add(block(1.5, 0.62, 0.08, 0.14, M.w)); c2.add(at(sign([{ t:"SABI NG BAYAN", s:60, w:800, c:"#6c6c66" }, { t:"Walang proyekto", s:110, w:800, c:"#d92d2d" }], 1.4, 0.56, { pad:30 }), 0, 0, 0.045)); g.add(floaty(at(c2, 1.8, 1.35, 0.35, 0, -0.3, 0), 0.08, 2.4));
+    g.add(floaty(at(pin(M.p, 0.45, M.w), 1.55, 2.25, -0.4), 0.1, 0.5));
+    return g;
+  },
+  find(M){
+    const g = new T.Group();
+    g.add(at(block(5.2, 0.2, 3.4, 0.1, M.grass), 0, -0.1, 0));
+    const river = new T.Shape(); river.moveTo(-2.6, 0.4); river.bezierCurveTo(-1, 1.1, 0.3, -0.6, 2.6, 0.2); river.lineTo(2.6, -0.3); river.bezierCurveTo(0.3, -1.1, -1, 0.6, -2.6, -0.1); river.closePath();
+    const rv = mesh(new T.ShapeGeometry(river), M.water); rv.rotation.x = -Math.PI/2; rv.position.y = 0.012; g.add(rv);
+    [[-1.8, -0.9, M.w, M.p], [-1.1, -1.2, M.peach, M.c], [0.8, 1.0, M.w, M.blue], [1.6, 0.9, M.mint, M.p], [-0.3, 1.25, M.peach, M.c], [2.1, -1.1, M.w, M.c]].forEach(([x, z, w, r]) => g.add(at(house(0.42, 0.3, 0.38, w, r), x, 0, z, 0, x*0.3)));
+    [[-2.3, 1.2], [0.2, -1.3], [2.3, 1.3], [1.2, -1.3]].forEach(([x, z]) => g.add(at(tree(M, 0.7), x, 0, z)));
+    const p = pin(M.p, 0.6, M.w); g.add(floaty(at(p, 0.15, 0.1, 0.05), 0.12));
+    const ring = tor(0.5, 0.02, M.p); ring.rotation.x = Math.PI/2; g.add(at(ring, 0.15, 0.03, 0.05, Math.PI/2));
+    const home = pin(M.c, 0.32, M.w); g.add(at(home, -1.5, 0, 0.9));
+    const dash = []; for (let i = 0; i < 8; i++){ const d = sph(0.035, M.c); g.add(d); dash.push(d); }
+    dash.forEach((d, i) => { const k = (i+1)/9; d.position.set(-1.5 + k*1.65, 0.06, 0.9 - k*0.85); });
+    const tag = new T.Group(); tag.add(block(0.9, 0.36, 0.06, 0.15, M.c)); tag.add(at(sign([{ t:"450 m", s:200, w:800, c:"#ffffff" }], 0.8, 0.3, { bg:"#151513", pad:30 }), 0, 0, 0.035)); g.add(floaty(at(tag, -0.75, 1.15, 0.6), 0.06, 1.3));
+    const ph = phone(M, appScreen(), 0.85, 1.74); g.add(at(ph, 2.0, 0.95, 1.3, -0.1, -0.5, 0));
+    g.userData.tick = (t) => { const k = (t*0.6) % 1; ring.scale.setScalar(0.6 + k*1.6); ring.material.opacity = 1 - k; };
+    ring.material = ring.material.clone(); ring.material.transparent = true;
+    return g;
+  },
+  jun(M){
+    const g = new T.Group();
+    g.add(at(block(5.6, 0.18, 3.2, 0.06, M.road), 0, -0.09, 0.2));
+    g.add(at(block(5.6, 0.1, 1.0, 0.04, M.mud), 0, 0.0, -1.2)); g.add(at(block(5.6, 0.05, 0.6, 0.02, M.water), 0, 0.02, -1.9));
+    for (let i = 0; i < 10; i++) g.add(at(cyl(0.016, 0.016, 0.5 + (i%3)*0.1, M.steel, 8), -2.2 + i*0.48, 0.3, -1.25, 0.15*(i%2 ? 1 : -1), 0, 0.1*(i%3-1)));
+    const tri = new T.Group();
+    tri.add(at(block(1.0, 0.18, 0.28, 0.06, M.p), 0, 0.45, 0)); tri.add(at(block(0.3, 0.3, 0.24, 0.06, M.p), 0.38, 0.62, 0));
+    const wheel = () => { const w = tor(0.17, 0.05, M.c); return w; };
+    tri.add(at(wheel(), 0.5, 0.2, 0)); tri.add(at(wheel(), -0.45, 0.2, 0)); tri.add(at(wheel(), -0.2, 0.2, 0.75));
+    tri.add(at(block(1.1, 0.6, 0.75, 0.1, M.blue), -0.15, 0.6, 0.62)); tri.add(at(block(1.25, 0.06, 0.95, 0.04, M.w), -0.15, 1.32, 0.6));
+    [[-0.68, 0.25], [0.38, 0.25], [-0.68, 0.98], [0.38, 0.98]].forEach(([x, z]) => tri.add(at(cyl(0.025, 0.025, 0.42, M.steel, 8), x, 1.1, z)));
+    tri.add(at(sign([{ t:"MANG JUN", s:150, w:800, c:"#ffffff" }], 0.9, 0.18, { bg:"#2c62e0", pad:12 }), -0.15, 0.68, 1.0));
+    g.add(at(tri, 0.9, 0, 0.75, 0, -0.35));
+    const jun = walker({ skin:3, hair:0, top:M.a, bottom:0, step:0.05, phone:true, cap:M.c }, M); g.add(at(jun, -0.75, 0, 0.2, 0, Math.PI*0.88));
+    const flash = new T.PointLight(0xffffff, 0, 3); g.add(at(flash, -0.85, 1.3, -0.2));
+    g.userData.tick = (t) => { const k = t % 3; flash.intensity = k < 0.08 ? 3 : 0; };
+    const ph = phone(M, cameraScreen(), 0.8, 1.64); g.add(floaty(at(ph, -2.05, 1.55, 0.8, 0, 0.45, 0), 0.06));
+    return g;
+  },
+  scale(M){
+    const g = new T.Group();
+    g.add(at(cyl(0.7, 0.85, 0.16, M.c, 48), 0, 0.08, 0)); g.add(at(cyl(0.07, 0.09, 2.3, M.steel, 24), 0, 1.3, 0)); g.add(at(sph(0.14, M.p), 0, 2.48, 0));
+    const beam = new T.Group(); beam.add(block(3.8, 0.12, 0.16, 0.05, M.c)); g.add(at(beam, 0, 2.45, 0));
+    const mkPan = (x) => { const p = new T.Group(); [-0.3, 0.3].forEach(dx => p.add(rod([0, 0, 0], [dx, -1.05, 0], 0.012, M.steel))); p.add(at(cyl(0.62, 0.48, 0.1, M.l, 48), 0, -1.1, 0)); p.position.set(x, 0, 0); beam.add(p); return p; };
+    const L = mkPan(-1.75), Rp = mkPan(1.75);
+    const doc = new T.Group(); doc.add(block(0.75, 0.95, 0.05, 0.04, M.w)); doc.add(at(sign([{ t:"DPWH", s:130, w:800, c:"#6c6c66" }, { t:"100%", s:190, w:800, c:"#11915a" }, { t:"TAPOS", s:110, w:800, c:"#151513" }], 0.68, 0.86, { pad:40 }), 0, 0, 0.03));
+    L.add(at(doc, 0, -0.55, 0, 0, 0.2, 0));
+    crowd(4, M, 7).forEach((p, i) => { p.scale.setScalar(0.5); Rp.add(at(p, i % 2 ? 0.2 : -0.2, -1.05, i < 2 ? -0.15 : 0.18, 0, (i - 1.5)*0.3, 0)); });
+    const cam2 = new T.Group(); cam2.add(block(0.36, 0.24, 0.18, 0.05, M.c)); cam2.add(at(cyl(0.08, 0.08, 0.1, M.steel, 20), 0, 0, 0.12, Math.PI/2)); Rp.add(at(cam2, 0.3, -0.9, 0.32, 0, -0.3, 0));
+    const lab = (txt, col) => sign([{ t:txt, s:105, w:800, c:col }], 1.5, 0.2, { bg:"rgba(0,0,0,0)", pad:6 });
+    L.add(at(lab("SABI NG DPWH", "#6c6c66"), 0, -1.38, 0.55)); Rp.add(at(lab("SABI NG BAYAN", "#ff5a1f"), 0, -1.38, 0.55));
+    g.userData.tick = (t) => { const a = -0.17 + Math.sin(t*1.1)*0.025; beam.rotation.z = a; L.rotation.z = -a; Rp.rotation.z = -a; };
+    return g;
+  },
+  social(M){
+    const g = new T.Group();
+    g.add(at(cyl(2.3, 2.35, 0.14, M.l, 64), 0, 0.07, 0));
+    g.add(at(pin(M.p, 0.6, M.w), 0, 0.14, 0));
+    const ppl = crowd(8, M, 11); const bubbles = [];
+    ppl.forEach((p, i) => { const a = i/8*Math.PI*2 + 0.2, r = 1.6; g.add(at(p, Math.sin(a)*r, 0.14, Math.cos(a)*r, 0, a + Math.PI)); g.add(rod([Math.sin(a)*r*0.88, 0.2, Math.cos(a)*r*0.88], [Math.sin(a)*0.45, 0.2, Math.cos(a)*0.45], 0.012, M.p)); });
+    [["Nakita ko rin!", -1.3, 2.25, 0.9], ["Wala talagang pader", 1.25, 2.55, 0.6], ["Sasama ako sa Sabado", 0.0, 3.05, -0.6]].forEach(([t, x, y, z], i) => { const b = bubble(M, t, t.length > 14 ? 2.0 : 1.5); g.add(floaty(at(b, x, y, z, 0, -x*0.15, 0), 0.08, i)); bubbles.push(b); });
+    const cnt = new T.Group(); cnt.add(block(1.0, 0.5, 0.08, 0.24, M.p)); cnt.add(at(sign([{ t:"✓ 29", s:250, w:800, c:"#ffffff" }], 0.9, 0.42, { bg:"#ff5a1f", pad:30 }), 0, 0, 0.045)); g.add(floaty(at(cnt, 0, 1.55, 0.2), 0.06, 2));
+    return g;
+  },
+  creator(M){
+    const g = new T.Group();
+    g.add(at(cyl(2.0, 2.05, 0.14, M.l, 64), 0, 0.07, 0));
+    const bea = walker({ woman:true, skin:1, hair:0, top:M.coral, step:0.05 }, M); g.add(at(bea, -0.55, 0.14, -0.25, 0, 0.5));
+    bea.userData.arms[1].rotation.set(-0.4, 0, -0.9);
+    const tri = new T.Group(); [0, 2.1, 4.2].forEach(a => tri.add(rod([0, 1.2, 0], [Math.sin(a)*0.35, 0, Math.cos(a)*0.35], 0.015, M.c))); tri.add(at(cyl(0.012, 0.012, 0.35, M.c, 8), 0, 1.38, 0));
+    const ph = phone(M, appScreen(), 0.42, 0.85); tri.add(at(ph, 0, 1.75, 0, 0, 0, 0)); ph.rotation.y = Math.PI;
+    const ring = tor(0.42, 0.04, M.glow); tri.add(at(ring, 0, 1.75, -0.03));
+    g.add(at(tri, 0.75, 0.14, 0.75, 0, -2.5 + Math.PI, 0));
+    const floaters = [];
+    for (let i = 0; i < 7; i++){ const o = i % 3 === 0 ? heart(M.p) : i % 3 === 1 ? playBtn(M.c, M.w) : heart(M.coral); o.scale.setScalar(0.55); g.add(o); floaters.push(o); }
+    const views = new T.Group(); views.add(block(1.5, 0.48, 0.08, 0.2, M.c)); views.add(at(sign([{ t:"200K followers", s:120, w:800, c:"#ffffff" }], 1.4, 0.4, { bg:"#151513", pad:42 }), 0, 0, 0.045)); g.add(floaty(at(views, 1.55, 2.6, 0), 0.06));
+    g.userData.tick = (t) => floaters.forEach((o, i) => { const k = (t*0.18 + i/7) % 1; o.position.set(-0.2 + Math.sin(i*2.1)*1.3 + Math.sin(t + i)*0.1, 1.2 + k*2.2, 0.3 + Math.cos(i*1.7)*0.6); o.rotation.y = Math.sin(t + i)*0.4; o.scale.setScalar(0.55*(k < 0.85 ? 1 : (1 - k)/0.15)); });
+    return g;
+  },
+  accountable(M){
+    const g = new T.Group();
+    g.add(at(block(5, 0.16, 3, 0.08, M.l), 0, -0.08, 0));
+    const office = new T.Group(); office.add(at(block(1.8, 1.1, 1.0, 0.04, M.w), 0, 0.55, 0)); for (let i = 0; i < 5; i++) office.add(at(cyl(0.05, 0.05, 0.9, M.s, 12), -0.7 + i*0.35, 0.5, 0.55)); office.add(at(block(2.0, 0.14, 1.15, 0.03, M.c), 0, 1.15, 0.02)); office.add(at(sign([{ t:"OPISINA NG DISTRITO", s:110, w:800, c:"#ffffff" }], 1.7, 0.12, { bg:"#151513", pad:4 }), 0, 1.15, 0.6));
+    g.add(at(office, -1.15, 0, -0.6, 0, 0.25));
+    const doc = (title, y, rz) => { const d = new T.Group(); d.add(block(1.05, 1.4, 0.03, 0.03, M.w)); d.add(at(canvasPlane(title), 0, 0, 0.02)); return at(d, 1.2, y, 0.3, -0.25, -0.2, rz); };
+    function canvasPlane(title){ const t = canvasTex(420, 560, (x, W, H) => { x.fillStyle = "#fff"; x.fillRect(0, 0, W, H); x.fillStyle = "#151513"; x.font = F(800, 30); x.fillText(title, 30, 60); x.fillStyle = "#d9d9d2"; for (let i = 0; i < 9; i++) x.fillRect(30, 100 + i*34, W - 60 - (i%3)*40, 12); x.strokeStyle = "#2c62e0"; x.lineWidth = 4; x.beginPath(); x.moveTo(40, 470); x.bezierCurveTo(90, 410, 120, 520, 170, 450); x.bezierCurveTo(200, 420, 230, 500, 270, 460); x.stroke(); x.fillStyle = "#6c6c66"; x.font = F(500, 18); x.fillText("Lagda ng DPWH", 40, 520); x.fillText("Lagda ng Kontraktor", 230, 520); }); return flat(t, 1.0, 1.33); }
+    g.add(doc("KONTRATA", 1.1, 0.1)); g.add(doc("NOTICE OF AWARD", 1.25, -0.08)); g.add(floaty(doc("NOTICE TO PROCEED", 1.45, 0.05), 0.05));
+    const clk = new T.Group(); clk.add(at(cyl(0.45, 0.45, 0.1, M.w, 48), 0, 0, 0, Math.PI/2)); clk.add(at(tor(0.45, 0.05, M.p), 0, 0, 0)); const hh = block(0.05, 0.26, 0.02, 0.01, M.c), mh = block(0.035, 0.36, 0.02, 0.01, M.c); hh.geometry.translate(0, 0.11, 0); mh.geometry.translate(0, 0.16, 0); clk.add(at(hh, 0, 0, 0.07)); clk.add(at(mh, 0, 0, 0.08));
+    g.add(floaty(at(clk, 0.2, 2.35, 0.2), 0.07, 1));
+    g.userData.tick = (t) => { mh.rotation.z = -t*1.2; hh.rotation.z = -t*0.1; };
+    return g;
+  },
+  trust(M){
+    const g = new T.Group();
+    g.add(at(cyl(1.7, 1.75, 0.14, M.l, 64), 0, 0.07, 0));
+    const s = new T.Shape(); s.moveTo(0, 1.1); s.bezierCurveTo(0.45, 0.95, 0.8, 0.95, 0.9, 0.9); s.bezierCurveTo(0.9, 0.1, 0.6, -0.55, 0, -0.95); s.bezierCurveTo(-0.6, -0.55, -0.9, 0.1, -0.9, 0.9); s.bezierCurveTo(-0.8, 0.95, -0.45, 0.95, 0, 1.1);
+    const sh = extrude(s, 0.25, M.p, 0.06); const shield = new T.Group(); shield.add(sh);
+    shield.add(rod([-0.38, 0.12, 0.2], [-0.08, -0.2, 0.2], 0.07, M.w)); shield.add(rod([-0.08, -0.2, 0.2], [0.42, 0.42, 0.2], 0.07, M.w));
+    g.add(floaty(at(shield, 0, 1.6, 0), 0.07)); shield.userData.spin = 0.4;
+    const face = new T.Group(); face.add(sph(0.3, mat(SKIN[2], { roughness:0.6 }))); const frost = block(0.75, 0.75, 0.06, 0.12, M.frost); face.add(at(frost, 0, 0, 0.32)); g.add(floaty(at(face, -1.55, 1.25, 0.5), 0.06, 1));
+    const cam = new T.Group(); cam.add(block(0.62, 0.42, 0.3, 0.08, M.c)); cam.add(at(cyl(0.14, 0.14, 0.18, M.steel, 24), 0, 0, 0.2, Math.PI/2)); cam.add(at(block(0.16, 0.08, 0.1, 0.02, M.c), -0.18, 0.24, 0)); g.add(floaty(at(cam, 1.55, 1.05, 0.4, 0, -0.4, 0), 0.06, 2));
+    const loc = pin(M.c, 0.3, M.w); g.add(floaty(at(loc, 1.4, 1.75, 0.2), 0.05, 3));
+    return g;
+  },
+  rollout(M){
+    const g = new T.Group();
+    const steps = [[-1.7, 0.25, 0.7, 1, "BULACAN"], [0, 0.5, 0.9, 3, "3 REHIYON"], [1.75, 0.8, 1.1, 7, "BUONG BANSA"]];
+    steps.forEach(([x, h, r, n, label], i) => {
+      g.add(at(cyl(r, r + 0.05, h, i === 2 ? M.p : M.l, 56), x, h/2, 0));
+      crowd(n, M, i*5).forEach((p, j) => { const a = j/n*Math.PI*2, rr2 = n === 1 ? 0 : r*0.55; p.scale.setScalar(0.62); g.add(at(p, x + Math.sin(a)*rr2, h, Math.cos(a)*rr2*0.7, 0, Math.sin(a)*0.4)); });
+      g.add(at(sign([{ t:label, s:140, w:800, c:i === 2 ? "#ff5a1f" : "#151513" }], 1.6, 0.2, { bg:"rgba(0,0,0,0)", pad:8 }), x, h/2, r + 0.12));
+    });
+    const arrow = new T.Group(); arrow.add(rod([-1.7, 1.6, -0.4], [1.5, 2.6, -0.4], 0.035, M.p)); const head = mesh(new T.ConeGeometry(0.11, 0.26, 20), M.p); head.position.set(1.62, 2.64, -0.4); head.rotation.z = -1.27; arrow.add(head); g.add(floaty(arrow, 0.05));
+    return g;
+  },
+  bridge(M){
+    const g = new T.Group();
+    g.add(at(block(1.6, 0.9, 2.2, 0.06, M.grass), -2.0, 0.0, 0)); g.add(at(block(1.6, 0.9, 2.2, 0.06, M.grass), 2.0, 0.0, 0));
+    g.add(at(block(2.6, 0.08, 2.4, 0.03, M.water), 0, -0.3, 0));
+    const planks = []; const n = 9;
+    for (let i = 0; i < n; i++){ const p = block(0.27, 0.1, 1.1, 0.03, i % 2 ? M.p : M.wood); g.add(p); planks.push(p); }
+    const left = crowd(6, M, 2), right = crowd(6, M, 9);
+    left.forEach((p, i) => g.add(at(p, -2.5 + (i%3)*0.32, 0.45, -0.7 + Math.floor(i/3)*0.7 + (i%3)*0.12, 0, Math.PI/2)));
+    right.forEach((p, i) => g.add(at(p, 2.5 - (i%3)*0.32, 0.45, -0.7 + Math.floor(i/3)*0.7 + (i%3)*0.12, 0, -Math.PI/2)));
+    const main = new T.Group(); main.add(block(2.9, 0.62, 0.09, 0.26, M.p)); main.add(at(sign([{ t:"MULAT NA PILIPINO", s:92, w:800, c:"#ffffff" }], 2.75, 0.5, { bg:"#ff5a1f", pad:58 }), 0, 0, 0.05)); g.add(floaty(at(main, 0, 2.75, 0), 0.06, 0));
+    [["KATUWANG", -1.75, 1.85], ["DATOS", 1.75, 1.85]].forEach(([t, x, y], i) => { const c = new T.Group(); c.add(block(1.2, 0.4, 0.07, 0.18, M.c)); c.add(at(sign([{ t, s:150, w:800, c:"#ffffff" }], 1.1, 0.3, { bg:"#151513", pad:28 }), 0, 0, 0.04)); g.add(floaty(at(c, x, y, 0), 0.06, i + 1)); });
+    g.userData.tick = (t) => { const cyc = (t % 8)/6; planks.forEach((p, i) => { const st = i/n, k = Math.max(0, Math.min(1, (cyc - st)*n)); p.visible = cyc > st; p.position.set(-1.08 + i*0.27, 0.4 + (1 - k)*2.0, 0); }); };
+    return g;
+  },
+  close(M){
+    const g = new T.Group();
+    const hill = sph(2.3, M.grassDark); hill.scale.set(1.3, 0.34, 1); g.add(at(hill, 0, -0.5, 0));
+    const s = sun(1.3); g.add(at(s, 0, 1.4, -3.4)); g.userData.sun = s;
+    const ppl = crowd(9, M, 4, { phone:true, glow:true, step:0.05 });
+    ppl.forEach((p, i) => { const x = -2.0 + i*0.5, z = 0.35 + Math.sin(i*1.7)*0.3; g.add(at(p, x, 0.28 - Math.abs(x)*0.08, z, 0, Math.PI + (x*-0.08))); });
+    g.userData.tick = (t) => { const k = Math.min(1, t/5); s.position.y = 0.6 + k*1.6; s.userData.rays.rotation.z += 0.0025; };
+    return g;
   }
-  renderWiz();
+};
+
+/* ===================== renderer ===================== */
+function studioEnv(){
+  const env = new T.Scene(); env.add(new T.Mesh(new T.BoxGeometry(20, 12, 20), new T.MeshBasicMaterial({ color:0xd8d6cf, side:T.BackSide })));
+  const panel = (w, h, x, y, z, c) => { const p = new T.Mesh(new T.PlaneGeometry(w, h), new T.MeshBasicMaterial({ color:c, side:T.DoubleSide })); p.position.set(x, y, z); p.lookAt(0, 0, 0); env.add(p); };
+  panel(8, 4, 0, 5.5, 2, 0xffffff); panel(5, 6, -9, 1, 2, 0xfff2e2); panel(5, 6, 9, 2, -2, 0xe8f1ff);
+  const pm = new T.PMREMGenerator(R); const tex = pm.fromScene(env, 0.04).texture; pm.dispose(); return tex;
 }
-async function shrink(file){
-  const bmp = await createImageBitmap(file, {imageOrientation:"from-image"});
-  const k = Math.min(1, 1600 / Math.max(bmp.width, bmp.height));
-  const c = document.createElement("canvas"); c.width = Math.round(bmp.width*k); c.height = Math.round(bmp.height*k);
-  c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height); bmp.close?.();
-  return await new Promise((res, rej) => c.toBlob(b => b ? res(b) : rej(new Error("encode")), "image/jpeg", 0.82));
+function build(){
+  if (!T) return false;
+  try { R = new T.WebGLRenderer({ canvas:document.getElementById("world"), antialias:true, alpha:true, preserveDrawingBuffer:true }); } catch { return false; }
+  R.setPixelRatio(Math.min(devicePixelRatio || 1, 1.6)); R.outputEncoding = T.sRGBEncoding; R.toneMapping = T.ACESFilmicToneMapping; R.toneMappingExposure = 1.05;
+  R.shadowMap.enabled = true; R.shadowMap.type = T.PCFSoftShadowMap;
+  scene = new T.Scene(); scene.environment = studioEnv();
+  cam = new T.PerspectiveCamera(33, 16/9, 0.1, 100);
+  scene.add(new T.HemisphereLight(0xfffdf6, 0xd9d6cc, 0.6));
+  const key = new T.DirectionalLight(0xffffff, 1.15); key.position.set(4, 8, 6); key.castShadow = true; key.shadow.mapSize.set(2048, 2048); key.shadow.radius = 6; key.shadow.bias = -0.0004; Object.assign(key.shadow.camera, { left:-6, right:6, top:6, bottom:-6, near:1, far:30 }); scene.add(key);
+  const fill = new T.DirectionalLight(0xdfeaff, 0.35); fill.position.set(-6, 3, 4); scene.add(fill);
+  const rim = new T.DirectionalLight(0xffe2bf, 0.5); rim.position.set(-2, 4, -6); scene.add(rim);
+  shadowGround = new T.Mesh(new T.PlaneGeometry(40, 40), new T.ShadowMaterial({ opacity:0.13 })); shadowGround.rotation.x = -Math.PI/2; shadowGround.receiveShadow = true; scene.add(shadowGround);
+  const M = {
+    p:mat("#ff5a1f"), a:mat("#f6b93b"), c:mat("#2a2a27"), w:mat("#fbfbf8"), l:mat("#ece9e1"), s:mat("#bfc3be", { metalness:0.3, roughness:0.32 }),
+    steel:mat("#8b8f8a", { metalness:0.6, roughness:0.35 }), coral:mat("#ef8a72"), mint:mat("#7fc8a9"), lav:mat("#a99be0"), peach:mat("#f4c49a"), blue:mat("#2c62e0"),
+    wood:mat("#b98a5e", { roughness:0.6 }), leaf:mat("#5f9e5a", { roughness:0.55 }), leaf2:mat("#7a9b52", { roughness:0.6 }), grass:mat("#9cc27a", { roughness:0.7 }), grassDark:mat("#3c5a3a", { roughness:0.8 }),
+    mud:mat("#cdb895", { roughness:0.8 }), road:mat("#c9c8c1", { roughness:0.8 }), gold:mat("#e9b53f", { metalness:0.55, roughness:0.28 }),
+    water:mat("#5a9cc4", { roughness:0.08, transparent:true, opacity:0.78, clearcoat:1 }),
+    ghost:mat("#ffffff", { transparent:true, opacity:0.22, roughness:0.2, depthWrite:false }),
+    frost:mat("#ffffff", { transparent:true, opacity:0.72, roughness:0.9 }),
+    glow:new T.MeshBasicMaterial({ color:0xfff1c9, toneMapped:false })
+  };
+  slides.forEach(sl => { const k = sl.dataset.scene; if (!k || groups[k] || !SCENES[k]) return; const inner = SCENES[k](M); if (inner.userData.tick) inner.userData.tick(9, 0.016); const h = new T.Group(); h.add(inner); inner.scale.multiplyScalar(0.8); h.visible = false; h.userData.inner = inner; scene.add(h); groups[k] = h; });
+  return true;
 }
-async function submit(){
-  const btn = $("#w-post"), err = $("#w-err"), r = W.r, d = S.data;
-  if (r.demo) { W.photos.forEach(p => URL.revokeObjectURL(p.url)); W.nth = r.demo.reports.length + 1; W.demo = true; W.step = 4; renderWiz(); return; }
-  if (!DB) { err.innerHTML = `<div class="notice bad">Kailangan mong buksan ito habang naka-sign in, at may access na mag-post.</div>`; return; }
-  btn.disabled = true; btn.textContent = "Ipinapadala…"; err.innerHTML = "";
-  try {
-    const ids = [], vids = [];
-    for (const p of W.photos) {
-      try { const up = await ASSETS.upload(p.blob, {type: p.kind === "video" ? p.type : "image/jpeg"}); (p.kind === "video" ? vids : ids).push(up.id); }
-      catch (ex) { if (p.kind === "video") throw { code:"video" }; throw ex; }
-    }
-    const near = W.photos.filter(p => p.dist != null).map(p => p.dist);
-    const distM = near.length ? Math.min(...near) : null;
-    const rid = Date.now().toString(36) + Math.random().toString(36).slice(2, 7), t = Date.now();
-    const chips = [...W.chips];
-    const checks = {}; if (W.chips.has(NOTICED[0])) checks.billboard = false; if (W.chips.has(NOTICED[1])) checks.workers = false;
-    const tags = [`DPWH ${deoOf(r)}`, `LGU ng ${munOf(r)}`];
-    await DB.doc("p/" + r[0] + "/r/" + rid).set({ cid:r[0], prov:S.prov.psgc, mun:d.muns[r[14]], seen:W.seen, chips, checks, note:W.note.trim(), tags, photos:ids, videos:vids, distM, takenAt:W.photos[0]?.taken || null, officialPct:r[5], officialStatus:STATUS[r[3]], by:myId, t });
-    await DB.doc("feed/" + rid).set({ cid:r[0], prov:S.prov.psgc, mun:d.muns[r[14]], desc:r[16], seen:W.seen, photo:ids[0] || null, video:vids[0] || null, distM, by:myId, t });
-    W.photos.forEach(p => URL.revokeObjectURL(p.url));
-    let n = 1; try { n = (await DB.collection("p/" + r[0] + "/r").get()).size || 1; } catch {}
-    W.nth = n; W.step = 4; renderWiz();
-  } catch (ex) {
-    btn.disabled = false; btn.textContent = "I-post ang ulat";
-    const c = ex?.code || "";
-    err.innerHTML = `<div class="notice bad">${c === "video" ? "Hindi ma-upload ang video. Subukan ang MP4 na mas maikli sa 30 segundo." : c === "invalid_argument" || c === "not_granted" ? "Wala kang access na mag-post dito. Humingi ng access sa nagbahagi sa iyo." : "Hindi naipadala. Suriin ang internet at subukang muli."}</div>`;
-  }
+function resize(){
+  portrait = innerWidth < innerHeight*0.85;
+  SW = portrait ? 1080 : 1920; SH = portrait ? 1920 : 1080;
+  document.body.classList.toggle("portrait", portrait);
+  const k = Math.min(innerWidth/SW, innerHeight/SH);
+  document.documentElement.style.setProperty("--k", k); document.documentElement.style.setProperty("--SW", SW + "px"); document.documentElement.style.setProperty("--SH", SH + "px");
+  if (!R) return;
+  const w = SW*k, h = SH*k; rect = { x:(innerWidth - w)/2, y:(innerHeight - h)/2, w, h };
+  Object.assign(R.domElement.style, { left:rect.x + "px", top:rect.y + "px", width:w + "px", height:h + "px" });
+  R.setSize(w, h, false); cam.aspect = w/h;
+  if (portrait) { cam.setViewOffset(w, h, 0, 0.2*h, w, h); cam.zoom = 0.62; }
+  else { cam.setViewOffset(w, h, -0.23*w, -0.04*h, w, h); cam.zoom = 1; }
+  cam.updateProjectionMatrix(); draw();
+}
+let tilt = 0;
+function pose(){ cam.position.set(Math.sin(tilt)*1.2, 3.3, 10.5); cam.lookAt(0, 1.3, 0); }
+function show3d(key){
+  if (!R) return;
+  const next = groups[key] || null; if (next === cur) return;
+  Object.values(groups).forEach(g => g.visible = false);
+  cur = next; spin = 0; clock = 0;
+  if (cur) cur.visible = true;
+  enter = motion ? 0 : 1;
+}
+function step(dt){
+  clock += dt; if (!cur) return;
+  if (enter < 1) enter = Math.min(1, enter + dt/0.6);
+  const e = 1 - Math.pow(1 - enter, 3), g = cur.userData.inner;
+  cur.position.y = (1 - e)*-0.35; cur.scale.setScalar(0.94 + 0.06*e);
+  cur.rotation.y = spin + (motion ? Math.sin(clock*0.25)*0.1 : 0);
+  if (!motion) return;
+  g.traverse(o => { const f = o.userData.float; if (f) o.position.y = f.y + Math.sin(clock*0.9 + f.ph)*f.amp; if (o.userData.spin) o.rotation.y += dt*o.userData.spin; });
+  if (g.userData.tick) g.userData.tick(clock, dt);
+}
+function draw(){ if (!R) return; pose(); R.render(scene, cam); }
+function loop(t){ const dt = Math.min(0.05, last ? (t - last)/1000 : 0); last = t; step(dt); draw(); requestAnimationFrame(loop); }
+function bindDrag(){
+  const cv = R.domElement;
+  cv.addEventListener("pointerdown", e => { drag = { x:e.clientX, s:spin }; cv.classList.add("drag"); cv.setPointerCapture(e.pointerId); });
+  cv.addEventListener("pointermove", e => { if (drag) spin = drag.s + (e.clientX - drag.x)*0.008; });
+  const end = () => { drag = null; cv.classList.remove("drag"); };
+  cv.addEventListener("pointerup", end); cv.addEventListener("pointercancel", end);
 }
 
-/* ---------- 7. feed ---------- */
-let feedUnsub = null, feedFor = null;
-function subscribeFeed(){
-  if (!DB || !S.prov || feedFor === S.prov.psgc) return;
-  feedUnsub?.(); feedFor = S.prov.psgc;
-  try {
-    feedUnsub = DB.collection("feed").where("prov","==",S.prov.psgc).orderBy("t","desc").limit(60).onSnapshot(s => {
-      S.feed = s.docs.map(x => ({id:x.id, ...x.data()})); S.reported = new Set(S.feed.map(x => x.cid)); S.photoOf = new Map(); for (const x of S.feed) if (x.photo && !S.photoOf.has(x.cid)) S.photoOf.set(x.cid, x.photo);
-      if (current === "feed") renderFeed(); if (current === "home") renderCards();
-    }, () => {});
-  } catch {}
+/* ===================== slides ===================== */
+const dots = document.getElementById("dots");
+slides.forEach((_, i) => { const d = document.createElement("i"); d.title = "Slide " + (i + 1); d.onclick = () => goTo(i); dots.appendChild(d); });
+function goTo(i){
+  idx = Math.max(0, Math.min(N - 1, i));
+  slides.forEach((s, j) => { s.classList.toggle("on", j === idx); s.setAttribute("aria-hidden", j !== idx); });
+  const s = slides[idx];
+  document.body.classList.add("dark");
+  if (shadowGround) shadowGround.material.opacity = 0.4;
+  [...dots.children].forEach((d, j) => d.classList.toggle("on", j === idx));
+  document.getElementById("count").textContent = `${idx + 1} / ${N}`;
+  document.getElementById("prev").disabled = idx === 0; document.getElementById("next").disabled = idx === N - 1;
+  show3d(s.dataset.scene);
+  try { history.replaceState(null, "", "#slide-" + (idx + 1)); } catch {}
 }
-function renderFeed(){
-  subscribeFeed();
-  $("#feed-kicker").textContent = S.prov ? "Ulat ng bayan · " + S.prov.name : "Ulat ng bayan";
-  const el = $("#feed");
-  if (!DB || !S.feed.length) {
-    const samples = DEMO.map(r => { const x = r.demo.reports[0], s = SEEN[x.seen] || {}, p = r.demo.reports.find(y => y.photos?.length);
-      return `<button type="button" class="post" data-feed="${r[0]}">${p ? `<img src="${p.photos[0]}" alt="" loading="lazy">` : ""}
-        <span class="chip demo" style="margin-bottom:6px">Halimbawa</span>${r.demo.reports.some(y => y.videos?.length) ? ` <span class="chip vchip" style="margin-bottom:6px">▶ May video</span>` : ""}<div class="v" style="color:var(--${s.c||"ink"})">${esc(s.t)}</div><div class="t">${esc(r[16])}</div>
-        <div class="m">${esc(x.byName)} · ${ago(x.t)} na · ${S.ok?.get?.(x.id) ?? x.ok} nakakita rin · ${r.demo.talk.length} komento</div></button>`; }).join("");
-    el.innerHTML = `<div class="notice" style="margin:14px 0 4px">Wala pang totoong ulat ${S.prov ? "sa " + esc(S.prov.name) : "dito"}. Ganito ang itsura kapag mayroon na:</div>${samples}
-      <div class="empty" style="padding-top:20px"><button type="button" class="btn primary" data-tab-go="home">Maging unang bantay</button></div>`; return; }
-  el.innerHTML = S.feed.map(x => { const s = SEEN[x.seen] || {}; return `<button type="button" class="post" data-feed="${esc(x.cid)}">
-    ${x.photo ? `<img src="${esc(photo(x.photo))}" alt="" loading="lazy">` : x.video ? `<video src="${esc(photo(x.video))}" muted playsinline preload="metadata" style="width:100%;border-radius:18px;margin-bottom:12px"></video>` : ""}
-    <div class="v" style="color:var(--${s.c||"ink"})">${esc(s.t || "Ulat")}</div><div class="t">${esc(x.desc)}</div><div class="m">${esc(x.mun || "")} · ${ago(x.t)} na</div></button>`; }).join("");
-}
-$("#feed").addEventListener("click", async e => {
-  const t = e.target.closest("[data-tab-go]"); if (t) { history = []; go("home", false); return; }
-  const b = e.target.closest("[data-feed]"); if (b) openProject(b.dataset.feed);
+document.getElementById("prev").onclick = () => goTo(idx - 1);
+document.getElementById("next").onclick = () => goTo(idx + 1);
+addEventListener("keydown", e => {
+  if (["ArrowRight", "PageDown", " "].includes(e.key)) { e.preventDefault(); goTo(idx + 1); }
+  else if (["ArrowLeft", "PageUp"].includes(e.key)) { e.preventDefault(); goTo(idx - 1); }
+  else if (e.key === "Home") goTo(0); else if (e.key === "End") goTo(N - 1);
+  else if (e.key === "f" || e.key === "F") { document.documentElement.requestFullscreen?.().catch(() => {}); }
 });
+let touchX = null;
+document.getElementById("stage").addEventListener("touchstart", e => { touchX = e.touches[0].clientX; }, { passive:true });
+document.getElementById("stage").addEventListener("touchend", e => { if (touchX == null) return; const dx = e.changedTouches[0].clientX - touchX; if (Math.abs(dx) > 50) goTo(idx + (dx < 0 ? 1 : -1)); touchX = null; });
+addEventListener("resize", resize);
+setTimeout(() => { const h = document.getElementById("hint"); if (h) h.style.opacity = 0; }, 6000);
 
-/* ---------- 8. me ---------- */
-function renderMe(){
-  const h = S.home;
-  $("#me-loc").textContent = h ? (h.brgy ? `${h.brgy}, ` : "") + `${h.mun}, ${S.prov?.name || ""}` : "Hindi pa napipili";
-  const mine = myId ? S.feed.filter(x => x.by === myId).length : 0;
-  $("#me-count").textContent = mine ? `${mine} ulat mo sa ${S.prov.name}` : "Wala ka pang ulat";
-  $("#me-count-sub").textContent = mine ? "Salamat sa pagbabantay." : "Pumili ng proyekto malapit sa iyo at pindutin ang \"I-ulat\".";
-  const t = S.index.totals;
-  $("#about").textContent = `Datos mula sa DPWH Transparency Portal (kopya noong ${ymd(S.index.snapshot)}). ${t.placed.toLocaleString()} proyekto ang may lokasyon sa mapa; ${t.noCoords.toLocaleString()} ang walang lokasyon. Ang "kahina-hinala" ay awtomatikong tsek sa datos, hindi paratang. Prototype ito: hindi pa naipapadala ang mga tag sa mga opisina.`;
-}
-
-/* ---------- map overlay ---------- */
-$("#open-map").onclick = openMap;
-function openMap(){
-  if (!S.data) return;
-  $("#mapov-root").innerHTML = `<div class="mapov" role="dialog" aria-label="Mapa ng mga proyekto"><canvas id="mc"></canvas>
-    <div class="mapbar"><button type="button" id="m-close">✕ Isara</button><button type="button" id="m-me">Nasaan ako</button></div>
-    <div class="maplegend"><span><i style="background:var(--info)"></i>Ginagawa</span><span><i style="background:var(--good)"></i>Tapos</span><span><i style="background:var(--warn)"></i>Hindi pa</span><span><i style="background:var(--bg);border:2px solid var(--accent)"></i>Kahina-hinala</span><span><i style="background:var(--accent)"></i>Ikaw</span></div></div>`;
-  const cv = $("#mc"), ctx = cv.getContext("2d"), d = S.data, h = S.home;
-  const V = { w:0, h:0, k:Math.cos(h.lat * Math.PI/180), x:0, y:0, s:1 };
-  const sx = lon => (lon*V.k - V.x)*V.s + V.w/2, sy = lat => (-lat - V.y)*V.s + V.h/2;
-  const center = () => { V.x = h.lon*V.k; V.y = -h.lat; V.s = Math.min(V.w, V.h) / 0.06; };
-  const size = () => { const dpr = devicePixelRatio || 1; V.w = innerWidth; V.h = innerHeight; cv.width = V.w*dpr; cv.height = V.h*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); };
-  let q = false; const draw = () => { if (q) return; q = true; requestAnimationFrame(() => { q = false; paint(); }); };
-  function paint(){
-    ctx.fillStyle = css("--map-sea"); ctx.fillRect(0,0,V.w,V.h);
-    ctx.lineJoin = "round";
-    d.shapes.forEach(s => { ctx.beginPath(); for (const ring of s.r) { for (let i=0;i<ring.length;i+=2){ const X=sx(ring[i]),Y=sy(ring[i+1]); i?ctx.lineTo(X,Y):ctx.moveTo(X,Y);} ctx.closePath(); }
-      ctx.fillStyle = s.n === h.mun ? css("--map-sel") : css("--map-land"); ctx.fill(); ctx.strokeStyle = css("--map-edge"); ctx.lineWidth = 1; ctx.stroke(); });
-    const col = STV.map(css), rad = V.s > 30000 ? 6 : V.s > 8000 ? 4.5 : 3;
-    for (const st of [0,3,4,2,1]) { ctx.fillStyle = col[st]; ctx.beginPath(); for (const r of d.rows) { if (r[3] !== st) continue; const X=sx(r[8]),Y=sy(r[7]); if (X<-9||Y<-9||X>V.w+9||Y>V.h+9) continue; ctx.moveTo(X+rad,Y); ctx.arc(X,Y,rad,0,7); } ctx.fill(); }
-    ctx.strokeStyle = css("--accent"); ctx.lineWidth = 2; ctx.beginPath(); for (const r of d.rows) { if (!r[15]) continue; const X=sx(r[8]),Y=sy(r[7]); if (X<-9||Y<-9||X>V.w+9||Y>V.h+9) continue; ctx.moveTo(X+rad+3,Y); ctx.arc(X,Y,rad+3,0,7); } ctx.stroke();
-    const X = sx(h.lon), Y = sy(h.lat); ctx.fillStyle = css("--accent"); ctx.globalAlpha = .2; ctx.beginPath(); ctx.arc(X,Y,18,0,7); ctx.fill(); ctx.globalAlpha = 1; ctx.beginPath(); ctx.arc(X,Y,8,0,7); ctx.fill(); ctx.strokeStyle = css("--bg"); ctx.lineWidth = 3; ctx.stroke();
-  }
-  const zoom = (f, X = V.w/2, Y = V.h/2) => { const wx = (X - V.w/2)/V.s + V.x, wy = (Y - V.h/2)/V.s + V.y; V.s = Math.max(200, Math.min(400000, V.s*f)); V.x = wx - (X - V.w/2)/V.s; V.y = wy - (Y - V.h/2)/V.s; draw(); };
-  cv.addEventListener("wheel", e => { e.preventDefault(); zoom(Math.exp(-e.deltaY*0.0015), e.clientX, e.clientY); }, {passive:false});
-  const P = new Map(); let moved = 0, pinch = null;
-  cv.addEventListener("pointerdown", e => { cv.setPointerCapture(e.pointerId); P.set(e.pointerId, {x:e.clientX, y:e.clientY}); moved = 0; if (P.size === 2) { const [a,b] = [...P.values()]; pinch = Math.hypot(a.x-b.x, a.y-b.y); } });
-  cv.addEventListener("pointermove", e => { const p = P.get(e.pointerId); if (!p) return; const dx = e.clientX-p.x, dy = e.clientY-p.y; p.x = e.clientX; p.y = e.clientY;
-    if (P.size === 2) { const [a,b] = [...P.values()], dd = Math.hypot(a.x-b.x, a.y-b.y); if (pinch) zoom(dd/pinch, (a.x+b.x)/2, (a.y+b.y)/2); pinch = dd; moved += 10; return; }
-    moved += Math.abs(dx)+Math.abs(dy); V.x -= dx/V.s; V.y -= dy/V.s; draw(); });
-  cv.addEventListener("pointerup", e => { const tap = P.size === 1 && moved < 8; P.delete(e.pointerId); if (P.size < 2) pinch = null; if (!tap) return;
-    let best = null, bd = 22*22; for (const r of d.rows) { const dd = (sx(r[8])-e.clientX)**2 + (sy(r[7])-e.clientY)**2; if (dd < bd) { bd = dd; best = r; } }
-    if (best) { closeMap(); openProject(best[0]); } });
-  cv.addEventListener("pointercancel", e => { P.delete(e.pointerId); pinch = null; });
-  const onResize = () => { size(); draw(); }; addEventListener("resize", onResize);
-  function closeMap(){ removeEventListener("resize", onResize); $("#mapov-root").innerHTML = ""; }
-  $("#m-close").onclick = closeMap; $("#m-me").onclick = () => { center(); draw(); };
-  size(); center(); paint();
-}
-
-/* ---------- boot ---------- */
-(async () => {
-  try { S.index = await (await fetch("index.json")).json(); }
-  catch { document.body.insertAdjacentHTML("afterbegin", `<p class="notice bad">Hindi ma-load ang datos. I-refresh ang page.</p>`); return; }
-  buildTowns();
-  $("#welcome-count").textContent = `Libre. ${S.index.totals.projects.toLocaleString()} proyekto ng DPWH sa buong bansa.`;
-  const h = ls.get("tanaw.home");
-  if (h && S.index.provinces.some(p => p.psgc === h.psgc)) { S.home = h; go("home", false); showHome(); }
-  else go("welcome", false);
-})();
+const startAt = (() => { const m = /^#slide-(\d+)$/.exec(location.hash); return m ? +m[1] - 1 : 0; })();
+resize();
+goTo(startAt);
+(document.fonts?.ready || Promise.resolve()).then(() => {
+  const ok = build();
+  resize();
+  if (ok) { bindDrag(); requestAnimationFrame(loop); shadowGround.material.opacity = 0.4; show3d(slides[idx].dataset.scene); }
+});
 })();
 </script>
 
