@@ -370,17 +370,21 @@ function bubble(M, text, w = 1.5){
   const g = new T.Group(); const h = 0.5;
   g.add(block(w, h, 0.1, 0.2, M.w));
   const tail = mesh(new T.ConeGeometry(0.09, 0.2, 16), M.w); tail.rotation.z = Math.PI; g.add(at(tail, -w*0.25, -h/2 - 0.07, 0));
-  const t = canvasTex(512, Math.round(512*h/w), (x, W, H) => { x.fillStyle = "#151513"; x.font = F(700, Math.round(H*0.38)); x.textAlign = "center"; x.textBaseline = "middle"; x.fillText(text, W/2, H/2 + 2); });
+  const t = canvasTex(512, Math.round(512*h/w), (x, W, H) => { x.fillStyle = "#151513"; x.font = F(700, Math.round(H*0.38)); x.font = F(700, Math.round(H*0.38*Math.min(1, W*0.88/x.measureText(text).width))); x.textAlign = "center"; x.textBaseline = "middle"; x.fillText(text, W/2, H/2 + 2); });
   g.add(at(flat(t, w*0.92, h*0.9), 0, 0, 0.055)); return g;
 }
 function sign(lines, w, h, opts = {}){
   const t = canvasTex(1024, Math.round(1024*h/w), (x, W, H) => {
     x.fillStyle = opts.bg || "#ffffff"; x.fillRect(0, 0, W, H);
-    if (opts.band) { x.fillStyle = opts.band; x.fillRect(0, 0, W, (opts.pad || H*0.08) + lines[0].s*1.25 + 6); }
-    let y = opts.pad || H*0.08;
-    for (const L of lines) { x.fillStyle = L.c || "#151513"; x.font = F(L.w || 700, L.s); x.textAlign = L.a || "center"; x.textBaseline = "top"; x.fillText(L.t, L.a === "left" ? W*0.07 : W/2, y); y += L.s * (L.gap || 1.25); }
+    const pad = opts.pad || H*0.08;
+    let k = (H - pad - 2) / lines.reduce((sum, L, i) => sum + L.s*(i < lines.length - 1 ? (L.gap || 1.25) : 1.1), 0);
+    for (const L of lines) { x.font = F(L.w || 700, L.s); k = Math.min(k, W*(L.a === "left" ? 0.86 : 0.92) / x.measureText(L.t).width); }
+    k = Math.min(1, k);
+    if (opts.band) { x.fillStyle = opts.band; x.fillRect(0, 0, W, pad + lines[0].s*k*1.25 + 6); }
+    let y = pad;
+    for (const L0 of lines) { const L = Object.assign({}, L0, { s:L0.s*k }); x.fillStyle = L.c || "#151513"; x.font = F(L.w || 700, L.s); x.textAlign = L.a || "center"; x.textBaseline = "top"; x.fillText(L.t, L.a === "left" ? W*0.07 : W/2, y); y += L.s * (L.gap || 1.25); }
   });
-  return flat(t, w, h);
+  const m = flat(t, w, h); m.material.transparent = /^rgba/.test(opts.bg || ""); return m;
 }
 function heart(m){ const s = new T.Shape(); s.moveTo(0, -0.3); s.bezierCurveTo(-0.5, 0.05, -0.32, 0.42, 0, 0.2); s.bezierCurveTo(0.32, 0.42, 0.5, 0.05, 0, -0.3); return extrude(s, 0.12, m, 0.03); }
 function playBtn(m, ink){ const g = new T.Group(); g.add(block(0.62, 0.44, 0.1, 0.12, m)); const s = new T.Shape(); s.moveTo(-0.08, -0.11); s.lineTo(0.13, 0); s.lineTo(-0.08, 0.11); s.closePath(); g.add(at(extrude(s, 0.04, ink, 0.01), 0.01, 0, 0.06)); return g; }
@@ -552,7 +556,7 @@ const SCENES = {
     const mkPan = (x) => { const p = new T.Group(); [-0.3, 0.3].forEach(dx => p.add(rod([0, 0, 0], [dx, -1.05, 0], 0.012, M.steel))); p.add(at(cyl(0.62, 0.48, 0.1, M.l, 48), 0, -1.1, 0)); p.position.set(x, 0, 0); beam.add(p); return p; };
     const L = mkPan(-1.75), Rp = mkPan(1.75);
     const doc = new T.Group(); doc.add(block(0.75, 0.95, 0.05, 0.04, M.w)); doc.add(at(sign([{ t:"DPWH", s:130, w:800, c:"#6c6c66" }, { t:"100%", s:190, w:800, c:"#11915a" }, { t:"TAPOS", s:110, w:800, c:"#151513" }], 0.68, 0.86, { pad:40 }), 0, 0, 0.03));
-    L.add(at(doc, 0, -0.55, 0, 0, 0.2, 0));
+    L.add(at(doc, 0, -0.55, 0.22, 0, 0.2, 0));
     crowd(4, M, 7).forEach((p, i) => { p.scale.setScalar(0.5); Rp.add(at(p, i % 2 ? 0.2 : -0.2, -1.05, i < 2 ? -0.15 : 0.18, 0, (i - 1.5)*0.3, 0)); });
     const cam2 = new T.Group(); cam2.add(block(0.36, 0.24, 0.18, 0.05, M.c)); cam2.add(at(cyl(0.08, 0.08, 0.1, M.steel, 20), 0, 0, 0.12, Math.PI/2)); Rp.add(at(cam2, 0.3, -0.9, 0.32, 0, -0.3, 0));
     const lab = (txt, col) => sign([{ t:txt, s:105, w:800, c:col }], 1.5, 0.2, { bg:"rgba(0,0,0,0)", pad:6 });
@@ -590,9 +594,9 @@ const SCENES = {
     g.add(at(block(5, 0.16, 3, 0.08, M.l), 0, -0.08, 0));
     const office = new T.Group(); office.add(at(block(1.8, 1.1, 1.0, 0.04, M.w), 0, 0.55, 0)); for (let i = 0; i < 5; i++) office.add(at(cyl(0.05, 0.05, 0.9, M.s, 12), -0.7 + i*0.35, 0.5, 0.55)); office.add(at(block(2.0, 0.14, 1.15, 0.03, M.c), 0, 1.15, 0.02)); office.add(at(sign([{ t:"OPISINA NG DISTRITO", s:110, w:800, c:"#ffffff" }], 1.7, 0.12, { bg:"#151513", pad:4 }), 0, 1.15, 0.6));
     g.add(at(office, -1.15, 0, -0.6, 0, 0.25));
-    const doc = (title, y, rz) => { const d = new T.Group(); d.add(block(1.05, 1.4, 0.03, 0.03, M.w)); d.add(at(canvasPlane(title), 0, 0, 0.02)); return at(d, 1.2, y, 0.3, -0.25, -0.2, rz); };
-    function canvasPlane(title){ const t = canvasTex(420, 560, (x, W, H) => { x.fillStyle = "#fff"; x.fillRect(0, 0, W, H); x.fillStyle = "#151513"; x.font = F(800, 30); x.fillText(title, 30, 60); x.fillStyle = "#d9d9d2"; for (let i = 0; i < 9; i++) x.fillRect(30, 100 + i*34, W - 60 - (i%3)*40, 12); x.strokeStyle = "#2c62e0"; x.lineWidth = 4; x.beginPath(); x.moveTo(40, 470); x.bezierCurveTo(90, 410, 120, 520, 170, 450); x.bezierCurveTo(200, 420, 230, 500, 270, 460); x.stroke(); x.fillStyle = "#6c6c66"; x.font = F(500, 18); x.fillText("Lagda ng DPWH", 40, 520); x.fillText("Lagda ng Kontraktor", 230, 520); }); return flat(t, 1.0, 1.33); }
-    g.add(doc("KONTRATA", 1.1, 0.1)); g.add(doc("NOTICE OF AWARD", 1.25, -0.08)); g.add(floaty(doc("NOTICE TO PROCEED", 1.45, 0.05), 0.05));
+    const doc = (title, y, z, rz) => { const d = new T.Group(); d.add(block(1.05, 1.4, 0.03, 0.03, M.w)); d.add(at(canvasPlane(title), 0, 0, 0.02)); return at(d, 1.2 - z*0.5, y, z, -0.25, -0.2, rz); };
+    function canvasPlane(title){ const t = canvasTex(420, 560, (x, W, H) => { x.fillStyle = "#fff"; x.fillRect(0, 0, W, H); x.fillStyle = "#151513"; x.font = F(800, 30); x.fillText(title, 30, 60); x.fillStyle = "#d9d9d2"; for (let i = 0; i < 9; i++) x.fillRect(30, 100 + i*34, W - 60 - (i%3)*40, 12); x.strokeStyle = "#2c62e0"; x.lineWidth = 4; x.beginPath(); x.moveTo(40, 470); x.bezierCurveTo(90, 410, 120, 520, 170, 450); x.bezierCurveTo(200, 420, 230, 500, 270, 460); x.stroke(); x.fillStyle = "#6c6c66"; x.font = F(500, 18); x.fillText("Lagda ng DPWH", 40, 520); x.fillText("Lagda ng Kontraktor", 230, 520); }); const m = flat(t, 1.0, 1.33); m.material.transparent = false; return m; }
+    g.add(doc("KONTRATA", 1.1, 0.05, 0.1)); g.add(doc("NOTICE OF AWARD", 1.25, 0.3, -0.08)); g.add(floaty(doc("NOTICE TO PROCEED", 1.45, 0.55, 0.05), 0.05));
     const clk = new T.Group(); clk.add(at(cyl(0.45, 0.45, 0.1, M.w, 48), 0, 0, 0, Math.PI/2)); clk.add(at(tor(0.45, 0.05, M.p), 0, 0, 0)); const hh = block(0.05, 0.26, 0.02, 0.01, M.c), mh = block(0.035, 0.36, 0.02, 0.01, M.c); hh.geometry.translate(0, 0.11, 0); mh.geometry.translate(0, 0.16, 0); clk.add(at(hh, 0, 0, 0.07)); clk.add(at(mh, 0, 0, 0.08));
     g.add(floaty(at(clk, 0.2, 2.35, 0.2), 0.07, 1));
     g.userData.tick = (t) => { mh.rotation.z = -t*1.2; hh.rotation.z = -t*0.1; };
@@ -659,12 +663,12 @@ function build(){
   R.setPixelRatio(Math.min(devicePixelRatio || 1, 1.6)); R.outputEncoding = T.sRGBEncoding; R.toneMapping = T.ACESFilmicToneMapping; R.toneMappingExposure = 1.05;
   R.shadowMap.enabled = true; R.shadowMap.type = T.PCFSoftShadowMap;
   scene = new T.Scene(); scene.environment = studioEnv();
-  cam = new T.PerspectiveCamera(33, 16/9, 0.1, 100);
+  cam = new T.PerspectiveCamera(33, 16/9, 1, 40);
   scene.add(new T.HemisphereLight(0xfffdf6, 0xd9d6cc, 0.6));
-  const key = new T.DirectionalLight(0xffffff, 1.15); key.position.set(4, 8, 6); key.castShadow = true; key.shadow.mapSize.set(2048, 2048); key.shadow.radius = 6; key.shadow.bias = -0.0004; Object.assign(key.shadow.camera, { left:-6, right:6, top:6, bottom:-6, near:1, far:30 }); scene.add(key);
+  const key = new T.DirectionalLight(0xffffff, 1.15); key.position.set(4, 8, 6); key.castShadow = true; key.shadow.mapSize.set(2048, 2048); key.shadow.radius = 6; key.shadow.bias = -0.0002; key.shadow.normalBias = 0.025; Object.assign(key.shadow.camera, { left:-6, right:6, top:6, bottom:-6, near:1, far:30 }); scene.add(key);
   const fill = new T.DirectionalLight(0xdfeaff, 0.35); fill.position.set(-6, 3, 4); scene.add(fill);
   const rim = new T.DirectionalLight(0xffe2bf, 0.5); rim.position.set(-2, 4, -6); scene.add(rim);
-  shadowGround = new T.Mesh(new T.PlaneGeometry(40, 40), new T.ShadowMaterial({ opacity:0.13 })); shadowGround.rotation.x = -Math.PI/2; shadowGround.receiveShadow = true; scene.add(shadowGround);
+  shadowGround = new T.Mesh(new T.PlaneGeometry(40, 40), new T.ShadowMaterial({ opacity:0.13, polygonOffset:true, polygonOffsetFactor:2, polygonOffsetUnits:4 })); shadowGround.rotation.x = -Math.PI/2; shadowGround.position.y = -0.02; shadowGround.receiveShadow = true; scene.add(shadowGround);
   const M = {
     p:mat("#ff5a1f"), a:mat("#f6b93b"), c:mat("#2a2a27"), w:mat("#fbfbf8"), l:mat("#ece9e1"), s:mat("#bfc3be", { metalness:0.3, roughness:0.32 }),
     steel:mat("#8b8f8a", { metalness:0.6, roughness:0.35 }), coral:mat("#ef8a72"), mint:mat("#7fc8a9"), lav:mat("#a99be0"), peach:mat("#f4c49a"), blue:mat("#2c62e0"),
